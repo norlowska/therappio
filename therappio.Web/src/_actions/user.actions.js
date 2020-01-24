@@ -20,7 +20,7 @@ function login(email, password) {
                 history.push('/');
             })
             .catch(error => {
-                dispatch(failure(error.toString()));
+                dispatch(failure(error.message));
                 // dispatch(alertActions.error(error.toString()));
             });
     };
@@ -43,4 +43,28 @@ function logout() {
 
 function register(email, password) {}
 
-function getDetails(email) {}
+function getDetails() {
+    return dispatch => {
+        dispatch(request());
+
+        userService
+            .getDetails()
+            .then(user => {
+                dispatch(success(user));
+            })
+            .catch(error => {
+                dispatch(failure(error.message));
+                // dispatch(alertActions.error(error.toString()));
+            });
+    };
+
+    function request() {
+        return { type: userConstants.GETDETAILS_REQUEST };
+    }
+    function success(user) {
+        return { type: userConstants.GETDETAILS_SUCCESS, user };
+    }
+    function failure(error) {
+        return { type: userConstants.GETDETAILS_FAILURE, error };
+    }
+}

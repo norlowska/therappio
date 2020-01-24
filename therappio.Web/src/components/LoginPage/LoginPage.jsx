@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { userActions } from '../../_actions';
 import styles from './LoginPage.module.scss';
 
@@ -70,6 +71,10 @@ class LoginPage extends Component {
         );
     }
 }
+
+LoginPage.propTypes = {
+    login: PropTypes.func.isRequired,
+};
 
 const mapDispatchToProps = {
     login: userActions.login,

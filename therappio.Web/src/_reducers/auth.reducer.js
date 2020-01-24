@@ -20,6 +20,7 @@ export function auth(state = initialState, action) {
                 ...state,
                 isFetching: false,
                 isAuthenticated: true,
+                user: action.user,
                 errorMessage: '',
             };
         case userConstants.LOGIN_FAILURE:
@@ -32,8 +33,27 @@ export function auth(state = initialState, action) {
         case userConstants.LOGOUT:
             return {
                 ...state,
-                isFetching: true,
+                isFetching: false,
                 isAuthenticated: false,
+                user: {},
+            };
+        case userConstants.GETDETAILS_REQUEST:
+            return {
+                ...state,
+                isFetching: true,
+            };
+        case userConstants.GETDETAILS_SUCCESS:
+            return {
+                ...state,
+                isFetching: false,
+                user: action.user,
+                errorMessage: '',
+            };
+        case userConstants.GETDETAILS_FAILURE:
+            return {
+                ...state,
+                isFetching: false,
+                errorMessage: action.error,
             };
         default:
             return state;

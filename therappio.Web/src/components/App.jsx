@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Router, Switch, Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { history } from '../_helpers';
+import { userActions } from '../_actions';
 import '../styles/main.scss';
 
 import {
@@ -14,7 +16,13 @@ import {
 import { PageNotFound, Header } from './';
 import { connect } from 'react-redux';
 
-const App = ({ isAuthenticated }) => {
+const App = ({ isAuthenticated, getDetails }) => {
+    useEffect(() => {
+        if (isAuthenticated) {
+            getDetails();
+        }
+    }, [isAuthenticated]);
+
     return (
         <Router history={history}>
             <div className="app">
@@ -43,8 +51,17 @@ const App = ({ isAuthenticated }) => {
     );
 };
 
+App.propTypes = {
+    isAuthenticated: PropTypes.bool.isRequired,
+    getDetails: PropTypes.func.isRequired,
+};
+
 const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = {
+    getDetails: userActions.getDetails,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

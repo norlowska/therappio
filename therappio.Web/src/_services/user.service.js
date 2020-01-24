@@ -13,13 +13,14 @@ function login(email, password) {
     const options = {
         headers: { 'Content-Type': 'application/json' },
     };
+
     return axios
         .post(`${config.apiUrl}/users/login`, { email, password }, options)
         .then(res => {
             // store jwt token in local storage to keep user logged in between page refreshes
             localStorageService.setToken(res.data.token);
 
-            return res.user;
+            return res.data.user;
         });
 }
 
@@ -28,9 +29,18 @@ function logout() {
 }
 
 function register(user) {
-    return axios.post(`${config.apiUrl}/users/signup`, user, {
+    const options = {
         headers: { 'Content-Type': 'application/json' },
-    });
+    };
+    return axios.post(`${config.apiUrl}/users/signup`, user, options);
 }
 
-function getDetails(email) {}
+function getDetails() {
+    const options = {
+        headers: { 'Content-Type': 'application/json' },
+    };
+
+    return axios.get(`${config.apiUrl}/users/profile`, options).then(res => {
+        return res.data;
+    });
+}

@@ -1,6 +1,6 @@
 {
     "parser": "babel-eslint",
-    "extends": "react",
+    "extends": ["react", "prettier"],
     "env": {
         "browser": true,
         "node": true
