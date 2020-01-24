@@ -33,7 +33,8 @@ async function signup(userParam) {
 async function login({ email, password }) {
   const user = await User.findOne({ email });
   if (user && bcrypt.compareSync(password, user.hash)) {
-    const token = jwt.sign({ sub: user.id, role: user.role }, config.jwtKey);
+    const token = jwt.sign({ sub: user._id, role: user.role }, config.jwtKey);
+    const { hash, __v, ...userModified } = user;
 
     return {
       email,

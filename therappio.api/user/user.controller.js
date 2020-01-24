@@ -9,6 +9,7 @@ const Role = require("_helpers/role");
 router.post("/login", loginAttemptLimiter, login);
 router.post("/signup", signup);
 router.get("/", authorize(Role.Admin), getAll);
+router.get("/profile", authorize(), getProfile);
 router.get("/:id", authorize(), getById);
 router.post("/", authorize(Role.Admin), create);
 router.put("/:id", authorize(), update);
@@ -35,10 +36,17 @@ function getAll(req, res, next) {
     .catch(err => next(err));
 }
 
+function getProfile(req, res, next) {
+  userService
+    .getById(req.user.sub)
+    .then(user => res.json(user))
+    .catch(err => next(err));
+}
+
 function getById(req, res, next) {
   const currentUser = req.user;
   const id = req.params.id;
-
+  console.log(currentUser);
   // allow client to get only his/her own record
   if (currentUser.role === Role.Client && id !== currentUser.sub) {
     return res.status(401).json({ message: "Unauthorized" });
