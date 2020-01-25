@@ -1,0 +1,44 @@
+import { AppLoading } from "expo";
+import * as Font from "expo-font";
+import React from "react";
+import { Platform, StatusBar } from "react-native";
+import { StyleProvider, Container } from "native-base";
+import getTheme from "./src/theme/components";
+import { commonColor } from "./src/theme/variables";
+import AppNavigator from "./src/navigation/AppNavigator";
+
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isReady: false
+    };
+  }
+
+  async componentDidMount() {
+    await Font.loadAsync({
+      "Raleway-Light": require("./assets/fonts/Raleway-Light.ttf"),
+      "Raleway-Regular": require("./assets/fonts/Raleway-Regular.ttf"),
+      "Raleway-Medium": require("./assets/fonts/Raleway-Medium.ttf"),
+      "Raleway-SemiBold": require("./assets/fonts/Raleway-SemiBold.ttf"),
+      "Raleway-Bold": require("./assets/fonts/Raleway-Bold.ttf"),
+      MaterialCommunityIcons: require("native-base/Fonts/MaterialCommunityIcons.ttf")
+    });
+    this.setState({ isReady: true });
+  }
+
+  render() {
+    if (!this.state.isReady) {
+      return <AppLoading />;
+    }
+
+    return (
+      <StyleProvider style={getTheme(commonColor)}>
+        <Container>
+          {Platform.OS === "ios" && <StatusBar barStyle="default" />}
+          <AppNavigator />
+        </Container>
+      </StyleProvider>
+    );
+  }
+}
