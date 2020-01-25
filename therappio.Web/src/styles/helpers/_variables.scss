@@ -1,0 +1,60 @@
+//
+// Variables
+//
+// The font size set on the root html element.
+$base-font-size: 14px !default;
+
+// The base line height determines the basic unit of vertical rhythm.
+$base-line-height: 24px !default;
+
+// The length unit in which to output vertical rhythm values.
+// Supported values: px, em, rem.
+$base-unit: 'em' !default;
+
+// The default font family.
+$base-font-family: 'Raleway', sans-serif !default;
+
+// The font sizes for h1-h6.
+$h1-font-size: 1.7 * $base-font-size !default;
+$h2-font-size: 1.5 * $base-font-size !default;
+$h3-font-size: 1.3 * $base-font-size !default;
+$h4-font-size: 1.05 * $base-font-size !default;
+$h5-font-size: 0.9 * $base-font-size !default;
+$h6-font-size: 0.75 * $base-font-size !default;
+
+// The headings font family
+$heading-font-family: 'Open Sans', sans-serif !default;
+
+// The amount lists and blockquotes are indented.
+$indent-amount: 40px !default;
+
+// The following variable controls whether normalize-scss will output
+// font-sizes, line-heights and block-level top/bottom margins that form a basic
+// vertical rhythm on the page, which differs from the original Normalize.css.
+// However, changing any of the variables above will cause
+// $normalize-vertical-rhythm to be automatically set to true.
+$normalize-vertical-rhythm: false !default;
+
+// Font-weights
+$light: 300;
+$normal: 400;
+$semibold: 500;
+$bold: 700;
+
+// Colors
+$white: #fff;
+$alabaster-white: #f7f7f7;
+$royal-blue: #2269b3;
+$congress-blue: #004791;
+$athens-gray: #e9ebf1;
+$trout-gray: #495057;
+$mine-shaft-gray: #333;
+$silver: #ccc;
+
+$background-color: $alabaster-white !default;
+$input-background: $athens-gray !default;
+
+$base-font-color: $trout-gray !default;
+$input-font-color: $trout-gray !default;
+
+$border-color: $silver !default;

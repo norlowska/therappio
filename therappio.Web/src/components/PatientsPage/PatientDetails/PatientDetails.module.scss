@@ -1,0 +1,194 @@
+@import 'src/styles/helpers/variables';
+
+.notSelectedPatient {
+    width: 75vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.9rem;
+    color: #bbb;
+}
+
+.patientRecord {
+    width: 75vw;
+    padding: 10px 40px;
+    display: flex;
+    flex-wrap: wrap;
+    overflow-y: auto;
+}
+
+section {
+    margin-top: 15px;
+}
+
+.col65 {
+    width: calc(65% - 20px);
+    margin-right: 20px;
+}
+
+.col35 {
+    width: 35%;
+    padding-top: 57px;
+}
+
+.selectPeriod {
+    display: flex;
+    justify-content: center;
+
+    button {
+        border-radius: 30px;
+        padding: 4px 15px;
+    }
+
+    .invertBtn {
+        background: transparent;
+        color: $royal-blue;
+        border: 2px solid $royal-blue;
+        margin-left: 10%;
+    }
+}
+
+.legend {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.label {
+    display: flex;
+    width: 50%;
+    margin-bottom: 5px;
+}
+
+.legendCircle {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-top: 7px;
+}
+
+.assignmentsSection {
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    color: $royal-blue;
+    padding-bottom: 10px;
+}
+
+td {
+    text-align: center;
+    padding: 10px 10px;
+
+    button {
+        margin: 0 auto;
+    }
+}
+
+td:first-of-type {
+    text-align: start;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: $athens-gray;
+}
+
+.assessmentsSection {
+    width: 35%;
+}
+
+.name {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    h2 {
+        color: $royal-blue;
+        font-size: $h1-font-size;
+    }
+}
+
+.sectionHeading {
+    margin-bottom: 10px;
+    margin-left: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.personalInfo {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.col {
+    font-weight: normal;
+    width: 34%;
+}
+
+.row {
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.title {
+    width: 80px;
+    text-transform: uppercase;
+    margin-right: 15px;
+    font-weight: 700;
+}
+
+.notes {
+    max-width: 330px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.cont {
+    width: calc(100% - 96px);
+}
+
+.diagnosis {
+    width: 100%;
+    margin-top: 15px;
+
+    ul {
+        list-style-type: none;
+        display: flex;
+    }
+    li {
+        margin-right: 20px;
+        padding-right: 20px;
+        border-right: 1px solid $border-color;
+    }
+
+    li:last-child {
+        border-right: none;
+    }
+}
+
+.emergencyContact {
+    width: 30%;
+    margin-left: 10px;
+    padding-left: 25px;
+    border-left: 1px solid $border-color;
+
+    strong {
+        text-transform: capitalize;
+    }
+}
+
+.emergencyNumber {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    i {
+        font-size: 1.3rem;
+        margin-right: 5px;
+    }
+}

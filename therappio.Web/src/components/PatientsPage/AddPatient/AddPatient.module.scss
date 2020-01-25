@@ -1,0 +1,46 @@
+@import 'src/styles/helpers/variables';
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid $border-color;
+    padding-bottom: 20px;
+}
+
+.modal {
+    position: absolute;
+    top: 10%;
+    left: 20%;
+    right: 20%;
+    bottom: 10%;
+    background-color: $white;
+    outline: none;
+    border: 1px solid $border-color;
+    border-radius: 5px;
+    padding: 25px 40px;
+
+    form {
+        height: calc(100% - 73px);
+    }
+}
+
+.formFields {
+    height: calc(100% - 68px);
+    overflow-y: auto;
+    padding: 0 10px;
+
+    > div {
+        padding: 0 15px;
+    }
+}
+
+.saveBtn {
+    margin-top: 20px;
+    float: right;
+}
+
+.infoSectionHeader {
+    margin: 35px 0 20px 0;
+    color: $royal-blue;
+    font-size: $h2-font-size;
+}

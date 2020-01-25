@@ -1,0 +1,71 @@
+@import '../../styles/helpers/variables';
+
+.header {
+    position: fixed;
+    z-index: 100;
+    width: 100%;
+    background-color: $royal-blue;
+    color: #eee;
+    height: 60px;
+    display: flex;
+    -webkit-box-shadow: 0 0 35px 0 rgba(52, 60, 61, 0.45);
+    box-shadow: 0 0 35px 0 rgba(52, 60, 61, 0.45);
+}
+
+.logo {
+    font-size: 2rem;
+    font-weight: 700;
+    min-width: 192px;
+    width: 20%;
+    padding: 15px 20px 10px 15px;
+}
+
+.nav {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+
+    a {
+        color: $white;
+    }
+
+    &Group {
+        &Center,
+        &Right {
+            height: 100%;
+            display: flex;
+        }
+    }
+
+    &Link {
+        display: flex;
+        line-height: 1.5;
+        align-items: center;
+        justify-content: center;
+        font-weight: 400;
+        font-size: 1rem;
+        letter-spacing: 1px;
+        padding: 10px 20px;
+        text-transform: uppercase;
+        transition: background-color 0.3s;
+
+        &Active {
+            font-weight: 700;
+        }
+
+        &Icon {
+            font-size: 1.8rem;
+            font-weight: 100;
+        }
+
+        &:hover,
+        &:focus {
+            outline: none;
+            cursor: pointer;
+        }
+
+        &:hover {
+            background-color: $congress-blue;
+        }
+    }
+}

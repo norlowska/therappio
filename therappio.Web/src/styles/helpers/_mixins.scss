@@ -1,0 +1,43 @@
+@mixin button-base {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    border: none;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover,
+    &:focus {
+        cursor: pointer;
+        outline: none;
+    }
+}
+
+@mixin scrollbars(
+    $size,
+    $foreground-color,
+    $background-color: mix($foreground-color, white, 50%)
+) {
+    ::-webkit-scrollbar {
+        width: $size;
+        height: $size;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: $foreground-color;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: darken($foreground-color, 15%);
+    }
+
+    ::-webkit-scrollbar-track {
+        background: $background-color;
+    }
+
+    body {
+        scrollbar-face-color: $foreground-color;
+        scrollbar-track-color: $background-color;
+    }
+}

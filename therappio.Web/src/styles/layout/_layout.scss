@@ -1,0 +1,10 @@
+#root,
+.app {
+    height: 100vh;
+}
+.center-container {
+    box-sizing: border-box;
+    width: 1000px;
+    margin: 0 auto;
+    flex-direction: column;
+}

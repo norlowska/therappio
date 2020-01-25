@@ -1,0 +1,70 @@
+@import 'vendors/normalize';
+@import 'vendors/react-big-calendar';
+@import 'helpers/variables';
+
+@import url('https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600|Raleway:400,600,700,800&display=swap');
+
+.checkin-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 135px;
+    width: 35%;
+}
+
+.patientCard {
+    margin: 10px 20px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: 1px solid mix($royal-blue, $trout-gray, 65%);
+    display: flex;
+    flex-direction: row;
+    transition: background-color 0.3s;
+
+    &:hover,
+    &:focus {
+        background-color: mix($royal-blue, $athens-gray, 10%);
+    }
+
+    div {
+        margin: 5px 0;
+    }
+
+    .patientInfo {
+        width: 65%;
+
+        .name {
+            color: $royal-blue;
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        .id {
+            font-size: 1rem;
+        }
+
+        .phone {
+            display: flex;
+            align-items: center;
+
+            i {
+                font-size: 1.3rem;
+                margin-right: 5px;
+            }
+
+            span {
+                font-size: 0.9rem;
+            }
+        }
+    }
+}
+
+@import './layout/layout';
+@import './layout/sidebar';
+@import './base/base';
+@import './base/typography';
+@import './modules/buttons';
+@import './modules/card';
+@import './modules/form';
+@import './modules/scrollbar';
