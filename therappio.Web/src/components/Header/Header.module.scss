@@ -48,6 +48,8 @@
         padding: 10px 20px;
         text-transform: uppercase;
         transition: background-color 0.3s;
+        border-radius: 0;
+        height: auto;
 
         &Active {
             font-weight: 700;

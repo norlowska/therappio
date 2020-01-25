@@ -1,7 +1,7 @@
 import React from 'react';
 import FormBuilder from './FormBuilder/FormBuilder';
 
-export default function NewAssignmentPage () {
+export default function NewAssignmentPage() {
     // let fields = [
     //     {
     //         type: 'input',

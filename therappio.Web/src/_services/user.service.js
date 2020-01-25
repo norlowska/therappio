@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from 'config';
+import { localStorageService } from './localStorage.service';
 
 export const userService = {
     login,
@@ -10,51 +11,26 @@ export const userService = {
 
 function login(email, password) {
     const options = {
-        headers: { 'Content-Type': 'application/json' } }
-    }
-
+        headers: { 'Content-Type': 'application/json' },
+    };
     return axios
-        .post(
-            `${config.apiUrl}/users/login`,
-            { email, password },
-            options 
-        )
-        .then(handleResponse)
-        .then(user => {
-            // store user details and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('user', JSON.stringify(user));
+        .post(`${config.apiUrl}/users/login`, { email, password }, options)
+        .then(res => {
+            // store jwt token in local storage to keep user logged in between page refreshes
+            localStorageService.setToken(res.data.token);
 
-            return user;
+            return res.user;
         });
 }
 
 function logout() {
-    localStorage.removeItem('user');
+    localStorageService.clearToken();
 }
 
 function register(user) {
-    return axios
-        .post(`${config.apiUrl}/users/signup`, user, {
-            headers: { 'Content-Type': 'application/json' },
-        })
-        .then(handleResponse);
+    return axios.post(`${config.apiUrl}/users/signup`, user, {
+        headers: { 'Content-Type': 'application/json' },
+    });
 }
 
 function getDetails(email) {}
-
-function handleResponse(response) {
-    return response.text().then(text => {
-        const data = text && JSON.parse(text);
-
-            if (response.status === 401) {
-                // auto logout if 401 response returned from api
-                logout();
-                location.reload(true);
-            }
-
-            const error = (data && data.message) || response.statusText;
-            return Promise.reject(error);
-
-        return data;
-    });
-}

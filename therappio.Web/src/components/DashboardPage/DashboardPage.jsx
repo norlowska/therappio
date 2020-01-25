@@ -12,7 +12,7 @@ import style from './DashboardPage.module.scss';
 const localizer = momentLocalizer(moment);
 
 export default class DashboardPage extends Component {
-    render () {
+    render() {
         const events = [
             {
                 id: 0,

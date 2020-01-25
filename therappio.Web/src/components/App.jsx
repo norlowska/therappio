@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Router, Switch, Redirect } from 'react-router-dom';
+import { history } from '../_helpers';
 import '../styles/main.scss';
 
 import {
@@ -7,29 +8,43 @@ import {
     PatientsPage,
     LoginPage,
     NewAssignmentPage,
+    PrivateRoute,
+    PublicRoute,
 } from './index';
 import { PageNotFound, Header } from './';
+import { connect } from 'react-redux';
 
-export default class App extends React.Component {
-    render () {
-        return (
-            <Router>
-                <div className="app">
-                    <Header />
-                    <Switch>
-                        <Route exact path="/" component={DashboardPage} />
-                        {/* TODO: Access only after login -- PrivateRoute */}
-                        <Route path="/patients/:id?" component={PatientsPage} />
-                        {/* <Route path="/settings" component={SettingsPage} /> */}
-                        <Route path="/login" component={LoginPage} />
-                        <Route
-                            path="/assignments/new"
-                            component={NewAssignmentPage}
-                        />
-                        <Route component={PageNotFound} />
-                    </Switch>
-                </div>
-            </Router>
-        );
-    }
-}
+const App = ({ isAuthenticated }) => {
+    return (
+        <Router history={history}>
+            <div className="app">
+                {isAuthenticated ? <Header /> : null}
+                <Switch>
+                    <PrivateRoute exact path="/" component={DashboardPage} />
+                    <PrivateRoute
+                        path="/patients/:id?"
+                        component={PatientsPage}
+                    />
+                    {/* <Route path="/settings" component={SettingsPage} /> */}
+                    <PublicRoute
+                        restricted
+                        path="/login"
+                        component={LoginPage}
+                    />
+                    <PrivateRoute
+                        path="/assignments/new"
+                        component={NewAssignmentPage}
+                    />
+                    <PublicRoute component={PageNotFound} />
+                    <Redirect from="*" to="/" />
+                </Switch>
+            </div>
+        </Router>
+    );
+};
+
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps)(App);

@@ -1,8 +1,15 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { userActions } from '../../_actions';
 import styles from './Header.module.scss';
 
-const Header = () => {
+const Header = props => {
+    const logout = () => {
+        props.logout();
+    };
+
     return (
         <header className={styles.header}>
             <nav className={styles.nav}>
@@ -35,13 +42,24 @@ const Header = () => {
                     >
                         <i className={'la la-cog'} title="Settings" />
                     </NavLink>
-                    <a className={`${styles.navLink} ${styles.navLinkIcon}`}>
+                    <button
+                        className={`primary-btn ${styles.navLink} ${styles.navLinkIcon}`}
+                        onClick={logout}
+                    >
                         <i className={'las la-sign-out-alt'} title="Sign out" />
-                    </a>
+                    </button>
                 </div>
             </nav>
         </header>
     );
 };
 
-export default Header;
+Header.propTypes = {
+    logout: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = {
+    logout: userActions.logout,
+};
+
+export default connect(null, mapDispatchToProps)(Header);

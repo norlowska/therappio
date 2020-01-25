@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { userActions } from '../../_actions';
 import styles from './LoginPage.module.scss';
 
 class LoginPage extends Component {
@@ -11,18 +12,17 @@ class LoginPage extends Component {
             password: '',
         };
 
-        this.onChange = this.onChange.bind(this);
-        this.onSave = this.onSave.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    onChange(event) {
+    handleChange(event) {
         const { name, value } = event.target;
         this.setState({ [name]: value });
     }
 
-    onSave(event) {
+    handleSubmit(event) {
         event.preventDefault();
-
         // this.setState({ submitted: true });
         const { email, password } = this.state;
         if (email && password) {
@@ -35,7 +35,7 @@ class LoginPage extends Component {
             <main>
                 <div className={`card ${styles.loginCard}`}>
                     <h2>Sign in</h2>
-                    <form>
+                    <form onSubmit={this.handleSubmit}>
                         <div className="formGroup">
                             <label htmlFor="email">E-mail address</label>
                             <input
@@ -43,7 +43,7 @@ class LoginPage extends Component {
                                 name="email"
                                 id="email"
                                 placeholder="Enter your email address"
-                                onChange={this.onChange}
+                                onChange={this.handleChange}
                                 required
                             />
                         </div>
@@ -54,7 +54,7 @@ class LoginPage extends Component {
                                 name="password"
                                 id="password"
                                 placeholder="Enter your password"
-                                onChange={this.onChange}
+                                onChange={this.handleChange}
                                 required
                             />
                         </div>
@@ -71,11 +71,8 @@ class LoginPage extends Component {
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        login,
-        logout,
-    };
+const mapDispatchToProps = {
+    login: userActions.login,
 };
 
 export default connect(null, mapDispatchToProps)(LoginPage);
