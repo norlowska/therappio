@@ -11,19 +11,20 @@ const PatientsList = ({ patients }) => {
         setSearchQuery(event.target.value);
     };
 
+    // Filter list of patients
     useEffect(() => {
         const results = patients.filter(
             person =>
-                person.FirstName.toLowerCase().includes(
-                    searchQuery.toLowerCase()
-                ) ||
-                person.LastName.toLowerCase().includes(
-                    searchQuery.toLowerCase()
-                )
+                person.firstName
+                    .toLowerCase()
+                    .includes(searchQuery.toLowerCase()) ||
+                person.lastName
+                    .toLowerCase()
+                    .includes(searchQuery.toLowerCase())
         );
         setSearchResults(results);
-    }, [searchQuery]);
-
+    }, [searchQuery, patients]);
+    console.log(patients);
     return (
         <div className="sidebar">
             <div className={style.header}>
@@ -50,22 +51,19 @@ const PatientsList = ({ patients }) => {
             <ul className={style.patientsList}>
                 {searchResults.map(patient => {
                     return (
-                        <li key={patient.UserId}>
+                        <li key={patient._id}>
                             <Link
-                                to={`/patients/${patient.UserId}`}
+                                to={`/patients/${patient._id}`}
                                 className={'patientCard'}
                             >
                                 <div className={'patientInfo'}>
                                     <div
                                         className={'name'}
-                                    >{`${patient.FirstName} ${patient.LastName}`}</div>
-                                    <div
-                                        className={'id'}
-                                    >{`Patient ID: ${patient.UserId}`}</div>
+                                    >{`${patient.firstName} ${patient.lastName}`}</div>
                                     <div className={'phone'}>
                                         <i className={'la la-phone-alt'} />
                                         <span className={style.phoneNumber}>
-                                            {patient.PhoneNumber}
+                                            {patient.phoneNumber}
                                         </span>
                                     </div>
                                 </div>
@@ -84,7 +82,7 @@ const PatientsList = ({ patients }) => {
 };
 
 PatientsList.propTypes = {
-    patients: PropTypes.arrayOf(PropTypes.object),
+    patients: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default PatientsList;

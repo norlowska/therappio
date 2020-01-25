@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Router, Switch, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { history } from '../_helpers';
 import { userActions } from '../_actions';
@@ -14,7 +15,6 @@ import {
     PublicRoute,
 } from './index';
 import { PageNotFound, Header } from './';
-import { connect } from 'react-redux';
 
 const App = ({ isAuthenticated, getDetails }) => {
     useEffect(() => {

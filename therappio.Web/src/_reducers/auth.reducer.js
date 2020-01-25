@@ -4,6 +4,8 @@ import { localStorageService } from '../_services';
 const initialState = {
     isFetching: false,
     isAuthenticated: !!localStorageService.getToken(),
+    user: {},
+    errorMessage: '',
 };
 
 export function auth(state = initialState, action) {
@@ -21,7 +23,6 @@ export function auth(state = initialState, action) {
                 isFetching: false,
                 isAuthenticated: true,
                 user: action.user,
-                errorMessage: '',
             };
         case userConstants.LOGIN_FAILURE:
             return {
@@ -47,7 +48,6 @@ export function auth(state = initialState, action) {
                 ...state,
                 isFetching: false,
                 user: action.user,
-                errorMessage: '',
             };
         case userConstants.GETDETAILS_FAILURE:
             return {
