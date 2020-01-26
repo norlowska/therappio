@@ -1,10 +1,12 @@
 const mongoose = require("mongoose");
+const nanoid = require("nanoid");
 const Role = require("_helpers/role");
 const { Schema } = mongoose;
 
 const genders = ["male", "female"];
 
 const UserSchema = new Schema({
+  shortId: { type: String, unique: true, default: () => nanoid(10) },
   email: {
     type: String,
     required: true,
@@ -19,7 +21,7 @@ const UserSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
   address: String,
   therapist: { type: Schema.Types.ObjectId, ref: "User" },
-  birthdate: Date,
+  dateOfBirth: Date,
   gender: { type: String, enum: genders },
   emergencyContact: {
     name: String,

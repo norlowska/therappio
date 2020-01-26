@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
-
+const nanoid = require("nanoid");
 const { Schema } = mongoose;
+
 const moods = [
   "alert",
   "excited",
@@ -22,6 +23,7 @@ const moods = [
 const moodQuadrant = [1, 2, 3, 4];
 
 const MoodRecordSchema = new Schema({
+  shortId: { type: String, unique: true, default: () => nanoid(10) },
   client: { type: Schema.Types.ObjectId, ref: "User" },
   createdAt: { type: Date, required: true },
   mood: {
