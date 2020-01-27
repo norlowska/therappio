@@ -138,3 +138,6 @@ web-report/
 .vscode
 *.njsproj
 /.vs
+
+# API config gile
+therappio.api/config.json
