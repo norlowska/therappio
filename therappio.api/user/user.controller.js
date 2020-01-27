@@ -2,10 +2,11 @@ const express = require("express");
 const router = express.Router();
 const userService = require("./user.service");
 const authorize = require("_helpers/authorize");
+const { loginAttemptLimiter } = require("_helpers/limiter");
 const Role = require("_helpers/role");
 
 // routes
-router.post("/login", login);
+router.post("/login", loginAttemptLimiter, login);
 router.post("/signup", signup);
 router.get("/", authorize(Role.Admin), getAll);
 router.get("/:id", authorize(), getById);
