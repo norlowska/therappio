@@ -4,6 +4,7 @@ const TherapySession = db.TherapySession;
 module.exports = {
   getAll,
   getById,
+  getClientsSessions,
   create,
   update,
   delete: _delete
@@ -15,6 +16,10 @@ async function getAll() {
 
 async function getById(id) {
   return await TherapySession.findById(id).select("-__v");
+}
+
+async function getClientsSessions(id) {
+  return await TherapySession.find({ client: id }).select("-__v");
 }
 
 async function create(sessionParam) {

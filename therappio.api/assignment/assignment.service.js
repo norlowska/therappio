@@ -4,6 +4,7 @@ const Assignment = db.Assignment;
 module.exports = {
   getAll,
   getById,
+  getClientsAssignments,
   create,
   update,
   delete: _delete
@@ -17,6 +18,12 @@ async function getAll() {
 
 async function getById(id) {
   return await Assignment.findById(id)
+    .select("-__v")
+    .populate("client", "_id therapist");
+}
+
+async function getClientsAssignments(id) {
+  return await Assignment.find({ client: id })
     .select("-__v")
     .populate("client", "_id therapist");
 }

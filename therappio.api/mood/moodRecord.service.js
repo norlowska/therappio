@@ -4,6 +4,7 @@ const MoodRecord = db.MoodRecord;
 module.exports = {
   getAll,
   getById,
+  getClientsMoods,
   create,
   update,
   delete: _delete
@@ -17,6 +18,12 @@ async function getAll() {
 
 async function getById(id) {
   return await MoodRecord.findById(id)
+    .select("-__v")
+    .populate("client", "_id therapist");
+}
+
+async function getClientsMoods(id) {
+  return await MoodRecord.find({ client: id })
     .select("-__v")
     .populate("client", "_id therapist");
 }

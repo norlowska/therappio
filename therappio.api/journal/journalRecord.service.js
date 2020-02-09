@@ -4,6 +4,7 @@ const JournalRecord = db.JournalRecord;
 module.exports = {
   getAll,
   getById,
+  getClientsRecords,
   create,
   update,
   delete: _delete
@@ -17,6 +18,12 @@ async function getAll() {
 
 async function getById(id) {
   return await JournalRecord.findById(id)
+    .select("-__v")
+    .populate("client", "_id therapist");
+}
+
+async function getClientsRecords(id) {
+  return await JournalRecord.find({ client: id })
     .select("-__v")
     .populate("client", "_id therapist");
 }
