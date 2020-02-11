@@ -4,46 +4,39 @@ import config from 'config';
 export const clientService = {
     getAll,
     getById,
+    getMoodRecords,
+    // getJournalRecords,
+    // getAssignments,
+    // getTherapySessions,
     create,
     update,
 };
 
 function getAll() {
-    const options = {
-        headers: { 'Content-Type': 'application/json' },
-    };
-
-    return axios.get(`${config.apiUrl}/clients`, options).then(res => {
-        return res.data;
-    });
+    return axios.get(`${config.apiUrl}/clients`).then(res => res.data);
 }
 
 function getById(id) {
-    const options = {
-        headers: { 'Content-Type': 'application/json' },
-    };
-
-    return axios.get(`${config.apiUrl}/clients/${id}`, options).then(res => {
-        console.log(res.data);
+    return axios.get(`${config.apiUrl}/clients/${id}`).then(res => {
+        console.log('get by id', res.data);
         return res.data;
     });
 }
 
+function getMoodRecords(id) {
+    return axios
+        .get(`${config.apiUrl}/clients/${id}/moods`)
+        .then(res => res.data);
+}
+
 function create(client) {
-    const options = {
-        headers: { 'Content-Type': 'application/json' },
-    };
-    return axios.post(`${config.apiUrl}/clients`, client, options).then(res => {
+    return axios.post(`${config.apiUrl}/clients`, client).then(res => {
         console.log(res);
     });
 }
 
 function update(client) {
-    const options = {
-        headers: { 'Content-Type': 'application/json' },
-    };
-
-    return axios.put(`${config.apiUrl}/clients`, client, options).then(res => {
+    return axios.put(`${config.apiUrl}/clients`, client).then(res => {
         console.log(res);
     });
 }
