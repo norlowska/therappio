@@ -1,9 +1,11 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import moment from 'moment';
 import { PieChart, Pie, Cell } from 'recharts';
 import { Link } from 'react-router-dom';
+import { clientActions } from '../../../_actions';
 import styles from './ClientDetails.module.scss';
 
 // TODO: Id as props
@@ -16,6 +18,7 @@ import styles from './ClientDetails.module.scss';
 const ClientDetails = ({
     client,
     getMoodRecords,
+    getJournalRecords,
 }) => {
     // const calculateAge = birthday => {
     //     var ageDifMs = Date.now() - birthday.getTime();
@@ -36,6 +39,9 @@ const ClientDetails = ({
     useEffect(() => {
         if (client && !client.hasOwnProperty('moodRecords')) {
             getMoodRecords(client._id);
+        }
+        if (client && !client.hasOwnProperty('journalRecords')) {
+            getJournalRecords(client._id);
         }
     }, [client]);
 
@@ -290,9 +296,11 @@ const ClientDetails = ({
 ClientDetails.propTypes = {
     client: PropTypes.object,
     getMoodRecords: PropTypes.func.isRequired,
+    getJournalRecords: PropTypes.func.isRequired,
 };
 const mapDispatchToProps = {
     getMoodRecords: clientActions.getMoodRecords,
+    getJournalRecords: clientActions.getJournalRecords,
 };
 
 export default connect(null, mapDispatchToProps)(ClientDetails);

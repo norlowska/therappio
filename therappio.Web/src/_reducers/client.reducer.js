@@ -55,6 +55,30 @@ export function clients(state = initialState, action) {
                 isFetching: false,
                 errorMessage: action.error,
             };
+        case clientConstants.GET_JOURNAL_RECORDS_REQUEST:
+            return {
+                ...state,
+                isFetching: true,
+            };
+        case clientConstants.GET_JOURNAL_RECORDS_SUCCESS:
+            return {
+                ...state,
+                isFetching: false,
+                // update client with his journal records
+                items: state.items.map(client =>
+                    client._id === action.id
+                        ? { ...client, journalRecords: action.records }
+                        : client
+                ),
+            };
+
+        case clientConstants.GET_JOURNAL_RECORDS_FAILURE:
+            return {
+                ...state,
+                isFetching: false,
+                errorMessage: action.error,
+            };
+                isFetching: false,
         default:
             return state;
     }
