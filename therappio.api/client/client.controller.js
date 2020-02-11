@@ -78,7 +78,7 @@ function getMoods(req, res, next) {
     .then(records => {
       // allow therapist to get only his client's records
       if (
-        records &&
+        records.length &&
         currentUser.role === Role.Therapist &&
         records[0].client.therapist.toString() !== currentUser.sub
       ) {
@@ -104,7 +104,7 @@ function getJournalRecords(req, res, next) {
     .then(records => {
       // allow therapist to get only his client's records
       if (
-        records &&
+        records.length &&
         currentUser.role === Role.Therapist &&
         records[0].client.therapist.toString() !== currentUser.sub
       ) {
@@ -130,7 +130,7 @@ function getAssignments(req, res, next) {
     .then(assignments => {
       // allow therapist to get only his client's assignments
       if (
-        assignments &&
+        assignments.length &&
         currentUser.role === Role.Therapist &&
         assignments[0].client.therapist.toString() !== currentUser.sub
       ) {
@@ -156,7 +156,7 @@ function getTherapySessions(req, res, next) {
     .then(sessions => {
       // allow therapist to get only his client's sessions
       if (
-        sessions &&
+        sessions.length &&
         currentUser.role === Role.Therapist &&
         sessions[0].therapist.toString() !== currentUser.sub
       ) {

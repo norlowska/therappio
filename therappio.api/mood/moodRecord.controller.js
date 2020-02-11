@@ -24,16 +24,9 @@ function create(req, res, next) {
 
 function getAll(req, res, next) {
   const currentUser = req.user;
-
   moodRecordService
     .getAll()
     .then(records => {
-      if (typeof req.query.client === "string") {
-        records = records.filter(
-          record => record.client.id === req.query.client
-        );
-      }
-
       // allow client to get his/her mood records
       // allow therapist to get his/her patients' record
       records = records.filter(
@@ -57,7 +50,7 @@ function getById(req, res, next) {
       // allow client to get his/her mood record
       // allow therapist to get his/her patient's record
       if (
-        currentUser.sub !== record.client.id &&
+        currentUser.sub !== record.client.toString() &&
         currentUser.sub !== record.client.therapist.toString()
       ) {
         return res.status(401).json({ message: "Unauthorized" });
