@@ -8,7 +8,7 @@ import '../styles/main.scss';
 
 import {
     DashboardPage,
-    PatientsPage,
+    ClientsPage,
     LoginPage,
     NewAssignmentPage,
     PrivateRoute,
@@ -30,8 +30,8 @@ const App = ({ isAuthenticated, getDetails }) => {
                 <Switch>
                     <PrivateRoute exact path="/" component={DashboardPage} />
                     <PrivateRoute
-                        path="/patients/:id?"
-                        component={PatientsPage}
+                        path="/clients/:id?"
+                        component={ClientsPage}
                     />
                     {/* <Route path="/settings" component={SettingsPage} /> */}
                     <PublicRoute

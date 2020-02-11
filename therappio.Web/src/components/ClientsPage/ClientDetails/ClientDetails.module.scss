@@ -1,6 +1,6 @@
 @import 'src/styles/helpers/variables';
 
-.notSelectedPatient {
+.notSelectedClient {
     width: 75vw;
     display: flex;
     justify-content: center;
@@ -9,7 +9,7 @@
     color: #bbb;
 }
 
-.patientRecord {
+.clientRecord {
     width: 75vw;
     padding: 10px 40px;
     display: flex;

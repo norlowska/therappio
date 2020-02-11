@@ -8,7 +8,7 @@
     text-transform: uppercase;
 }
 
-.searchPatient {
+.searchClient {
     position: relative;
     margin-bottom: 16px;
 
@@ -27,7 +27,7 @@
     }
 }
 
-.patientsList {
+.clientsList {
     height: calc(100% - 126px);
     overflow-y: scroll;
     list-style-type: none;

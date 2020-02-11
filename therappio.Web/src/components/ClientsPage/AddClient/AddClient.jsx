@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { FormInput } from '../../index';
-import style from './AddPatient.module.scss';
+import style from './AddClient.module.scss';
 
 Modal.setAppElement('#root');
 
-const AddPatient = () => {
+const AddClient = () => {
     const [modalIsOpen, setIsOpen] = useState(false);
     // eslint-disable-next-line no-unused-vars
     const [gender, setGender] = useState('male');
@@ -37,7 +37,7 @@ const AddPatient = () => {
             </button>
             <Modal isOpen={modalIsOpen} className={style.modal}>
                 <div className={style.header}>
-                    <h2>New patient</h2>
+                    <h2>New client</h2>
                     <button className={'icon-btn'} onClick={closeModal}>
                         <i className="la la-times" title="Close" />
                     </button>
@@ -103,4 +103,4 @@ const AddPatient = () => {
     );
 };
 
-export default AddPatient;
+export default AddClient;

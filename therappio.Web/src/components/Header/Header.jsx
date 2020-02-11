@@ -24,11 +24,11 @@ const Header = props => {
                         Dashboard
                     </NavLink>
                     <NavLink
-                        to="/patients"
+                        to="/clients"
                         className={styles.navLink}
                         activeClassName={styles.navLinkActive}
                     >
-                        Patients
+                        Clients
                     </NavLink>
                 </div>
                 <div className={styles.navGroupRight}>

@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import AddPatient from '../AddPatient/AddPatient';
-import style from './PatientsList.module.scss';
+import AddClient from '../AddClient/AddClient';
+import style from './ClientsList.module.scss';
 
-const PatientsList = ({ patients }) => {
+const ClientsList = ({ clients }) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const handleChange = event => {
         setSearchQuery(event.target.value);
     };
 
-    // Filter list of patients
+    // Filter list of clients
     useEffect(() => {
-        const results = patients.filter(
+        const results = clients.filter(
             person =>
                 person.firstName
                     .toLowerCase()
@@ -23,20 +23,20 @@ const PatientsList = ({ patients }) => {
                     .includes(searchQuery.toLowerCase())
         );
         setSearchResults(results);
-    }, [searchQuery, patients]);
-    console.log(patients);
+    }, [searchQuery, clients]);
+
     return (
         <div className="sidebar">
             <div className={style.header}>
-                <h3>Patients</h3>
-                <AddPatient />
+                <h3>Clients</h3>
+                <AddClient />
             </div>
-            <form className={style.searchPatient}>
+            <form className={style.searchClient}>
                 <div className={'formGroup'}>
                     <label>
                         <i
                             className={'la la-search'}
-                            title="Search patients"
+                            title="Search clients"
                             aria-hidden
                         />
                     </label>
@@ -44,26 +44,26 @@ const PatientsList = ({ patients }) => {
                         type="text"
                         value={searchQuery}
                         onChange={handleChange}
-                        placeholder="Search patients"
+                        placeholder="Search clients"
                     />
                 </div>
             </form>
-            <ul className={style.patientsList}>
-                {searchResults.map(patient => {
+            <ul className={style.clientsList}>
+                {searchResults.map(client => {
                     return (
-                        <li key={patient._id}>
+                        <li key={client.shortId}>
                             <Link
-                                to={`/patients/${patient._id}`}
-                                className={'patientCard'}
+                                to={`/clients/${client.shortId}`}
+                                className={'clientCard'}
                             >
-                                <div className={'patientInfo'}>
+                                <div className={'clientInfo'}>
                                     <div
                                         className={'name'}
-                                    >{`${patient.firstName} ${patient.lastName}`}</div>
+                                    >{`${client.firstName} ${client.lastName}`}</div>
                                     <div className={'phone'}>
                                         <i className={'la la-phone-alt'} />
                                         <span className={style.phoneNumber}>
-                                            {patient.phoneNumber}
+                                            {client.phoneNumber}
                                         </span>
                                     </div>
                                 </div>
@@ -81,8 +81,8 @@ const PatientsList = ({ patients }) => {
     );
 };
 
-PatientsList.propTypes = {
-    patients: PropTypes.arrayOf(PropTypes.object).isRequired,
+ClientsList.propTypes = {
+    clients: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export default PatientsList;
+export default ClientsList;

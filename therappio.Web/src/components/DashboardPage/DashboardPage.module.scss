@@ -14,10 +14,10 @@ h2 {
     }
 }
 
-.nextPatient {
+.nextClient {
     margin: 20px;
 
-    :global(.patientCard) {
+    :global(.clientCard) {
         margin: 20px 0;
     }
 }

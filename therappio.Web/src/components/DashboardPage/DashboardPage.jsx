@@ -7,7 +7,7 @@ import moment from 'moment';
 import style from './DashboardPage.module.scss';
 // import '!style-loader!css-loader!react-big-calendar/lib/css/react-big-calendar.css';
 
-// TODO: Next patient above schedule
+// TODO: Next client above schedule
 // TODO: Fetch events (sessions) for therapist
 // TODO: Add session
 // TODO: save defaultView type in locale
@@ -34,7 +34,7 @@ const DashboardPage = props => {
             end: new Date(2019, 11, 4, 15, 30, 0),
         },
     ];
-    const patient = {
+    const client = {
         UserId: 1,
         Email: 'jan@nowak.pl',
         FirstName: 'Jan',
@@ -56,24 +56,21 @@ const DashboardPage = props => {
                             : ''}
                     </h2>
                 </div>
-                <div className={style.nextPatient}>
-                    <h3>Your next patient</h3>
-                    <Link
-                        to={`/patients/${patient.UserId}`}
-                        key={patient.UserId}
-                    >
-                        <div className={'patientCard'}>
-                            <div className={'patientInfo'}>
+                <div className={style.nextClient}>
+                    <h3>Your next client</h3>
+                    <Link to={`/clients/${client.UserId}`} key={client.UserId}>
+                        <div className={'clientCard'}>
+                            <div className={'clientInfo'}>
                                 <div
                                     className={'name'}
-                                >{`${patient.FirstName} ${patient.LastName}`}</div>
+                                >{`${client.FirstName} ${client.LastName}`}</div>
                                 <div
                                     className={'id'}
-                                >{`Patient ID: ${patient.UserId}`}</div>
+                                >{`Client ID: ${client.UserId}`}</div>
                                 <div className={'phone'}>
                                     <i className={'la la-phone-alt'} />
                                     <span className={'phoneNumber'}>
-                                        {patient.PhoneNumber}
+                                        {client.PhoneNumber}
                                     </span>
                                 </div>
                             </div>

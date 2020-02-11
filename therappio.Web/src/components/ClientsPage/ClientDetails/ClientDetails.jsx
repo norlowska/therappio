@@ -4,16 +4,16 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { PieChart, Pie, Cell } from 'recharts';
 import { Link } from 'react-router-dom';
-import styles from './PatientDetails.module.scss';
+import styles from './ClientDetails.module.scss';
 
 // TODO: Id as props
-// TODO: Get Patient by Id from store
+// TODO: Get Client by Id from store
 // TODO: Self-assessement chart
 // TODO: Assignements list
 // TODO: Session notes
 // TODO: Planned sessions
 // TODO: Send message button
-const PatientDetails = ({ patient }) => {
+const ClientDetails = ({ client }) => {
     // const calculateAge = birthday => {
     //     var ageDifMs = Date.now() - birthday.getTime();
     //     var ageDate = new Date(ageDifMs);
@@ -30,21 +30,21 @@ const PatientDetails = ({ patient }) => {
         { color: '#66bb6a', name: 'Low energy, pleasant' },
     ];
 
-    return patient == null ? (
-        <div className={styles.notSelectedPatient}>
-            <p>Select patient from the list to see details</p>
+    return client == null ? (
+        <div className={styles.notSelectedClient}>
+            <p>Select client from the list to see details</p>
         </div>
     ) : (
-        <div className={styles.patientRecord}>
+        <div className={styles.clientRecord}>
             <div className={styles.col65}>
                 <section>
                     <div className={styles.name}>
-                        <h2>{`${patient.FirstName} ${patient.LastName}`}</h2>
+                        <h2>{`${client.firstName} ${client.lastName}`}</h2>
                         <h3 className={styles.id}>
-                            Patient ID: {patient.UserId}
+                            Client ID: {client.shortId}
                         </h3>
                     </div>
-                    <div className={styles.patientDetails}>
+                    <div className={styles.clientDetails}>
                         <div className={styles.sectionHeading}>
                             <h3>Personal details</h3>
                         </div>
@@ -55,7 +55,7 @@ const PatientDetails = ({ patient }) => {
                                         Gender
                                     </strong>
                                     <span className={styles.cont}>
-                                        {patient.Gender}
+                                        {client.gender}
                                     </span>
                                 </div>
                                 <div className={styles.row}>
@@ -63,7 +63,7 @@ const PatientDetails = ({ patient }) => {
                                         DoB
                                     </strong>
                                     <span className={styles.cont}>
-                                        {moment(patient.Birthdate).format(
+                                        {moment(client.dateOfBirth).format(
                                             'DD MMM YYYY'
                                         )}
                                     </span>
@@ -73,7 +73,7 @@ const PatientDetails = ({ patient }) => {
                                         Age
                                     </strong>
                                     <span className={styles.cont}>
-                                        {/* {calculateAge(patient.Birthdate)} */}
+                                        {/* {calculateAge(client.Birthdate)} */}
                                     </span>
                                 </div>
                             </div>
@@ -83,7 +83,7 @@ const PatientDetails = ({ patient }) => {
                                         Phone
                                     </strong>
                                     <span className={styles.cont}>
-                                        {patient.PhoneNumber}
+                                        {client.phoneNumber}
                                     </span>
                                 </div>
                                 <div className={styles.row}>
@@ -91,7 +91,7 @@ const PatientDetails = ({ patient }) => {
                                         E-mail
                                     </strong>
                                     <span className={styles.cont}>
-                                        {patient.Email}
+                                        {client.email}
                                     </span>
                                 </div>
                                 <div className={styles.row}>
@@ -99,7 +99,7 @@ const PatientDetails = ({ patient }) => {
                                         Address
                                     </strong>
                                     <span className={styles.cont}>
-                                        {patient.Address}
+                                        {client.address}
                                     </span>
                                 </div>
                             </div>
@@ -108,10 +108,12 @@ const PatientDetails = ({ patient }) => {
                                     Emergency Contact
                                 </strong>
                                 <p>
-                                    {patient.EmergencyContact.Name}{' '}
+                                    {client.emergencyContact &&
+                                        client.emergencyContact.name}{' '}
                                     <span className={styles.emergencyNumber}>
                                         <i className="la la-phone-alt" />
-                                        {patient.EmergencyContact.PhoneNumber}
+                                        {client.emergencyContact &&
+                                            client.emergencyContact.phoneNumber}
                                     </span>
                                 </p>
                             </div>
@@ -130,7 +132,7 @@ const PatientDetails = ({ patient }) => {
                         </div>
                     </div>
                 </section>
-                <section className={styles.assignmentsSection}>
+                {/* <section className={styles.assignmentsSection}>
                     <div className={styles.sectionHeading}>
                         <h3>Assignments</h3>
                         <Link to="/assignments/new">
@@ -230,7 +232,7 @@ const PatientDetails = ({ patient }) => {
                         </div>
                         <PieChart width={410} height={240}>
                             <Pie
-                                data={patient.MoodChart.Week}
+                                data={client.MoodChart.Week}
                                 dataKey="value"
                                 nameKey="name"
                                 cx="50%"
@@ -262,7 +264,7 @@ const PatientDetails = ({ patient }) => {
                             ))}
                         </div>
                     </div>
-                </section>
+                </section> */}
             </div>
             {/* <section className={styles.assessmentsSection}>
                 <div className={styles.sectionHeading}>
@@ -276,8 +278,8 @@ const PatientDetails = ({ patient }) => {
     );
 };
 
-PatientDetails.propTypes = {
-    patient: PropTypes.object,
+ClientDetails.propTypes = {
+    client: PropTypes.object,
 };
 
-export default PatientDetails;
+export default ClientDetails;
