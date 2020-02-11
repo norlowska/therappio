@@ -31,10 +31,6 @@ export function clients(state = initialState, action) {
                 isFetching: true,
             };
         case clientConstants.GET_MOOD_RECORDS_SUCCESS:
-            const index = state.items.findIndex(
-                client => client._id === action.records[0].client._id
-            );
-
             return {
                 ...state,
                 isFetching: false,
@@ -44,9 +40,6 @@ export function clients(state = initialState, action) {
                         ? { ...client, moodRecords: action.records }
                         : client
                 ),
-                    },
-                    ...state.items.slice(index + 1),
-                ],
             };
 
         case clientConstants.GET_MOOD_RECORDS_FAILURE:
@@ -96,6 +89,29 @@ export function clients(state = initialState, action) {
             };
 
         case clientConstants.GET_ASSIGNMENTS_FAILURE:
+            return {
+                ...state,
+                isFetching: false,
+                errorMessage: action.error,
+            };
+        case clientConstants.GET_THERAPY_SESSIONS_REQUEST:
+            return {
+                ...state,
+                isFetching: true,
+            };
+        case clientConstants.GET_THERAPY_SESSIONS_SUCCESS:
+            return {
+                ...state,
+                isFetching: false,
+                // update client with his therapy sessions
+                items: state.items.map(client =>
+                    client._id === action.id
+                        ? { ...client, therapySessions: action.sessions }
+                        : client
+                ),
+            };
+
+        case clientConstants.GET_THERAPY_SESSIONS_FAILURE:
             return {
                 ...state,
                 isFetching: false,

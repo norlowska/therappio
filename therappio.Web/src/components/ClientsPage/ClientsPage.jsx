@@ -68,18 +68,6 @@ const ClientsPage = ({ match, clients, getAll }) => {
         const selectedClient = clients.find(
             client => client.shortId.toString() === match.params.id
         );
-        if (selectedClient && !selectedClient.hasOwnProperty('moodRecords')) {
-            getMoodRecords(selectedClient._id);
-        }
-        // if (selectedClient && !selectedClient.hasOwnProperty('journalRecords')) {
-        //     getJournalRecords(selectedClient._id);
-        // }
-        // if (selectedClient && !selectedClient.hasOwnProperty('assignments')) {
-        //     getAssignments(selectedClient._id);
-        // }
-        // if (selectedClient && !selectedClient.hasOwnProperty('therapySessions')) {
-        //     getTherapySessions(selectedClient._id);
-        // }
 
         setSelectedClient(selectedClient);
     }, [match.params.id, clients]);
@@ -87,7 +75,7 @@ const ClientsPage = ({ match, clients, getAll }) => {
     // Fetch clients
     useEffect(() => {
         if (!clients || !clients.length) {
-        getAll();
+            getAll();
         }
     }, []);
 
@@ -107,12 +95,10 @@ ClientsPage.propTypes = {
     }),
     clients: PropTypes.arrayOf(PropTypes.object),
     getAll: PropTypes.func.isRequired,
-    getMoodRecords: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
     getAll: clientActions.getAll,
-    getMoodRecords: clientActions.getMoodRecords,
 };
 
 const mapStateToProps = state => ({

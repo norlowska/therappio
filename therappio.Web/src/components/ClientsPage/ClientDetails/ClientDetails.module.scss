@@ -90,9 +90,9 @@ td {
     }
 }
 
-td:first-of-type {
-    text-align: start;
-}
+// td:first-of-type {
+//     text-align: start;
+// }
 
 tbody tr:nth-child(odd) {
     background-color: $athens-gray;

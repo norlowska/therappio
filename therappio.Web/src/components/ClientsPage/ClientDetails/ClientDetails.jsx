@@ -20,6 +20,7 @@ const ClientDetails = ({
     getMoodRecords,
     getJournalRecords,
     getAssignments,
+    getTherapySessions,
 }) => {
     // const calculateAge = birthday => {
     //     var ageDifMs = Date.now() - birthday.getTime();
@@ -46,6 +47,9 @@ const ClientDetails = ({
         }
         if (client && !client.hasOwnProperty('assignments')) {
             getAssignments(client._id);
+        }
+        if (client && !client.hasOwnProperty('therapySessions')) {
+            getTherapySessions(client._id);
         }
     }, [client]);
 
@@ -200,7 +204,7 @@ const ClientDetails = ({
                             </tbody>
                         </table>
                     </div>
-                </section>
+                        </section>*/}
                 <section className={styles.sessionsSection}>
                     <div className={styles.sectionHeading}>
                         <h3>Sessions</h3>
@@ -216,25 +220,27 @@ const ClientDetails = ({
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>28 Oct 2019 10:00</td>
-                                    <td className={styles.notes}>
-                                        Mrs. Robbins exhibits symptoms of
-                                        anxiety. Anxiety symptoms are occurring
-                                        daily. She reports occurrences of
-                                        difficulty concentrating. When anxious,
-                                        she reports fears of losing control or
-                                        of dying. Mrs. Little describes an
-                                        exaggerated startle response.
-                                    </td>
-                                    <td>4 Nov 2019 10:00</td>
-                                </tr>
+                                {client.therapySessions &&
+                                    !!client.therapySessions.length &&
+                                    client.therapySessions.map(session => (
+                                        <tr key={session.shortId}>
+                                            <td>{session.session_no}</td>
+                                            <td>
+                                                {moment(session.date).format(
+                                                    'DD MMM YYYY HH:mm'
+                                                )}
+                                            </td>
+                                            <td className={styles.notes}>
+                                                {session.notes}
+                                            </td>
+                                            <td />
+                                        </tr>
+                                    ))}
                             </tbody>
                         </table>
                     </div>
                 </section>
-            </div>
+                {/*
             <div className={styles.col35}>
                 <section className={styles.moodSection}>
                     <div className={styles.sectionHeading}>
@@ -302,12 +308,14 @@ ClientDetails.propTypes = {
     getMoodRecords: PropTypes.func.isRequired,
     getJournalRecords: PropTypes.func.isRequired,
     getAssignments: PropTypes.func.isRequired,
+    getTherapySessions: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
     getMoodRecords: clientActions.getMoodRecords,
     getJournalRecords: clientActions.getJournalRecords,
     getAssignments: clientActions.getAssignments,
+    getTherapySessions: clientActions.getTherapySessions,
 };
 
 export default connect(null, mapDispatchToProps)(ClientDetails);

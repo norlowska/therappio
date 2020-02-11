@@ -7,7 +7,7 @@ export const clientService = {
     getMoodRecords,
     getJournalRecords,
     getAssignments,
-    // getTherapySessions,
+    getTherapySessions,
     create,
     update,
 };
@@ -38,6 +38,12 @@ function getJournalRecords(id) {
 function getAssignments(id) {
     return axios
         .get(`${config.apiUrl}/clients/${id}/assignments`)
+        .then(res => res.data);
+}
+
+function getTherapySessions(id) {
+    return axios
+        .get(`${config.apiUrl}/clients/${id}/sessions`)
         .then(res => res.data);
 }
 
