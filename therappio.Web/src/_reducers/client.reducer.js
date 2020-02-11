@@ -78,7 +78,29 @@ export function clients(state = initialState, action) {
                 isFetching: false,
                 errorMessage: action.error,
             };
+        case clientConstants.GET_ASSIGNMENTS_REQUEST:
+            return {
+                ...state,
+                isFetching: true,
+            };
+        case clientConstants.GET_ASSIGNMENTS_SUCCESS:
+            return {
+                ...state,
                 isFetching: false,
+                // update client with his therapy sessions
+                items: state.items.map(client =>
+                    client._id === action.id
+                        ? { ...client, assignments: action.assignments }
+                        : client
+                ),
+            };
+
+        case clientConstants.GET_ASSIGNMENTS_FAILURE:
+            return {
+                ...state,
+                isFetching: false,
+                errorMessage: action.error,
+            };
         default:
             return state;
     }

@@ -19,6 +19,7 @@ const ClientDetails = ({
     client,
     getMoodRecords,
     getJournalRecords,
+    getAssignments,
 }) => {
     // const calculateAge = birthday => {
     //     var ageDifMs = Date.now() - birthday.getTime();
@@ -42,6 +43,9 @@ const ClientDetails = ({
         }
         if (client && !client.hasOwnProperty('journalRecords')) {
             getJournalRecords(client._id);
+        }
+        if (client && !client.hasOwnProperty('assignments')) {
+            getAssignments(client._id);
         }
     }, [client]);
 
@@ -297,10 +301,13 @@ ClientDetails.propTypes = {
     client: PropTypes.object,
     getMoodRecords: PropTypes.func.isRequired,
     getJournalRecords: PropTypes.func.isRequired,
+    getAssignments: PropTypes.func.isRequired,
 };
+
 const mapDispatchToProps = {
     getMoodRecords: clientActions.getMoodRecords,
     getJournalRecords: clientActions.getJournalRecords,
+    getAssignments: clientActions.getAssignments,
 };
 
 export default connect(null, mapDispatchToProps)(ClientDetails);
