@@ -13,7 +13,10 @@ import styles from './ClientDetails.module.scss';
 // TODO: Session notes
 // TODO: Planned sessions
 // TODO: Send message button
-const ClientDetails = ({ client }) => {
+const ClientDetails = ({
+    client,
+    getMoodRecords,
+}) => {
     // const calculateAge = birthday => {
     //     var ageDifMs = Date.now() - birthday.getTime();
     //     var ageDate = new Date(ageDifMs);
@@ -29,6 +32,12 @@ const ClientDetails = ({ client }) => {
         { color: '#42a5f5', name: 'Low energy, unpleasant' },
         { color: '#66bb6a', name: 'Low energy, pleasant' },
     ];
+
+    useEffect(() => {
+        if (client && !client.hasOwnProperty('moodRecords')) {
+            getMoodRecords(client._id);
+        }
+    }, [client]);
 
     return client == null ? (
         <div className={styles.notSelectedClient}>
@@ -280,6 +289,10 @@ const ClientDetails = ({ client }) => {
 
 ClientDetails.propTypes = {
     client: PropTypes.object,
+    getMoodRecords: PropTypes.func.isRequired,
+};
+const mapDispatchToProps = {
+    getMoodRecords: clientActions.getMoodRecords,
 };
 
-export default ClientDetails;
+export default connect(null, mapDispatchToProps)(ClientDetails);

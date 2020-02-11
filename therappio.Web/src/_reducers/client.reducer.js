@@ -30,7 +30,7 @@ export function clients(state = initialState, action) {
                 ...state,
                 isFetching: true,
             };
-        case clientConstants.GET_MOOD_RECORDS_SUCCESS: {
+        case clientConstants.GET_MOOD_RECORDS_SUCCESS:
             const index = state.items.findIndex(
                 client => client._id === action.records[0].client._id
             );
@@ -39,16 +39,16 @@ export function clients(state = initialState, action) {
                 ...state,
                 isFetching: false,
                 // update client with his mood records
-                items: [
-                    ...state.items.slice(0, index),
-                    {
-                        ...state.items[index],
-                        moodRecords: action.records,
+                items: state.items.map(client =>
+                    client._id === action.id
+                        ? { ...client, moodRecords: action.records }
+                        : client
+                ),
                     },
                     ...state.items.slice(index + 1),
                 ],
             };
-        }
+
         case clientConstants.GET_MOOD_RECORDS_FAILURE:
             return {
                 ...state,

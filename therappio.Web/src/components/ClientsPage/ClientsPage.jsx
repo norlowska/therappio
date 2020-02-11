@@ -5,8 +5,8 @@ import { clientActions } from '../../_actions';
 import ClientsList from './ClientsList/ClientsList';
 import ClientDetails from './ClientDetails/ClientDetails';
 
-const ClientsPage = ({ match, clients, getAll, getMoodRecords }) => {
-    const [selectedClient, setSelectedClient] = useState({});
+const ClientsPage = ({ match, clients, getAll }) => {
+    const [selectedClient, setSelectedClient] = useState(undefined);
 
     // const clients = [
     //     {
@@ -82,11 +82,13 @@ const ClientsPage = ({ match, clients, getAll, getMoodRecords }) => {
         // }
 
         setSelectedClient(selectedClient);
-    }, [match.params.id]);
+    }, [match.params.id, clients]);
 
     // Fetch clients
     useEffect(() => {
+        if (!clients || !clients.length) {
         getAll();
+        }
     }, []);
 
     return (
