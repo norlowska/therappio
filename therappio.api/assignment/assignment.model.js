@@ -27,7 +27,8 @@ const AssignmentSchema = new Schema({
   client: { type: Schema.Types.ObjectId, ref: "User", required: true },
   createdAt: { type: Date, required: true },
   dueDate: { type: Date, required: true },
-  fields: [TaskSchema]
+  fields: [TaskSchema],
+  title: String
 });
 
 module.exports = mongoose.model("Assignment", AssignmentSchema);

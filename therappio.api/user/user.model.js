@@ -27,6 +27,7 @@ const UserSchema = new Schema({
     name: String,
     phoneNumber: String
   },
+  diagnosis: [String],
   role: { type: String, enum: Object.values(Role), required: true }
 });
 
