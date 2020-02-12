@@ -31,22 +31,22 @@ section {
     padding-top: 57px;
 }
 
-.selectPeriod {
-    display: flex;
-    justify-content: center;
+// .selectPeriod {
+//     display: flex;
+//     justify-content: center;
 
-    button {
-        border-radius: 30px;
-        padding: 4px 15px;
-    }
+//     button {
+//         border-radius: 30px;
+//         padding: 4px 15px;
+//     }
 
-    .invertBtn {
-        background: transparent;
-        color: $royal-blue;
-        border: 2px solid $royal-blue;
-        margin-left: 10%;
-    }
-}
+//     .invertBtn {
+//         background: transparent;
+//         color: $royal-blue;
+//         border: 2px solid $royal-blue;
+//         margin-left: 10%;
+//     }
+// }
 
 .legend {
     display: flex;
@@ -67,18 +67,19 @@ section {
     margin-top: 7px;
 }
 
-.assignmentsSection {
-    width: 100%;
-}
-
 table {
     width: 100%;
+    table-layout: fixed;
     border-collapse: collapse;
 }
 
 th {
     color: $royal-blue;
     padding-bottom: 10px;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: $athens-gray;
 }
 
 td {
@@ -90,12 +91,42 @@ td {
     }
 }
 
-// td:first-of-type {
-//     text-align: start;
-// }
+.sessions {
+    thead th:nth-child(1) {
+        width: 8%;
+    }
 
-tbody tr:nth-child(odd) {
-    background-color: $athens-gray;
+    thead th:nth-child(2) {
+        width: 20%;
+    }
+
+    thead th:nth-child(4) {
+        width: 20%;
+    }
+}
+
+.assignmentsSection {
+    width: 100%;
+}
+
+.assignments {
+    thead th:nth-child(2) {
+        width: 20%;
+    }
+
+    thead th:nth-child(3) {
+        width: 20%;
+    }
+
+    thead th:nth-child(4) {
+        width: 20%;
+    }
+}
+
+.journalRecords {
+    tbody td:nth-child(3) {
+        text-align: start;
+    }
 }
 
 .assessmentsSection {
@@ -108,7 +139,6 @@ tbody tr:nth-child(odd) {
     margin-bottom: 25px;
     h2 {
         color: $royal-blue;
-        font-size: $h1-font-size;
     }
 }
 

@@ -1,7 +1,10 @@
-body {
-    color: $base-font-color;
+html {
     font-size: $base-font-size;
     font-family: $base-font-family;
+}
+
+body {
+    color: $base-font-color;
     font-weight: $light;
     line-height: $base-line-height;
 }

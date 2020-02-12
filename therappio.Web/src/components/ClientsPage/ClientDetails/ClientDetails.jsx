@@ -7,13 +7,9 @@ import { PieChart, Pie, Cell } from 'recharts';
 import { Link } from 'react-router-dom';
 import { clientActions } from '../../../_actions';
 import styles from './ClientDetails.module.scss';
+import Tabs from '../../shared/Tabs';
 
-// TODO: Id as props
-// TODO: Get Client by Id from store
 // TODO: Self-assessement chart
-// TODO: Assignements list
-// TODO: Session notes
-// TODO: Planned sessions
 // TODO: Send message button
 const ClientDetails = ({
     client,
@@ -22,11 +18,6 @@ const ClientDetails = ({
     getAssignments,
     getTherapySessions,
 }) => {
-    // const calculateAge = birthday => {
-    //     var ageDifMs = Date.now() - birthday.getTime();
-    //     var ageDate = new Date(ageDifMs);
-    //     return Math.abs(ageDate.getUTCFullYear() - 1970);
-    // };
     // const chartLabel = ({ percent, name, index }) => {
     //     return <text>{`${(percent * 100).toFixed(0)}% ${name}`}</text>;
     // };
@@ -63,13 +54,13 @@ const ClientDetails = ({
                 <section>
                     <div className={styles.name}>
                         <h2>{`${client.firstName} ${client.lastName}`}</h2>
-                        <h3 className={styles.id}>
+                        <h4 className={styles.id}>
                             Client ID: {client.shortId}
-                        </h3>
+                        </h4>
                     </div>
                     <div className={styles.clientDetails}>
                         <div className={styles.sectionHeading}>
-                            <h3>Personal details</h3>
+                            <h4>Personal details</h4>
                         </div>
                         <div className={`card ${styles.personalInfo}`}>
                             <div className={styles.col}>
@@ -96,7 +87,11 @@ const ClientDetails = ({
                                         Age
                                     </strong>
                                     <span className={styles.cont}>
-                                        {/* {calculateAge(client.Birthdate)} */}
+                                        {!!client.dateOfBirth &&
+                                            moment().diff(
+                                                client.dateOfBirth,
+                                                'years'
+                                            )}
                                     </span>
                                 </div>
                             </div>
@@ -131,13 +126,21 @@ const ClientDetails = ({
                                     Emergency Contact
                                 </strong>
                                 <p>
-                                    {client.emergencyContact &&
-                                        client.emergencyContact.name}{' '}
-                                    <span className={styles.emergencyNumber}>
-                                        <i className="la la-phone-alt" />
-                                        {client.emergencyContact &&
-                                            client.emergencyContact.phoneNumber}
-                                    </span>
+                                    {!!client.emergencyContact &&
+                                        client.emergencyContact.name &&
+                                        ' ' && (
+                                            <span
+                                                className={
+                                                    styles.emergencyNumber
+                                                }
+                                            >
+                                                <i className="la la-phone-alt" />
+                                                {
+                                                    client.emergencyContact
+                                                        .phoneNumber
+                                                }
+                                            </span>
+                                        )}
                                 </p>
                             </div>
                             <div
@@ -147,67 +150,20 @@ const ClientDetails = ({
                                     Diagnosis
                                 </strong>
                                 <ul className={styles.cont}>
-                                    <li>Panic Attack</li>
-                                    <li>Anxiety</li>
-                                    <li>Social Anxiety Disorder</li>
+                                    {!!client.diagnosis &&
+                                    client.diagnosis.length > 0
+                                        ? client.diagnosis.map(disorder => (
+                                              <li>{disorder}</li>
+                                          ))
+                                        : 'Not diagnosed'}
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </section>
-                {/* <section className={styles.assignmentsSection}>
-                    <div className={styles.sectionHeading}>
-                        <h3>Assignments</h3>
-                        <Link to="/assignments/new">
-                            <button className={`primary-btn`}>
-                                <i className={`las la-plus`} /> New
-                            </button>
-                        </Link>
-                    </div>
-                    <div className={`card ${styles.assignments}`}>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Creation date</th>
-                                    <th scope="col">Due date</th>
-                                    <th scope="col" />
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Assignment #1</td>
-                                    <td>28 Oct 2019 10:00</td>
-                                    <td>4 Nov 2019 10:00</td>
-                                    <td>
-                                        <button className="primary-btn">
-                                            Review
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Diary</td>
-                                    <td>28 Oct 2019 11:36</td>
-                                    <td>4 Nov 2019 10:00</td>
-                                    <td>
-                                        <button className="primary-btn">
-                                            Review
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Gratitude Journal</td>
-                                    <td>28 Oct 2019 11:37</td>
-                                    <td>4 Oct 2019 10:00</td>
-                                    <td />
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                        </section>*/}
                 <section className={styles.sessionsSection}>
                     <div className={styles.sectionHeading}>
-                        <h3>Sessions</h3>
+                        <h4>Sessions</h4>
                     </div>
                     <div className={`card ${styles.sessions}`}>
                         <table>
@@ -233,18 +189,72 @@ const ClientDetails = ({
                                             <td className={styles.notes}>
                                                 {session.notes}
                                             </td>
-                                            <td />
+                                            <td>
+                                                <button className="primary-btn">
+                                                    Read more
+                                                </button>
+                                            </td>
                                         </tr>
                                     ))}
                             </tbody>
                         </table>
                     </div>
                 </section>
-                {/*
-            <div className={styles.col35}>
-                <section className={styles.moodSection}>
+                <section className={styles.assignmentsSection}>
                     <div className={styles.sectionHeading}>
-                        <h3>Mood Chart</h3>
+                        <h4>Assignments</h4>
+                        <Link to="/assignments/new">
+                            <button className={`primary-btn`}>
+                                <i className={`las la-plus`} /> New
+                            </button>
+                        </Link>
+                    </div>
+                    <div className={`card ${styles.assignments}`}>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Creation date</th>
+                                    <th scope="col">Due date</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col" />
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {client.assignments &&
+                                    !!client.assignments.length &&
+                                    client.assignments.map(assignment => (
+                                        <tr key={assignment.shortId}>
+                                            <td>{assignment.title}</td>
+                                            <td>
+                                                {moment(
+                                                    assignment.createdAt
+                                                ).format('DD MMM YYYY HH:mm')}
+                                            </td>
+                                            <td>
+                                                {moment(
+                                                    assignment.dueDate
+                                                ).format('DD MMM YYYY HH:mm')}
+                                            </td>
+                                            <td>
+                                                {'On time/Not submitted/Late'}
+                                            </td>
+                                            <td>
+                                                <button className="primary-btn">
+                                                    Review
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+            <div className={styles.col35}>
+                {/* <section className={styles.moodSection}>
+                    <div className={styles.sectionHeading}>
+                        <h4>Mood Chart</h4>
                     </div>
                     <div className={`card ${styles.moodChart}`}>
                         <div className={styles.selectPeriod}>
@@ -274,7 +284,9 @@ const ClientDetails = ({
                             {moodchartKeys.map((entry, index) => (
                                 <div className={styles.label} key={index}>
                                     <div
-                                        style={{ backgroundColor: entry.color }}
+                                        style={{
+                                            backgroundColor: entry.color,
+                                        }}
                                         className={styles.legendCircle}
                                     />
                                     <span
@@ -290,10 +302,117 @@ const ClientDetails = ({
                         </div>
                     </div>
                 </section> */}
+                <section className={styles.recordsSection}>
+                    <div className={`card ${styles.records}`}>
+                        <Tabs>
+                            <div label="Mood Records">
+                                <div className={`${styles.moodRecords}`}>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">
+                                                    Creation date
+                                                </th>
+                                                <th scope="col" />
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {client.moodRecords &&
+                                                !!client.moodRecords.length &&
+                                                client.moodRecords.map(
+                                                    record => (
+                                                        <tr
+                                                            key={record.shortId}
+                                                        >
+                                                            <td
+                                                                style={{
+                                                                    color:
+                                                                        moodchartKeys[
+                                                                            record
+                                                                                .mood
+                                                                                .quadrant -
+                                                                                1
+                                                                        ].color,
+                                                                }}
+                                                            >
+                                                                {
+                                                                    record.mood
+                                                                        .name
+                                                                }
+                                                            </td>
+                                                            <td>
+                                                                {moment(
+                                                                    record.createdAt
+                                                                ).format(
+                                                                    'DD MMM YYYY HH:mm'
+                                                                )}
+                                                            </td>
+                                                            <td>
+                                                                <button className="primary-btn">
+                                                                    Read more
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    )
+                                                )}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div label="Journal Records">
+                                <div className={`${styles.journalRecords}`}>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Type</th>
+                                                <th scope="col">
+                                                    Creation date
+                                                </th>
+                                                <th scope="col" />
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {client.journalRecords &&
+                                                !!client.journalRecords
+                                                    .length &&
+                                                client.journalRecords.map(
+                                                    record => (
+                                                        <tr
+                                                            key={record.shortId}
+                                                        >
+                                                            <td>
+                                                                {record.type ===
+                                                                'diary'
+                                                                    ? 'Diary'
+                                                                    : 'Gratitude Journal'}
+                                                            </td>
+                                                            <td>
+                                                                {moment(
+                                                                    record.createdAt
+                                                                ).format(
+                                                                    'DD MMM YYYY HH:mm'
+                                                                )}
+                                                            </td>
+                                                            <td>
+                                                                <button className="primary-btn">
+                                                                    Read more
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    )
+                                                )}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </Tabs>
+                    </div>
+                </section>
             </div>
             {/* <section className={styles.assessmentsSection}>
                 <div className={styles.sectionHeading}>
-                    <h3>Self-assessement</h3>
+                    <h4>Self-assessement</h4>
                 </div>
                 <div className={`card ${styles.sessions}`}>
                     <table />

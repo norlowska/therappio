@@ -1,0 +1,33 @@
+@import 'src/styles/helpers/variables';
+
+.tab-list {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.tab-list-item {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    border: none;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    padding: 9px 18px;
+    color: $royal-blue;
+    background: transparent;
+    border: 2px solid $royal-blue;
+    margin-right: 15px;
+    line-height: 1.15rem;
+
+    &:last-child {
+        margin-right: 0;
+    }
+}
+
+.tab-list-active {
+    background-color: #2269b3;
+    color: #fff;
+}

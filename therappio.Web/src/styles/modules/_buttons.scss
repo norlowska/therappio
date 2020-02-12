@@ -2,9 +2,8 @@
 
 .primary-btn {
     @include button-base;
-    border-radius: 14px;
-    height: 40px;
-    padding: 0 18px;
+    border-radius: 9px;
+    padding: 9px 18px;
     background-color: $royal-blue;
     color: $white;
 
