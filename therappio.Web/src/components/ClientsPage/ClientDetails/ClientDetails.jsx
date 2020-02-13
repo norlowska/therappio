@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -123,36 +122,20 @@ const journalRecordsColumns = [
 
 // TODO: Self-assessement chart
 // TODO: Send message button
-const ClientDetails = ({
-    client,
-    getMoodRecords,
-    getJournalRecords,
-    getAssignments,
-    getTherapySessions,
-}) => {
+const ClientDetails = ({ client, getDetails }) => {
     // const chartLabel = ({ percent, name, index }) => {
     //     return <text>{`${(percent * 100).toFixed(0)}% ${name}`}</text>;
     // };
 
-    const moodchartKeys = [
-        { color: '#f44336', name: 'High energy, unpleasant' },
-        { color: '#F7C602', name: 'High energy, pleasant' },
-        { color: '#42a5f5', name: 'Low energy, unpleasant' },
-        { color: '#66bb6a', name: 'Low energy, pleasant' },
-    ];
-
     useEffect(() => {
-        if (client && !client.hasOwnProperty('moodRecords')) {
-            getMoodRecords(client._id);
-        }
-        if (client && !client.hasOwnProperty('journalRecords')) {
-            getJournalRecords(client._id);
-        }
-        if (client && !client.hasOwnProperty('assignments')) {
-            getAssignments(client._id);
-        }
-        if (client && !client.hasOwnProperty('therapySessions')) {
-            getTherapySessions(client._id);
+        if (
+            client &&
+            !client.hasOwnProperty('therapySessions') &&
+            !client.hasOwnProperty('assignments') &&
+            !client.hasOwnProperty('moodRecords') &&
+            !client.hasOwnProperty('journalRecords')
+        ) {
+            getDetails(client._id);
         }
     }, [client]);
 
@@ -282,38 +265,6 @@ const ClientDetails = ({
                             columns={sessionsColumns}
                             data={client.therapySessions || []}
                         />
-                        {/* <table>
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Notes</th>
-                                    <th scope="col" />
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {client.therapySessions &&
-                                    !!client.therapySessions.length &&
-                                    client.therapySessions.map(session => (
-                                        <tr key={session.shortId}>
-                                            <td>{session.session_no}</td>
-                                            <td>
-                                                {moment(session.date).format(
-                                                    'DD MMM YYYY HH:mm'
-                                                )}
-                                            </td>
-                                            <td className={styles.notes}>
-                                                {session.notes}
-                                            </td>
-                                            <td>
-                                                <button className="primary-btn">
-                                                    Read more
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                            </tbody>
-                        </table> */}
                     </div>
                 </section>
                 <section className={styles.assignmentsSection}>
@@ -330,44 +281,6 @@ const ClientDetails = ({
                             columns={assignmentsColumns}
                             data={client.assignments || []}
                         />
-                        {/* <table>
-                            <thead>
-                                <tr>
-                                    <th scope="col">Title</th>
-                                    <th scope="col">Creation date</th>
-                                    <th scope="col">Due date</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col" />
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {client.assignments &&
-                                    !!client.assignments.length &&
-                                    client.assignments.map(assignment => (
-                                        <tr key={assignment.shortId}>
-                                            <td>{assignment.title}</td>
-                                            <td>
-                                                {moment(
-                                                    assignment.createdAt
-                                                ).format('DD MMM YYYY HH:mm')}
-                                            </td>
-                                            <td>
-                                                {moment(
-                                                    assignment.dueDate
-                                                ).format('DD MMM YYYY HH:mm')}
-                                            </td>
-                                            <td>
-                                                {'On time/Not submitted/Late'}
-                                            </td>
-                                            <td>
-                                                <button className="primary-btn">
-                                                    Review
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                            </tbody>
-                        </table> */}
                     </div>
                 </section>
             </div>
@@ -431,57 +344,6 @@ const ClientDetails = ({
                                         columns={moodRecordsColumns}
                                         data={client.moodRecords || []}
                                     />
-                                    {/* <table>
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Name</th>
-                                                <th scope="col">
-                                                    Creation date
-                                                </th>
-                                                <th scope="col" />
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {client.moodRecords &&
-                                                !!client.moodRecords.length &&
-                                                client.moodRecords.map(
-                                                    record => (
-                                                        <tr
-                                                            key={record.shortId}
-                                                        >
-                                                            <td
-                                                                style={{
-                                                                    color:
-                                                                        moodchartKeys[
-                                                                            record
-                                                                                .mood
-                                                                                .quadrant -
-                                                                                1
-                                                                        ].color,
-                                                                }}
-                                                            >
-                                                                {
-                                                                    record.mood
-                                                                        .name
-                                                                }
-                                                            </td>
-                                                            <td>
-                                                                {moment(
-                                                                    record.createdAt
-                                                                ).format(
-                                                                    'DD MMM YYYY HH:mm'
-                                                                )}
-                                                            </td>
-                                                            <td>
-                                                                <button className="primary-btn">
-                                                                    Read more
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                    )
-                                                )}
-                                        </tbody>
-                                    </table> */}
                                 </div>
                             </div>
                             <div label="Journal Records">
@@ -510,17 +372,11 @@ const ClientDetails = ({
 
 ClientDetails.propTypes = {
     client: PropTypes.object,
-    getMoodRecords: PropTypes.func.isRequired,
-    getJournalRecords: PropTypes.func.isRequired,
-    getAssignments: PropTypes.func.isRequired,
-    getTherapySessions: PropTypes.func.isRequired,
+    getDetails: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
-    getMoodRecords: clientActions.getMoodRecords,
-    getJournalRecords: clientActions.getJournalRecords,
-    getAssignments: clientActions.getAssignments,
-    getTherapySessions: clientActions.getTherapySessions,
+    getDetails: clientActions.getDetails,
 };
 
 export default connect(null, mapDispatchToProps)(ClientDetails);
