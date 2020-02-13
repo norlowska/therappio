@@ -12,6 +12,46 @@
     }
 }
 
+.primary-btn-invert {
+    @include button-base;
+    border-radius: 9px;
+    padding: 9px 18px;
+    border: 2px solid $royal-blue;
+    background-color: $white;
+    color: $royal-blue;
+
+    &:hover {
+        background-color: $athens-gray;
+    }
+}
+
+.page-btn {
+    @include button-base;
+    border-radius: 1px;
+    padding: 4px 8px;
+    border: 1px solid $royal-blue;
+    background-color: $white;
+    color: $royal-blue;
+    margin: 4px 3px;
+
+    &:hover {
+        background-color: $athens-gray;
+    }
+}
+
+.page-btn-active {
+    @include button-base;
+    border-radius: 1px;
+    padding: 4px 8px;
+    border: 1px solid $royal-blue;
+    background-color: $royal-blue;
+    color: $white;
+    margin: 4px 3px;
+    &:hover {
+        background-color: $congress-blue;
+    }
+}
+
 .icon-btn {
     @include button-base;
     background: none;

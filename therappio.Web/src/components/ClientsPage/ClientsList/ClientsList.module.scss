@@ -15,9 +15,9 @@
     label {
         position: absolute;
         left: 35px;
-        top: 6.5px;
+        top: 6px;
         margin-bottom: 0;
-        font-size: 25px;
+        font-size: 1.6rem;
     }
 
     input {
@@ -28,7 +28,7 @@
 }
 
 .clientsList {
-    height: calc(100% - 115px);
+    height: calc(100% - 119px);
     overflow-y: scroll;
     list-style-type: none;
 }

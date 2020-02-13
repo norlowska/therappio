@@ -1,0 +1,35 @@
+@import 'src/styles/helpers/variables';
+
+table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+th {
+    color: $royal-blue;
+    padding-bottom: 10px;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: $athens-gray;
+}
+
+td {
+    text-align: center;
+    padding: 10px 10px;
+
+    button {
+        margin: 0 auto;
+    }
+}
+
+.pagination {
+    padding: 0.5rem;
+
+    input,
+    select {
+        display: inline-block;
+        width: 100px;
+    }
+}

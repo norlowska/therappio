@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { PieChart, Pie, Cell } from 'recharts';
+// import { PieChart, Pie, Cell } from 'recharts';
 import { Link } from 'react-router-dom';
 import { clientActions } from '../../../_actions';
 import Tabs from '../../shared/Tabs';
@@ -74,14 +74,19 @@ const moodRecordsColumns = [
         Header: 'Name',
         id: 'mood_name',
         accessor: mood => mood.name,
+        // eslint-disable-next-line react/prop-types
         Cell: ({ row: { original } }) => {
             return (
                 <span
                     style={{
+                        // eslint-disable-next-line react/prop-types
                         color: moodchartKeys[original.mood.quadrant - 1].color,
                     }}
                 >
-                    {original.mood.name}
+                    {
+                        // eslint-disable-next-line react/prop-types
+                        original.mood.name
+                    }
                 </span>
             );
         },
