@@ -6,8 +6,115 @@ import moment from 'moment';
 import { PieChart, Pie, Cell } from 'recharts';
 import { Link } from 'react-router-dom';
 import { clientActions } from '../../../_actions';
-import styles from './ClientDetails.module.scss';
 import Tabs from '../../shared/Tabs';
+import Table from '../../shared/Table';
+import styles from './ClientDetails.module.scss';
+
+const moodchartKeys = [
+    { color: '#f44336', name: 'High energy, unpleasant' },
+    { color: '#F7C602', name: 'High energy, pleasant' },
+    { color: '#42a5f5', name: 'Low energy, unpleasant' },
+    { color: '#66bb6a', name: 'Low energy, pleasant' },
+];
+
+const sessionsColumns = [
+    {
+        Header: '#',
+        accessor: 'session_no',
+    },
+    {
+        Header: 'Date',
+        accessor: 'date',
+        Cell: date => moment(date).format('DD MMM YYYY HH:mm'),
+    },
+    {
+        Header: 'Notes',
+        accessor: 'notes',
+        style: {
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+        },
+    },
+    {
+        Header: '',
+        id: 'read-more-btn',
+        Cell: row => <button className="primary-btn">Read more</button>,
+    },
+];
+
+const assignmentsColumns = [
+    {
+        Header: 'Title',
+        accessor: 'title',
+    },
+    {
+        Header: 'Creation date',
+        accessor: 'createdAt',
+        Cell: date => moment(date).format('DD MMM YYYY HH:mm'),
+    },
+    {
+        Header: 'Due date',
+        accessor: 'dueDate',
+        Cell: date => moment(date).format('DD MMM YYYY HH:mm'),
+    },
+    {
+        Header: 'Status',
+        accessor: 'status',
+    },
+    {
+        Header: '',
+        id: 'review-btn',
+        Cell: row => <button className="primary-btn">Review</button>,
+    },
+];
+
+const moodRecordsColumns = [
+    {
+        Header: 'Name',
+        id: 'mood_name',
+        accessor: mood => mood.name,
+        Cell: ({ row: { original } }) => {
+            return (
+                <span
+                    style={{
+                        color: moodchartKeys[original.mood.quadrant - 1].color,
+                    }}
+                >
+                    {original.mood.name}
+                </span>
+            );
+        },
+    },
+    {
+        Header: 'Creation date',
+        accessor: 'createdAt',
+        Cell: date => moment(date).format('DD MMM YYYY HH:mm'),
+    },
+    {
+        Header: '',
+        accessor: 'read-more-btn',
+        Cell: row => <button className="primary-btn">Read more</button>,
+    },
+];
+
+const journalRecordsColumns = [
+    {
+        Header: 'Type',
+        accessor: record =>
+            record.type === 'gratitude' ? 'Gratitude Journal' : 'Diary',
+    },
+    {
+        Header: 'Creation date',
+        accessor: 'createdAt',
+        Cell: date => moment(date).format('DD MMM YYYY HH:mm'),
+    },
+    {
+        Header: '',
+        accessor: 'read-more-btn',
+        Cell: row => <button className="primary-btn">Read more</button>,
+    },
+];
 
 // TODO: Self-assessement chart
 // TODO: Send message button
@@ -166,7 +273,11 @@ const ClientDetails = ({
                         <h4>Sessions</h4>
                     </div>
                     <div className={`card ${styles.sessions}`}>
-                        <table>
+                        <Table
+                            columns={sessionsColumns}
+                            data={client.therapySessions || []}
+                        />
+                        {/* <table>
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -197,7 +308,7 @@ const ClientDetails = ({
                                         </tr>
                                     ))}
                             </tbody>
-                        </table>
+                        </table> */}
                     </div>
                 </section>
                 <section className={styles.assignmentsSection}>
@@ -210,7 +321,11 @@ const ClientDetails = ({
                         </Link>
                     </div>
                     <div className={`card ${styles.assignments}`}>
-                        <table>
+                        <Table
+                            columns={assignmentsColumns}
+                            data={client.assignments || []}
+                        />
+                        {/* <table>
                             <thead>
                                 <tr>
                                     <th scope="col">Title</th>
@@ -247,7 +362,7 @@ const ClientDetails = ({
                                         </tr>
                                     ))}
                             </tbody>
-                        </table>
+                        </table> */}
                     </div>
                 </section>
             </div>
@@ -307,7 +422,11 @@ const ClientDetails = ({
                         <Tabs>
                             <div label="Mood Records">
                                 <div className={`${styles.moodRecords}`}>
-                                    <table>
+                                    <Table
+                                        columns={moodRecordsColumns}
+                                        data={client.moodRecords || []}
+                                    />
+                                    {/* <table>
                                         <thead>
                                             <tr>
                                                 <th scope="col">Name</th>
@@ -357,53 +476,15 @@ const ClientDetails = ({
                                                     )
                                                 )}
                                         </tbody>
-                                    </table>
+                                    </table> */}
                                 </div>
                             </div>
                             <div label="Journal Records">
                                 <div className={`${styles.journalRecords}`}>
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Type</th>
-                                                <th scope="col">
-                                                    Creation date
-                                                </th>
-                                                <th scope="col" />
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {client.journalRecords &&
-                                                !!client.journalRecords
-                                                    .length &&
-                                                client.journalRecords.map(
-                                                    record => (
-                                                        <tr
-                                                            key={record.shortId}
-                                                        >
-                                                            <td>
-                                                                {record.type ===
-                                                                'diary'
-                                                                    ? 'Diary'
-                                                                    : 'Gratitude Journal'}
-                                                            </td>
-                                                            <td>
-                                                                {moment(
-                                                                    record.createdAt
-                                                                ).format(
-                                                                    'DD MMM YYYY HH:mm'
-                                                                )}
-                                                            </td>
-                                                            <td>
-                                                                <button className="primary-btn">
-                                                                    Read more
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                    )
-                                                )}
-                                        </tbody>
-                                    </table>
+                                    <Table
+                                        columns={journalRecordsColumns}
+                                        data={client.journalRecords || []}
+                                    />
                                 </div>
                             </div>
                         </Tabs>
