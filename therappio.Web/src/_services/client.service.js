@@ -11,6 +11,7 @@ export const clientService = {
     getTherapySessions,
     create,
     update,
+    createAssignment,
 };
 
 function getAll() {
@@ -103,5 +104,13 @@ function create(client) {
 function update(client) {
     return axios.put(`${config.apiUrl}/clients`, client).then(res => {
         console.log(res);
+    });
+}
+
+function createAssignment(assignment) {
+    console.log(assignment);
+    return axios.post(`${config.apiUrl}/assignments`, assignment).then(res => {
+        console.log(res);
+        return res.data;
     });
 }

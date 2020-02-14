@@ -8,6 +8,7 @@ export const clientActions = {
     getDetails,
     create,
     update,
+    createAssignment,
 };
 
 function getAll() {
@@ -72,3 +73,31 @@ function getDetails(id) {
 function create(user) {}
 
 function update(user) {}
+
+function createAssignment(assignment) {
+    return dispatch => {
+        dispatch(request(assignment));
+        clientService
+            .createAssignment(assignment)
+            .then(res => {
+                dispatch(success(res.data, res.message));
+            })
+            .catch(error => {
+                dispatch(failure(error.message));
+                // dispatch(alertActions.error(error.toString()));
+            });
+    };
+    function request(assignment) {
+        return { type: clientConstants.CREATE_ASSIGNMENT_REQUEST, assignment };
+    }
+    function success(assignment, message) {
+        return {
+            type: clientConstants.CREATE_ASSIGNMENT_SUCCESS,
+            payload: { assignment, message },
+        };
+    }
+    function failure(error) {
+        return { type: clientConstants.CREATE_ASSIGNMENT_FAILURE, error };
+    }
+}
+            })

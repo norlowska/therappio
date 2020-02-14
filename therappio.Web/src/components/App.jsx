@@ -30,8 +30,14 @@ const App = ({ isAuthenticated, getDetails }) => {
                 <Switch>
                     <PrivateRoute exact path="/" component={DashboardPage} />
                     <PrivateRoute
-                        path="/clients/:id?"
+                        exact
+                        path="/clients/:clientId?"
                         component={ClientsPage}
+                    />
+                    <PrivateRoute
+                        exact
+                        path="/clients/:clientId/assignments/new"
+                        component={NewAssignmentPage}
                     />
                     {/* <Route path="/settings" component={SettingsPage} /> */}
                     <PublicRoute

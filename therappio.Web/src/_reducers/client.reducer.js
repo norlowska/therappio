@@ -54,7 +54,34 @@ export function clients(state = initialState, action) {
                 isFetching: false,
                 errorMessage: action.error,
             };
-
+        case clientConstants.CREATE_ASSIGNMENT_REQUEST:
+            return {
+                ...state,
+                isFetching: true,
+            };
+        case clientConstants.CREATE_ASSIGNMENT_SUCCESS:
+            return {
+                ...state,
+                isFetching: false,
+                // update client with his mood records
+                items: state.items.map(client => {
+                    return client._id === action.payload.id
+                        ? {
+                              ...client,
+                              assignments: [
+                                  ...client.assignment,
+                                  action.payload,
+                              ],
+                          }
+                        : client;
+                }),
+            };
+        case clientConstants.CREATE_ASSIGNMENT_FAILURE:
+            return {
+                ...state,
+                isFetching: false,
+                errorMessage: action.error,
+            };
         default:
             return state;
     }
