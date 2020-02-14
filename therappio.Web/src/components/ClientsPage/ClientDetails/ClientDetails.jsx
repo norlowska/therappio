@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -96,9 +96,15 @@ const moodRecordsColumns = [
         Cell: date => moment(date).format('DD MMM YYYY HH:mm'),
     },
     {
-        Header: '',
+        Header: () => null,
         accessor: 'read-more-btn',
-        Cell: row => <button className="primary-btn">Read more</button>,
+        // eslint-disable-next-line react/prop-types
+        Cell: ({ row }) => (
+            <button className="primary-btn" {...row.getExpandedToggleProps()}>
+                {// eslint-disable-next-line react/prop-types
+                row.isExpanded ? 'Read less' : 'Read more'}
+            </button>
+        ),
     },
 ];
 
@@ -116,7 +122,12 @@ const journalRecordsColumns = [
     {
         Header: '',
         accessor: 'read-more-btn',
-        Cell: row => <button className="primary-btn">Read more</button>,
+        Cell: ({ row }) => (
+            <button className="primary-btn" {...row.getExpandedToggleProps()}>
+                {// eslint-disable-next-line react/prop-types
+                row.isExpanded ? 'Read less' : 'Read more'}
+            </button>
+        ),
     },
 ];
 
@@ -138,6 +149,26 @@ const ClientDetails = ({ client, getDetails }) => {
             getDetails(client._id);
         }
     }, [client]);
+
+    const renderMoodComment = useCallback(
+        ({ row }) => (
+            <div {...row.getExpandedToggleProps()}>
+                <span className={styles.commentHeader}>Comment:</span>
+                {row.original.comment || 'No comment added'}
+            </div>
+        ),
+        []
+    );
+
+    const renderJournalContent = useCallback(
+        ({ row }) => (
+            <div {...row.getExpandedToggleProps()}>
+                <span className={styles.commentHeader}>Content:</span>
+                {row.original.content || 'Empty'}
+            </div>
+        ),
+        []
+    );
 
     return client == null ? (
         <div className={styles.notSelectedClient}>
@@ -343,6 +374,9 @@ const ClientDetails = ({ client, getDetails }) => {
                                     <Table
                                         columns={moodRecordsColumns}
                                         data={client.moodRecords || []}
+                                        renderRowSubComponent={
+                                            renderMoodComment
+                                        }
                                     />
                                 </div>
                             </div>
@@ -351,6 +385,9 @@ const ClientDetails = ({ client, getDetails }) => {
                                     <Table
                                         columns={journalRecordsColumns}
                                         data={client.journalRecords || []}
+                                        renderRowSubComponent={
+                                            renderJournalContent
+                                        }
                                     />
                                 </div>
                             </div>
