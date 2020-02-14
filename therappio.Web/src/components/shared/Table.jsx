@@ -55,15 +55,6 @@ const Table = ({
     };
 
     const changePage = newIndex => {
-        console.log(
-            'newIndex',
-            newIndex,
-            'pageIndex',
-            pageIndex,
-            'pageCount',
-            pageCount,
-            'change page'
-        );
         if (newIndex === pageIndex) {
             return;
         }

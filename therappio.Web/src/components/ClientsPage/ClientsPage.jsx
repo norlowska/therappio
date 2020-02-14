@@ -8,76 +8,14 @@ import ClientDetails from './ClientDetails/ClientDetails';
 const ClientsPage = ({ match, clients, getAll }) => {
     const [selectedClient, setSelectedClient] = useState(undefined);
 
-    // const clients = [
-    //     {
-    //         UserId: 1,
-    //         "email": 'srobbins@yahoo.com',
-    //         "firstName": 'Sharon',
-    //         "lastName": 'Robbins',
-    //         phoneNumber: '04681 15468',
-    //         PESEL: '82022777317',
-    //         Birthdate: new Date(1972, 10, 5),
-    //         gender: 'Female',
-    //         address: '3 Bell Forge, Ianmouth, W14 8AZ',
-    //         emergencyContact: {
-    //            name: 'Bruce Robbins',
-    //             phoneNumber: '(0809) 085 1007',
-    //         },
-    //         MoodChart: {
-    //             Week: [
-    //                 {
-    //                    name: 'High energy,unpleasant',
-    //                     value: 30,
-    //                 },
-    //                 {
-    //                    name: 'High energy, pleasant',
-    //                     value: 35,
-    //                 },
-    //                 {
-    //                    name: 'Low energy, unpleasant',
-    //                     value: 20,
-    //                 },
-    //                 {
-    //                    name: 'Low energy, pleasant',
-    //                     value: 15,
-    //                 },
-    //             ],
-    //             Month: [
-    //                 {
-    //                    name: 'High energy, unpleasant',
-    //                     value: 30,
-    //                 },
-    //                 {
-    //                    name: 'High energy, pleasant',
-    //                     value: 35,
-    //                 },
-    //                 {
-    //                    name: 'Low energy, Unpleasant',
-    //                     value: 20,
-    //                 },
-    //                 {
-    //                    name: 'Low energy, pleasant',
-    //                     value: 15,
-    //                 },
-    //             ],
-    //         },
-    //     },
-
     // Set selected client
     useEffect(() => {
         const selectedClient = clients.find(
-            client => client.shortId.toString() === match.params.id
+            client => client.shortId.toString() === match.params.clientId
         );
 
         setSelectedClient(selectedClient);
-    }, [match.params.id, clients]);
-
-    // Fetch clients
-    useEffect(() => {
-        if (!clients || !clients.length) {
-            getAll();
-        }
-    }, []);
+    }, [match.params.clientId, clients]);
 
     return (
         <main className="clients">
@@ -90,7 +28,7 @@ const ClientsPage = ({ match, clients, getAll }) => {
 ClientsPage.propTypes = {
     match: PropTypes.shape({
         params: PropTypes.shape({
-            id: PropTypes.string,
+            clientId: PropTypes.string,
         }),
     }),
     clients: PropTypes.arrayOf(PropTypes.object),

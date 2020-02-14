@@ -1,4 +1,5 @@
-import React, { useEffect, useCallback } from 'react';
+/* eslint-disable react/prop-types */
+import React, { useEffect, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -16,127 +17,168 @@ const moodchartKeys = [
     { color: '#66bb6a', name: 'Low energy, pleasant' },
 ];
 
-const sessionsColumns = [
-    {
-        Header: '#',
-        accessor: 'session_no',
-    },
-    {
-        Header: 'Date',
-        accessor: 'date',
-        Cell: date => moment(date).format('DD MMM YYYY HH:mm'),
-    },
-    {
-        Header: 'Notes',
-        accessor: 'notes',
-        style: {
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-        },
-    },
-    {
-        Header: '',
-        id: 'read-more-btn',
-        Cell: row => <button className="primary-btn">Read more</button>,
-    },
-];
-
-const assignmentsColumns = [
-    {
-        Header: 'Title',
-        accessor: 'title',
-    },
-    {
-        Header: 'Creation date',
-        accessor: 'createdAt',
-        Cell: date => moment(date).format('DD MMM YYYY HH:mm'),
-    },
-    {
-        Header: 'Due date',
-        accessor: 'dueDate',
-        Cell: date => moment(date).format('DD MMM YYYY HH:mm'),
-    },
-    {
-        Header: 'Status',
-        accessor: 'status',
-    },
-    {
-        Header: '',
-        id: 'review-btn',
-        Cell: row => <button className="primary-btn">Review</button>,
-    },
-];
-
-const moodRecordsColumns = [
-    {
-        Header: 'Name',
-        id: 'mood_name',
-        accessor: mood => mood.name,
-        // eslint-disable-next-line react/prop-types
-        Cell: ({ row: { original } }) => {
-            return (
-                <span
-                    style={{
-                        // eslint-disable-next-line react/prop-types
-                        color: moodchartKeys[original.mood.quadrant - 1].color,
-                    }}
-                >
-                    {
-                        // eslint-disable-next-line react/prop-types
-                        original.mood.name
-                    }
-                </span>
-            );
-        },
-    },
-    {
-        Header: 'Creation date',
-        accessor: 'createdAt',
-        Cell: date => moment(date).format('DD MMM YYYY HH:mm'),
-    },
-    {
-        Header: () => null,
-        accessor: 'read-more-btn',
-        // eslint-disable-next-line react/prop-types
-        Cell: ({ row }) => (
-            <button className="primary-btn" {...row.getExpandedToggleProps()}>
-                {// eslint-disable-next-line react/prop-types
-                row.isExpanded ? 'Read less' : 'Read more'}
-            </button>
-        ),
-    },
-];
-
-const journalRecordsColumns = [
-    {
-        Header: 'Type',
-        accessor: record =>
-            record.type === 'gratitude' ? 'Gratitude Journal' : 'Diary',
-    },
-    {
-        Header: 'Creation date',
-        accessor: 'createdAt',
-        Cell: date => moment(date).format('DD MMM YYYY HH:mm'),
-    },
-    {
-        Header: '',
-        accessor: 'read-more-btn',
-        Cell: ({ row }) => (
-            <button className="primary-btn" {...row.getExpandedToggleProps()}>
-                {// eslint-disable-next-line react/prop-types
-                row.isExpanded ? 'Read less' : 'Read more'}
-            </button>
-        ),
-    },
-];
-
 // TODO: Self-assessement chart
 // TODO: Send message button
 const ClientDetails = ({ client, getDetails }) => {
     // const chartLabel = ({ percent, name, index }) => {
     //     return <text>{`${(percent * 100).toFixed(0)}% ${name}`}</text>;
     // };
+
+    const sessionsColumns = useMemo(
+        () => [
+            {
+                Header: '#',
+                accessor: 'session_no',
+            },
+            {
+                Header: 'Date',
+                accessor: 'date',
+                Cell: ({ row }) =>
+                    moment(row.values.date).format('DD MMM YYYY HH:mm'),
+            },
+            {
+                Header: 'Notes',
+                accessor: 'notes',
+                style: {
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                },
+            },
+            {
+                Header: '',
+                id: 'read-more-btn',
+                Cell: row => <button className="primary-btn">Read more</button>,
+            },
+        ],
+        []
+    );
+
+    const assignmentsColumns = useMemo(
+        () => [
+            {
+                Header: 'Title',
+                accessor: 'title',
+            },
+            {
+                Header: 'Creation date',
+                accessor: 'createdAt',
+                Cell: ({ row }) =>
+                    moment(row.values.createdAt).format('DD MMM YYYY HH:mm'),
+            },
+            {
+                Header: 'Due date',
+                accessor: 'dueDate',
+                Cell: ({ row }) =>
+                    moment(row.values.dueDate).format('DD MMM YYYY HH:mm'),
+            },
+            {
+                Header: 'Status',
+                accessor: 'status',
+            },
+            {
+                Header: '',
+                id: 'review-btn',
+                Cell: ({ row }) => {
+                    if (row.original.client && row.original.client.shortId) {
+                        if (
+                            row.original.status === 'On time' ||
+                            row.original.status === 'Late'
+                        ) {
+                            return (
+                                <Link
+                                    to={`/clients/${row.original.client.shortId}/assignment/${row.original.shortId}`}
+                                    className="primary-btn"
+                                >
+                                    Review
+                                </Link>
+                            );
+                        } else if (row.original.status === 'Not submitted') {
+                            return (
+                                <Link
+                                    to={`/clients/${row.original.client.shortId}/assignment/${row.original.shortId}/edit`}
+                                    className="primary-btn"
+                                >
+                                    Edit
+                                </Link>
+                            );
+                        } else return null;
+                    }
+                },
+            },
+        ],
+        []
+    );
+
+    const moodRecordsColumns = useMemo(
+        () => [
+            {
+                Header: 'Name',
+                id: 'mood_name',
+                accessor: mood => mood.name,
+                Cell: ({ row: { original } }) => {
+                    return (
+                        <span
+                            style={{
+                                color:
+                                    moodchartKeys[original.mood.quadrant - 1]
+                                        .color,
+                            }}
+                        >
+                            {original.mood.name}
+                        </span>
+                    );
+                },
+            },
+            {
+                Header: 'Creation date',
+                accessor: 'createdAt',
+                Cell: ({ row }) =>
+                    moment(row.values.createdAt).format('DD MMM YYYY HH:mm'),
+            },
+            {
+                Header: () => null,
+                accessor: 'read-more-btn',
+                Cell: ({ row }) => (
+                    <button
+                        className="primary-btn"
+                        {...row.getExpandedToggleProps()}
+                    >
+                        {row.isExpanded ? 'Read less' : 'Read more'}
+                    </button>
+                ),
+            },
+        ],
+        []
+    );
+
+    const journalRecordsColumns = useMemo(
+        () => [
+            {
+                Header: 'Type',
+                accessor: record =>
+                    record.type === 'gratitude' ? 'Gratitude Journal' : 'Diary',
+            },
+            {
+                Header: 'Creation date',
+                accessor: 'createdAt',
+                Cell: date => moment(date).format('DD MMM YYYY HH:mm'),
+            },
+            {
+                Header: '',
+                accessor: 'read-more-btn',
+                Cell: ({ row }) => (
+                    <button
+                        className="primary-btn"
+                        {...row.getExpandedToggleProps()}
+                    >
+                        {row.isExpanded ? 'Read less' : 'Read more'}
+                    </button>
+                ),
+            },
+        ],
+        []
+    );
 
     useEffect(() => {
         if (
@@ -301,7 +343,7 @@ const ClientDetails = ({ client, getDetails }) => {
                 <section className={styles.assignmentsSection}>
                     <div className={styles.sectionHeading}>
                         <h4>Assignments</h4>
-                        <Link to="/assignments/new">
+                        <Link to={`/clients/${client.shortId}/assignments/new`}>
                             <button className={`primary-btn`}>
                                 <i className={`las la-plus`} /> New
                             </button>

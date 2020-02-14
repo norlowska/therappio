@@ -1,0 +1,29 @@
+@import 'src/styles/helpers/variables';
+
+.assignmentHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+
+    h2 {
+        width: 80%;
+        color: $royal-blue;
+        font-weight: 900;
+    }
+}
+.editLink {
+    margin-right: 10px;
+    float: right;
+    display: block;
+}
+
+.task {
+    margin: 20px 0;
+    border-bottom: 1px solid #ccc;
+    padding: 20px 0;
+}
+
+.question {
+    margin-bottom: 15px;
+}
