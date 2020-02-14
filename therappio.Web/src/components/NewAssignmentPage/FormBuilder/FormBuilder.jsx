@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import moment from 'moment';
+import PropTypes from 'prop-types';
 import { FormInput } from '../../index';
 import AnswerFields from './AnswerFields/AnswerFields';
 import style from './FormBuilder.module.scss';
 
-const FormBuilder = () => {
+const FormBuilder = ({ onSubmit }) => {
     const questionTypeOptions = [
         { displayValue: 'Short text', value: 'short' },
         { displayValue: 'Long text', value: 'long' },
@@ -16,15 +18,19 @@ const FormBuilder = () => {
         { displayValue: 'Time', value: 'time' },
         { displayValue: 'Date and time', value: 'datetime' },
     ];
-    // eslint-disable-next-line no-unused-vars
     const [formName, setFormName] = useState('Form name');
-    // eslint-disable-next-line no-unused-vars
     const [items, setItems] = useState([
         {
-            question: 'What are you worried about?',
-            questionType: 'short',
+            question: 'Question (e.g. What are you worried about?)',
+            type: 'short',
         },
     ]);
+    const [dueDate, setDueDate] = useState(
+        moment(new Date())
+            .add(7, 'days')
+            .format()
+            .substr(0, 16)
+    );
 
     const setQuestion = (index, newQuestion) => {
         const newItems = [...items];
@@ -34,7 +40,7 @@ const FormBuilder = () => {
 
     const setQuestionType = (index, newQuestionType) => {
         const newItems = [...items];
-        newItems[index].questionType = newQuestionType;
+        newItems[index].type = newQuestionType;
         setItems(newItems);
     };
 
@@ -45,18 +51,38 @@ const FormBuilder = () => {
             ...items,
             {
                 question: `Task ${index}`,
-                questionType: 'short',
+                type: 'short',
             },
         ]);
     };
 
-    const saveAssignment = () => {
-        console.log(items);
+    const addOption = (questionIndex = 0, value = '') => {
+        const newItems = [...items];
+        const options = newItems[questionIndex].options
+            ? newItems[questionIndex].options
+            : [];
+        options.push(value);
+        newItems[questionIndex].options = options;
+        setItems(newItems);
+    };
+
+    const setOptionValue = (questionIndex, optionIndex, optionValue) => {
+        const newItems = [...items];
+        console.log(questionIndex, optionIndex);
+        console.log(newItems[questionIndex].options);
+
+        newItems[questionIndex].options[optionIndex] = optionValue;
+        setItems(newItems);
+    };
+
+    const saveAssignment = event => {
+        event.preventDefault();
+        onSubmit({ title: formName, fields: items, dueDate });
     };
 
     return (
-        <div className={style.container}>
-            <form className={`clearfix`}>
+        <div className="assignment-container">
+            <form className={`clearfix`} onSubmit={saveAssignment}>
                 <div className={`formGroup ${style.formName}`}>
                     <FormInput
                         type="text"
@@ -82,7 +108,7 @@ const FormBuilder = () => {
                                 <div className={'formGroup'}>
                                     <FormInput
                                         type="select"
-                                        value={field.questionType.value}
+                                        value={field.type.value}
                                         name={`q${index + 1}Type`}
                                         options={questionTypeOptions}
                                         onChange={e =>
@@ -95,8 +121,11 @@ const FormBuilder = () => {
                                 </div>
                             </div>
                             <AnswerFields
-                                questionType={field.questionType}
+                                questionType={field.type}
                                 questionIndex={index}
+                                options={field.options}
+                                addOption={addOption}
+                                setOptionValue={setOptionValue}
                             />
                         </div>
                     ))}
@@ -108,16 +137,30 @@ const FormBuilder = () => {
                         <i className="la la-plus" title="Add question" />
                     </button>
                 </div>
-                <button
-                    className={`primary-btn ${style.saveAssignmentBtn}`}
-                    onClick={saveAssignment}
-                    type="submit"
-                >
-                    Save assignment
-                </button>
+                <div className={style.formFooter}>
+                    <label>
+                        Due date
+                        <input
+                            type="datetime-local"
+                            defaultValue={dueDate}
+                            name="dueDate"
+                            onChange={e => setDueDate(e.target.value)}
+                        />
+                    </label>
+                    <button
+                        className={`primary-btn ${style.saveAssignmentBtn}`}
+                        type="submit"
+                    >
+                        Save assignment
+                    </button>
+                </div>
             </form>
         </div>
     );
+};
+
+FormBuilder.propTypes = {
+    onSubmit: PropTypes.func.isRequired,
 };
 
 export default FormBuilder;

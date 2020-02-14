@@ -14,12 +14,12 @@
         justify-content: space-between;
 
         label {
-            margin: 17px 10px;
+            margin: 15px 8px;
         }
     }
 
     &.number {
-        width: 550px;
+        width: 540px;
         justify-content: space-between;
 
         &:first-child {
@@ -56,4 +56,29 @@
     &:focus {
         outline: none;
     }
+}
+
+.option {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+
+    input[type='radio'],
+    input[type='checkbox'] {
+        height: 1.5rem;
+        width: auto;
+        margin-bottom: 5px;
+        margin-right: 20px;
+    }
+
+    label {
+        margin-left: 10px;
+    }
+    button {
+        margin-left: 15px;
+    }
+}
+
+ul {
+    list-style-type: none;
 }

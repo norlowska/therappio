@@ -21,21 +21,6 @@ textarea {
     }
 }
 
-.formCheck {
-    display: flex;
-    margin: 12px;
-
-    input {
-        height: 1.5rem;
-        width: auto;
-        margin-bottom: 5px;
-    }
-
-    label {
-        margin-left: 10px;
-    }
-}
-
 label {
     display: inline-block;
     color: $mine-shaft-gray;

@@ -14,13 +14,13 @@ const FormInput = props => {
             inputElement = (
                 <div className="select-wrapper">
                     <select className={inputStyle} {...attributes}>
-                        {options.map(option => (
+                        {options.map((option, index) => (
                             <option
-                                key={option.value}
-                                value={option.value}
-                                label={option.displayValue}
+                                key={`option${index}`}
+                                value={option.value || option}
+                                label={option.displayValue || option}
                             >
-                                {option.displayValue}
+                                {option.displayValue || option}
                             </option>
                         ))}
                     </select>
@@ -54,10 +54,13 @@ FormInput.propTypes = {
         PropTypes.object.isRequired,
     ]),
     options: PropTypes.arrayOf(
-        PropTypes.shape({
-            value: PropTypes.string,
-            displayValue: PropTypes.string,
-        })
+        PropTypes.oneOfType([
+            PropTypes.shape({
+                value: PropTypes.string,
+                displayValue: PropTypes.string,
+            }),
+            PropTypes.string,
+        ])
     ),
     className: PropTypes.string,
 };

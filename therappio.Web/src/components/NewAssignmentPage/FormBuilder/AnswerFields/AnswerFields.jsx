@@ -4,27 +4,27 @@ import PropTypes from 'prop-types';
 import { FormInput } from '../../../index';
 import style from './AnswerFields.module.scss';
 
-const AnswerFields = ({ questionType, questionIndex }) => {
+const AnswerFields = ({
+    questionType,
+    questionIndex,
+    options,
+    addOption,
+    setOptionValue,
+}) => {
     const [numberBounds, setNumberBounds] = useState([0, 100]);
     // eslint-disable-next-line no-unused-vars
-    const [options, setOptions] = useState([
-        { value: 'opt1', displayValue: 'Option 1' },
-        { value: 'opt2', displayValue: 'Option 2' },
-    ]);
 
-    const [selectedOption, setSelectedOption] = useState('opt1');
-
-    const addOption = () => {
-        const index = options.length + 1;
-
-        setOptions([
-            ...options,
-            {
-                value: `opt${index}`,
-                displayValue: `Option ${index}`,
-            },
-        ]);
-    };
+    useEffect(() => {
+        if (
+            (questionType === 'single-choice' ||
+                questionType === 'multi-choice' ||
+                questionType === 'select') &&
+            (!options || !options.length)
+        ) {
+            addOption(questionIndex, 'Option 1');
+            addOption(questionIndex, 'Option 2');
+        }
+    }, [questionType]);
 
     const answerFields = () => {
         switch (questionType) {
@@ -105,21 +105,35 @@ const AnswerFields = ({ questionType, questionIndex }) => {
             case 'single-choice':
                 return (
                     <div className={`formGroup`}>
-                        {options.map((option, index) => (
-                            <div className={'formCheck'} key={index + 1}>
-                                <FormInput
-                                    name={`q${questionIndex + 1}a0`}
-                                    type="radio"
-                                    value={option.value}
-                                    onChange={e =>
-                                        setSelectedOption(e.target.value)
-                                    }
-                                />
-                                <label htmlFor={`q${questionIndex + 1}a0`}>
-                                    {option.displayValue}
-                                </label>
-                            </div>
-                        ))}
+                        {options &&
+                            options.map((option, index) => (
+                                <div className={style.option} key={index + 1}>
+                                    <FormInput
+                                        name={`q${questionIndex + 1}a0`}
+                                        type="radio"
+                                        disabled
+                                    />
+                                    <FormInput
+                                        type="text"
+                                        name={`q${questionIndex +
+                                            1}a0opt${index + 1}`}
+                                        value={option}
+                                        onChange={e =>
+                                            setOptionValue(
+                                                questionIndex,
+                                                index,
+                                                e.target.value
+                                            )
+                                        }
+                                    />
+                                    <button className="icon-btn">
+                                        <i
+                                            className="la la-times"
+                                            title="Delete option"
+                                        />
+                                    </button>
+                                </div>
+                            ))}
                         <button
                             type="button"
                             className={style.addOption}
@@ -133,21 +147,35 @@ const AnswerFields = ({ questionType, questionIndex }) => {
             case 'multi-choice':
                 return (
                     <div className={'formGroup'}>
-                        {options.map((option, index) => (
-                            <div className={'formCheck'} key={index + 1}>
-                                <FormInput
-                                    name={`q${questionIndex + 1}a0`}
-                                    type="checkbox"
-                                    value={selectedOption}
-                                    onChange={e =>
-                                        setSelectedOption(e.target.value)
-                                    }
-                                />
-                                <label htmlFor={`q${questionIndex + 1}a0`}>
-                                    {option.displayValue}
-                                </label>
-                            </div>
-                        ))}
+                        {options &&
+                            options.map((option, index) => (
+                                <div className={style.option} key={index + 1}>
+                                    <FormInput
+                                        name={`q${questionIndex + 1}a0`}
+                                        type="checkbox"
+                                        disabled
+                                    />
+                                    <FormInput
+                                        type="text"
+                                        name={`q${questionIndex +
+                                            1}a0opt${index + 1}`}
+                                        value={option}
+                                        onChange={e =>
+                                            setOptionValue(
+                                                questionIndex,
+                                                index,
+                                                e.target.value
+                                            )
+                                        }
+                                    />
+                                    <button className="icon-btn">
+                                        <i
+                                            className="la la-times"
+                                            title="Delete option"
+                                        />
+                                    </button>
+                                </div>
+                            ))}
                         <button
                             type="button"
                             className={style.addOption}
@@ -161,16 +189,44 @@ const AnswerFields = ({ questionType, questionIndex }) => {
                 break;
             case 'select':
                 return (
-                    <div className={'formGroup'}>
-                        <FormInput
-                            key={questionIndex + 1}
-                            name={`q${questionIndex + 1}a0`}
-                            type="select"
-                            value={selectedOption}
-                            onChange={e => setSelectedOption(e.target.value)}
-                            options={options}
-                        />
-                    </div>
+                    <ul className={'formGroup'}>
+                        {options &&
+                            options.map((option, index) => (
+                                <li
+                                    className={`${style.option}`}
+                                    key={index + 1}
+                                >
+                                    <FormInput
+                                        type="text"
+                                        name={`q${questionIndex +
+                                            1}a0opt${index + 1}`}
+                                        value={option}
+                                        onChange={e =>
+                                            setOptionValue(
+                                                questionIndex,
+                                                index,
+                                                e.target.value
+                                            )
+                                        }
+                                    />
+                                    <button className="icon-btn">
+                                        <i
+                                            className="la la-times"
+                                            title="Delete option"
+                                            itle="Delete option"
+                                        />
+                                    </button>
+                                </li>
+                            ))}
+                        <button
+                            type="button"
+                            className={style.addOption}
+                            onClick={addOption}
+                        >
+                            <i className="la la-plus" title="Add option" />
+                            Add option
+                        </button>
+                    </ul>
                 );
             case 'date':
                 return (

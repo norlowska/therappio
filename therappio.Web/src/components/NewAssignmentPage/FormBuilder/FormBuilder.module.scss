@@ -1,22 +1,5 @@
 @import '../../../styles/helpers/variables';
 
-.container {
-    box-sizing: border-box;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    background: #fff;
-    border: 1px solid $border-color;
-    border-radius: 5px;
-    margin: 25px 0;
-    padding: 20px 40px;
-
-    form {
-        height: 100%;
-    }
-}
-
 .formName {
     padding: 30px 0;
     border-bottom: 1px solid $border-color;
@@ -28,13 +11,8 @@
 }
 
 .formQuestions {
-    height: calc(100% - 193px);
+    height: calc(100% - 229px);
     overflow-y: auto;
-}
-
-.saveAssignmentBtn {
-    margin: 20px 10px 0 0;
-    float: right;
 }
 
 .formItem {
@@ -67,4 +45,16 @@
     margin: 20px 10px 20px 10px;
     width: calc(100% - 20px);
     background: transparent;
+}
+
+.formFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 10px;
+
+    label {
+        // width: 250px;
+        font-weight: 700;
+    }
 }
