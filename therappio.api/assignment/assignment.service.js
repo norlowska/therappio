@@ -13,19 +13,19 @@ module.exports = {
 async function getAll() {
   return await Assignment.find()
     .select("-__v")
-    .populate("client", "_id therapist");
+    .populate("client", "_id shortId therapist");
 }
 
 async function getById(id) {
   return await Assignment.findById(id)
     .select("-__v")
-    .populate("client", "_id therapist");
+    .populate("client", "_id shortId therapist");
 }
 
 async function getClientsAssignments(id) {
   return await Assignment.find({ client: id })
     .select("-__v")
-    .populate("client", "_id therapist");
+    .populate("client", "_id shortId therapist");
 }
 
 async function create(assignmentParam) {
