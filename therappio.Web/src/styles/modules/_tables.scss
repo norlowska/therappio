@@ -11,7 +11,8 @@ th {
     padding-bottom: 10px;
 }
 
-tbody tr:nth-child(odd) {
+tbody tr:nth-child(4n + 1),
+tbody tr:nth-child(4n + 2) {
     background-color: $athens-gray;
 }
 
@@ -26,10 +27,19 @@ td {
 
 .pagination {
     padding: 0.5rem;
-
+    float: right;
     input,
     select {
         display: inline-block;
         width: 100px;
     }
+}
+
+.expanded-row {
+    width: 100%;
+}
+
+.expanded-row td {
+    text-align: start;
+    padding: 5px 20px 25px 20px;
 }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useTable, usePagination } from 'react-table';
+import { useTable, usePagination, useExpanded } from 'react-table';
 import { useEffect } from 'react';
 
 const defaultPropGetter = () => ({});
@@ -12,6 +12,7 @@ const Table = ({
     getColumnProps = defaultPropGetter,
     getRowProps = defaultPropGetter,
     getCellProps = defaultPropGetter,
+    renderRowSubComponent = defaultPropGetter,
 }) => {
     const {
         getTableProps,
@@ -24,6 +25,7 @@ const Table = ({
         canNextPage,
         pageCount,
         gotoPage,
+        flatColumns,
         state: { pageIndex },
     } = useTable(
         {
@@ -31,6 +33,7 @@ const Table = ({
             data,
             initialState: { pageIndex: 0 },
         },
+        useExpanded,
         usePagination
     );
     const [visiblePages, setVisiblePages] = useState([1]);
@@ -163,26 +166,47 @@ const Table = ({
                     {page.map((row, i) => {
                         prepareRow(row);
                         return (
-                            <tr {...row.getRowProps(getRowProps(row))}>
-                                {row.cells.map(cell => {
-                                    return (
-                                        <td
-                                            // Return an array of prop objects and react-table will merge them appropriately
-                                            {...cell.getCellProps([
-                                                {
-                                                    className:
-                                                        cell.column.className,
-                                                    style: cell.column.style,
-                                                },
-                                                getColumnProps(cell.column),
-                                                getCellProps(cell),
-                                            ])}
-                                        >
-                                            {cell.render('Cell')}
+                            <React.Fragment
+                                {...row.getRowProps(getRowProps(row))}
+                            >
+                                <tr className="row">
+                                    {row.cells.map(cell => {
+                                        return (
+                                            <td
+                                                {...cell.getCellProps([
+                                                    {
+                                                        className:
+                                                            cell.column
+                                                                .className,
+                                                        style:
+                                                            cell.column.style,
+                                                    },
+                                                    getColumnProps(cell.column),
+                                                    getCellProps(cell),
+                                                ])}
+                                            >
+                                                {cell.render('Cell')}
+                                            </td>
+                                        );
+                                    })}
+                                </tr>
+                                {row.isExpanded ? (
+                                    <tr className="expanded-row">
+                                        <td colSpan={flatColumns.length}>
+                                            {/*
+                                              Inside it, call our renderRowSubComponent function. In reality,
+                                              you could pass whatever you want as props to
+                                              a component like this, including the entire
+                                              table instance. But for this example, we'll just
+                                              pass the row
+                                            */}
+                                            {renderRowSubComponent({ row })}
                                         </td>
-                                    );
-                                })}
-                            </tr>
+                                    </tr>
+                                ) : (
+                                    <tr />
+                                )}
+                            </React.Fragment>
                         );
                     })}
                 </tbody>
@@ -198,6 +222,7 @@ Table.propTypes = {
     getColumnProps: PropTypes.func.isRequired,
     getRowProps: PropTypes.func.isRequired,
     getCellProps: PropTypes.func.isRequired,
+    renderRowSubComponent: PropTypes.func,
 };
 
 Table.defaultProps = {
