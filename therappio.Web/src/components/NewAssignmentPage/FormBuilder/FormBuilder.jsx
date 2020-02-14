@@ -68,10 +68,16 @@ const FormBuilder = ({ onSubmit }) => {
 
     const setOptionValue = (questionIndex, optionIndex, optionValue) => {
         const newItems = [...items];
-        console.log(questionIndex, optionIndex);
-        console.log(newItems[questionIndex].options);
-
         newItems[questionIndex].options[optionIndex] = optionValue;
+
+        setItems(newItems);
+    };
+
+    const deleteOption = (questionIndex, optionIndex) => {
+        const newItems = [...items];
+        console.log('a dlaczego to tak działa?');
+        console.log(questionIndex, optionIndex);
+        newItems[questionIndex].options.splice(optionIndex, 1);
         setItems(newItems);
     };
 
@@ -126,6 +132,7 @@ const FormBuilder = ({ onSubmit }) => {
                                 options={field.options}
                                 addOption={addOption}
                                 setOptionValue={setOptionValue}
+                                deleteOption={deleteOption}
                             />
                         </div>
                     ))}

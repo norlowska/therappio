@@ -10,6 +10,7 @@ const AnswerFields = ({
     options,
     addOption,
     setOptionValue,
+    deleteOption,
 }) => {
     const [numberBounds, setNumberBounds] = useState([0, 100]);
     // eslint-disable-next-line no-unused-vars
@@ -126,7 +127,12 @@ const AnswerFields = ({
                                             )
                                         }
                                     />
-                                    <button className="icon-btn">
+                                    <button
+                                        className="icon-btn"
+                                        onClick={() =>
+                                            deleteOption(questionIndex, index)
+                                        }
+                                    >
                                         <i
                                             className="la la-times"
                                             title="Delete option"
@@ -137,7 +143,12 @@ const AnswerFields = ({
                         <button
                             type="button"
                             className={style.addOption}
-                            onClick={addOption}
+                            onClick={() =>
+                                addOption(
+                                    questionIndex,
+                                    `Option ${options.length + 1}`
+                                )
+                            }
                         >
                             <i className="la la-plus" title="Add option" />
                             Add option
@@ -168,7 +179,12 @@ const AnswerFields = ({
                                             )
                                         }
                                     />
-                                    <button className="icon-btn">
+                                    <button
+                                        className="icon-btn"
+                                        onClick={() =>
+                                            deleteOption(questionIndex, index)
+                                        }
+                                    >
                                         <i
                                             className="la la-times"
                                             title="Delete option"
@@ -209,7 +225,12 @@ const AnswerFields = ({
                                             )
                                         }
                                     />
-                                    <button className="icon-btn">
+                                    <button
+                                        className="icon-btn"
+                                        onClick={() =>
+                                            deleteOption(questionIndex, index)
+                                        }
+                                    >
                                         <i
                                             className="la la-times"
                                             title="Delete option"
@@ -321,6 +342,10 @@ const AnswerFields = ({
 AnswerFields.propTypes = {
     questionType: PropTypes.string.isRequired,
     questionIndex: PropTypes.number.isRequired,
+    options: PropTypes.array,
+    addOption: PropTypes.func,
+    setOptionValue: PropTypes.func,
+    deleteOption: PropTypes.func,
 };
 
 export default AnswerFields;
