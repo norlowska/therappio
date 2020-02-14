@@ -12,11 +12,10 @@ router.put("/:id", authorize(), update);
 router.delete("/:id", authorize(Role.Therapist), _delete);
 module.exports = router;
 
-// TODO: restrict
 function create(req, res, next) {
   assignmentService
     .create(req.body)
-    .then(() => res.json({ message: "Assignment successfully created." }))
+    .then(assignment => res.json({ message: "Assignment successfully created.", data: assignment }))
     .catch(err => next(err));
 }
 
@@ -27,9 +26,7 @@ function getAll(req, res, next) {
     .getAll()
     .then(assignments => {
       if (typeof req.query.client === "string") {
-        assignments = assignments.filter(
-          assignment => assignment.client.id === req.query.client
-        );
+        assignments = assignments.filter(assignment => assignment.client.id === req.query.client);
       }
       // allow client to get assignments created for him/her
       // allow therapist to get assignments of his/her patients
