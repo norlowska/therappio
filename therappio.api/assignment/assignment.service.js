@@ -30,7 +30,7 @@ async function getClientsAssignments(id) {
 
 async function create(assignmentParam) {
   const newAssignment = new Assignment(assignmentParam);
-  await newAssignment.save();
+  return await newAssignment.save();
 }
 
 async function update(id, assignmentParam) {
