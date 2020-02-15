@@ -110,40 +110,40 @@ const AnswerFields = ({
                             options.map((option, index) => (
                                 <div className={style.option} key={index + 1}>
                                     <div className={style.optionValueInput}>
-                                    <FormInput
-                                        name={`q${questionIndex + 1}a0`}
-                                        type="radio"
-                                        disabled
-                                    />
-                                    <FormInput
-                                        type="text"
-                                        name={`q${questionIndex +
-                                            1}a0opt${index + 1}`}
-                                        value={option}
-                                        onChange={e =>
-                                            setOptionValue(
-                                                questionIndex,
-                                                index,
-                                                e.target.value
-                                            )
-                                        }
-                                    />
+                                        <FormInput
+                                            name={`q${questionIndex + 1}a0`}
+                                            type="radio"
+                                            disabled
+                                        />
+                                        <FormInput
+                                            type="text"
+                                            name={`q${questionIndex +
+                                                1}a0opt${index + 1}`}
+                                            value={option}
+                                            onChange={e =>
+                                                setOptionValue(
+                                                    questionIndex,
+                                                    index,
+                                                    e.target.value
+                                                )
+                                            }
+                                        />
                                     </div>
                                     {options.length > 1 ? (
-                                    <button
-                                        className="icon-btn"
-                                        onClick={() =>
+                                        <button
+                                            className="icon-btn"
+                                            onClick={() =>
                                                 deleteOption(
                                                     questionIndex,
                                                     index
                                                 )
-                                        }
-                                    >
-                                        <i
-                                            className="la la-times"
-                                            title="Delete option"
-                                        />
-                                    </button>
+                                            }
+                                        >
+                                            <i
+                                                className="la la-times"
+                                                title="Delete option"
+                                            />
+                                        </button>
                                     ) : null}
                                 </div>
                             ))}
@@ -169,47 +169,52 @@ const AnswerFields = ({
                             options.map((option, index) => (
                                 <div className={style.option} key={index + 1}>
                                     <div className={style.optionValueInput}>
-                                    <FormInput
-                                        name={`q${questionIndex + 1}a0`}
-                                        type="checkbox"
-                                        disabled
-                                    />
-                                    <FormInput
-                                        type="text"
-                                        name={`q${questionIndex +
-                                            1}a0opt${index + 1}`}
-                                        value={option}
-                                        onChange={e =>
-                                            setOptionValue(
-                                                questionIndex,
-                                                index,
-                                                e.target.value
-                                            )
-                                        }
-                                    />
+                                        <FormInput
+                                            name={`q${questionIndex + 1}a0`}
+                                            type="checkbox"
+                                            disabled
+                                        />
+                                        <FormInput
+                                            type="text"
+                                            name={`q${questionIndex +
+                                                1}a0opt${index + 1}`}
+                                            value={option}
+                                            onChange={e =>
+                                                setOptionValue(
+                                                    questionIndex,
+                                                    index,
+                                                    e.target.value
+                                                )
+                                            }
+                                        />
                                     </div>
                                     {options.length > 1 ? (
-                                    <button
-                                        className="icon-btn"
-                                        onClick={() =>
+                                        <button
+                                            className="icon-btn"
+                                            onClick={() =>
                                                 deleteOption(
                                                     questionIndex,
                                                     index
                                                 )
-                                        }
-                                    >
-                                        <i
-                                            className="la la-times"
-                                            title="Delete option"
-                                        />
-                                    </button>
+                                            }
+                                        >
+                                            <i
+                                                className="la la-times"
+                                                title="Delete option"
+                                            />
+                                        </button>
                                     ) : null}
                                 </div>
                             ))}
                         <button
                             type="button"
                             className={style.addOption}
-                            onClick={addOption}
+                            onClick={() =>
+                                addOption(
+                                    questionIndex,
+                                    `Option ${options.length + 1}`
+                                )
+                            }
                         >
                             <i className="la la-plus" title="Add option" />
                             Add option
@@ -227,43 +232,47 @@ const AnswerFields = ({
                                     key={index + 1}
                                 >
                                     <div className={style.optionValueInput}>
-                                    <FormInput
-                                        type="text"
-                                        name={`q${questionIndex +
-                                            1}a0opt${index + 1}`}
-                                        value={option}
-                                        onChange={e =>
-                                            setOptionValue(
-                                                questionIndex,
-                                                index,
-                                                e.target.value
-                                            )
-                                        }
-                                    />
+                                        <FormInput
+                                            type="text"
+                                            name={`q${questionIndex +
+                                                1}a0opt${index + 1}`}
+                                            value={option}
+                                            onChange={e =>
+                                                setOptionValue(
+                                                    questionIndex,
+                                                    index,
+                                                    e.target.value
+                                                )
+                                            }
+                                        />
                                     </div>
                                     {options.length > 1 ? (
-                                    <button
-                                        className="icon-btn"
-                                        onClick={() =>
+                                        <button
+                                            className="icon-btn"
+                                            onClick={() =>
                                                 deleteOption(
                                                     questionIndex,
                                                     index
                                                 )
-                                        }
-                                    >
-                                        <i
-                                            className="la la-times"
-                                            title="Delete option"
-                                            itle="Delete option"
-                                        />
-                                    </button>
+                                            }
+                                        >
+                                            <i
+                                                className="la la-times"
+                                                title="Delete option"
+                                            />
+                                        </button>
                                     ) : null}
                                 </li>
                             ))}
                         <button
                             type="button"
                             className={style.addOption}
-                            onClick={addOption}
+                            onClick={() =>
+                                addOption(
+                                    questionIndex,
+                                    `Option ${options.length + 1}`
+                                )
+                            }
                         >
                             <i className="la la-plus" title="Add option" />
                             Add option
