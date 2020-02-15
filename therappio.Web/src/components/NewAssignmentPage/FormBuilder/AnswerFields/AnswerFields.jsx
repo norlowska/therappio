@@ -109,6 +109,7 @@ const AnswerFields = ({
                         {options &&
                             options.map((option, index) => (
                                 <div className={style.option} key={index + 1}>
+                                    <div className={style.optionValueInput}>
                                     <FormInput
                                         name={`q${questionIndex + 1}a0`}
                                         type="radio"
@@ -127,10 +128,15 @@ const AnswerFields = ({
                                             )
                                         }
                                     />
+                                    </div>
+                                    {options.length > 1 ? (
                                     <button
                                         className="icon-btn"
                                         onClick={() =>
-                                            deleteOption(questionIndex, index)
+                                                deleteOption(
+                                                    questionIndex,
+                                                    index
+                                                )
                                         }
                                     >
                                         <i
@@ -138,6 +144,7 @@ const AnswerFields = ({
                                             title="Delete option"
                                         />
                                     </button>
+                                    ) : null}
                                 </div>
                             ))}
                         <button
@@ -161,6 +168,7 @@ const AnswerFields = ({
                         {options &&
                             options.map((option, index) => (
                                 <div className={style.option} key={index + 1}>
+                                    <div className={style.optionValueInput}>
                                     <FormInput
                                         name={`q${questionIndex + 1}a0`}
                                         type="checkbox"
@@ -179,10 +187,15 @@ const AnswerFields = ({
                                             )
                                         }
                                     />
+                                    </div>
+                                    {options.length > 1 ? (
                                     <button
                                         className="icon-btn"
                                         onClick={() =>
-                                            deleteOption(questionIndex, index)
+                                                deleteOption(
+                                                    questionIndex,
+                                                    index
+                                                )
                                         }
                                     >
                                         <i
@@ -190,6 +203,7 @@ const AnswerFields = ({
                                             title="Delete option"
                                         />
                                     </button>
+                                    ) : null}
                                 </div>
                             ))}
                         <button
@@ -212,6 +226,7 @@ const AnswerFields = ({
                                     className={`${style.option}`}
                                     key={index + 1}
                                 >
+                                    <div className={style.optionValueInput}>
                                     <FormInput
                                         type="text"
                                         name={`q${questionIndex +
@@ -225,10 +240,15 @@ const AnswerFields = ({
                                             )
                                         }
                                     />
+                                    </div>
+                                    {options.length > 1 ? (
                                     <button
                                         className="icon-btn"
                                         onClick={() =>
-                                            deleteOption(questionIndex, index)
+                                                deleteOption(
+                                                    questionIndex,
+                                                    index
+                                                )
                                         }
                                     >
                                         <i
@@ -237,6 +257,7 @@ const AnswerFields = ({
                                             itle="Delete option"
                                         />
                                     </button>
+                                    ) : null}
                                 </li>
                             ))}
                         <button
