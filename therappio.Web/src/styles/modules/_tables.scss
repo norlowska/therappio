@@ -28,10 +28,17 @@ td {
 .pagination {
     padding: 0.5rem;
     float: right;
+
     input,
     select {
         display: inline-block;
         width: 100px;
+    }
+
+    span {
+        letter-spacing: 1px;
+        font-size: 1.3rem;
+        color: $royal-blue;
     }
 }
 

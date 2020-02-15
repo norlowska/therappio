@@ -39,18 +39,20 @@ const Table = ({
     const [visiblePages, setVisiblePages] = useState([1]);
 
     const filterPages = (visiblePages, totalPages) => {
-        return visiblePages.filter(page => page <= totalPages);
+        return visiblePages.filter(page =>
+            typeof page === 'number' ? page <= totalPages : '...'
+        );
     };
 
     const getVisiblePages = (newPage, total) => {
         if (total < 5) {
             return filterPages([1, 2, 3, 4], total);
         } else if (newPage % 3 >= 0 && newPage > 2 && newPage + 3 <= total) {
-            return [1, newPage - 1, newPage, newPage + 1, total];
+            return [1, '...', newPage - 1, newPage, newPage + 1, '...', total];
         } else if (newPage % 3 >= 0 && newPage > 2 && newPage + 2 === total) {
-            return [1, newPage - 2, newPage - 1, newPage, total];
+            return [1, '...', newPage - 2, newPage - 1, newPage, '...', total];
         } else {
-            return [1, 2, total - 1, total];
+            return [1, 2, '...', total - 1, total];
         }
     };
 
@@ -60,7 +62,9 @@ const Table = ({
         }
 
         const newVisiblePages = getVisiblePages(newIndex + 1, pageCount);
+
         setVisiblePages(filterPages(newVisiblePages, pageCount));
+
         gotoPage(newIndex > 0 ? newIndex : 0);
     };
 
@@ -82,16 +86,10 @@ const Table = ({
                 >
                     {'<'}
                 </button>
-                {visiblePages.map((page, index, array) => {
-                    // let ellipsis = '...';
-                    // if (pageCount < 5) ellipsis = '';
-
-                    // return array[index - 1] + 2 < page ? (
-                    //     <span>`...`</span>
-                    // ) : (
-                    return (
+                {visiblePages.map((page, index) => {
+                    return typeof page === 'number' ? (
                         <button
-                            key={page}
+                            key={index}
                             className={
                                 pageIndex === page - 1
                                     ? 'page-btn-active'
@@ -99,10 +97,10 @@ const Table = ({
                             }
                             onClick={() => changePage(page - 1)}
                         >
-                            {
-                                /* {array[index - 1] + 2 < page ? `...${page}` : page} */ page
-                            }
+                            {page}
                         </button>
+                    ) : (
+                        <span key={index}>{page}</span>
                     );
                 })}
                 <button
@@ -112,12 +110,6 @@ const Table = ({
                 >
                     {'>'}
                 </button>
-                {/* <span>
-                    Page{' '}
-                    <strong>
-                        {pageIndex + 1} of {pageOptions.length}
-                    </strong>{' '}
-                </span> */}
                 <span>
                     | Go to page:{' '}
                     <input
@@ -184,13 +176,6 @@ const Table = ({
                                 {row.isExpanded ? (
                                     <tr className="expanded-row">
                                         <td colSpan={flatColumns.length}>
-                                            {/*
-                                              Inside it, call our renderRowSubComponent function. In reality,
-                                              you could pass whatever you want as props to
-                                              a component like this, including the entire
-                                              table instance. But for this example, we'll just
-                                              pass the row
-                                            */}
                                             {renderRowSubComponent({ row })}
                                         </td>
                                     </tr>
