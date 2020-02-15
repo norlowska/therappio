@@ -1,4 +1,5 @@
 import { clientConstants } from '../_constants';
+import { compareValues } from '../_helpers/compare';
 
 const initialState = {
     isFetching: false,
@@ -17,7 +18,7 @@ export function clients(state = initialState, action) {
             return {
                 ...state,
                 isFetching: false,
-                items: action.clients,
+                items: action.clients.sort(compareValues('lastName')),
             };
         case clientConstants.GET_ALL_FAILURE:
             return {
@@ -39,10 +40,18 @@ export function clients(state = initialState, action) {
                     return client._id === action.payload.id
                         ? {
                               ...client,
-                              therapySessions: action.payload.sessions,
-                              assignments: action.payload.assignments,
-                              moodRecords: action.payload.moods,
-                              journalRecords: action.payload.journal,
+                              therapySessions: action.payload.sessions.sort(
+                                  compareValues('date', 'desc')
+                              ),
+                              assignments: action.payload.assignments.sort(
+                                  compareValues('createdAt', 'desc')
+                              ),
+                              moodRecords: action.payload.moods.sort(
+                                  compareValues('createdAt', 'desc')
+                              ),
+                              journalRecords: action.payload.journal.sort(
+                                  compareValues('createdAt', 'desc')
+                              ),
                           }
                         : client;
                 }),
