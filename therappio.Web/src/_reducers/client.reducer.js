@@ -91,6 +91,38 @@ export function clients(state = initialState, action) {
                 isFetching: false,
                 errorMessage: action.error,
             };
+        case clientConstants.DELETE_ASSIGNMENT_REQUEST:
+            return {
+                ...state,
+                isFetching: true,
+            };
+        case clientConstants.DELETE_ASSIGNMENT_SUCCESS:
+            const client = state.items.find(client =>
+                client.assignments.some(
+                    assignment => assignment._id === action.id
+                )
+            );
+
+            return {
+                ...state,
+                isFetching: false,
+                items: state.items.map(item => {
+                    return item._id === client._id
+                        ? {
+                              ...item,
+                              assignments: item.assignments.filter(
+                                  assignment => assignment._id !== action.id
+                              ),
+                          }
+                        : item;
+                }),
+            };
+        case clientConstants.DELETE_ASSIGNMENT_FAILURE:
+            return {
+                ...state,
+                isFetching: false,
+                errorMessage: action.error,
+            };
         default:
             return state;
     }

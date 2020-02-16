@@ -12,6 +12,7 @@ export const clientService = {
     create,
     update,
     createAssignment,
+    deleteAssignment,
 };
 
 function getAll() {
@@ -110,7 +111,12 @@ function update(client) {
 function createAssignment(assignment) {
     console.log(assignment);
     return axios.post(`${config.apiUrl}/assignments`, assignment).then(res => {
-        console.log(res);
+        return res.data;
+    });
+}
+}
+function deleteAssignment(id) {
+    return axios.delete(`${config.apiUrl}/assignments/${id}`).then(res => {
         return res.data;
     });
 }

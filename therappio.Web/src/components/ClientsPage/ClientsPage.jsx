@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { ToastContainer } from 'react-toastify';
 import { clientActions } from '../../_actions';
 import ClientsList from './ClientsList/ClientsList';
 import ClientDetails from './ClientDetails/ClientDetails';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ClientsPage = ({ match, clients, getAll }) => {
     const [selectedClient, setSelectedClient] = useState(undefined);
@@ -21,6 +23,17 @@ const ClientsPage = ({ match, clients, getAll }) => {
         <main className="clients">
             <ClientsList clients={clients} />
             <ClientDetails client={selectedClient} />
+            <ToastContainer
+                position="bottom-left"
+                autoClose={5000}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnVisibilityChange
+                draggable
+                pauseOnHover
+            />
         </main>
     );
 };

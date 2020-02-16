@@ -204,3 +204,13 @@ section {
     font-weight: 700;
     margin-right: 15px;
 }
+
+.operations {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    > * {
+        margin-right: 10px;
+    }
+}

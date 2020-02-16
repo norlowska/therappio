@@ -19,7 +19,7 @@ const moodchartKeys = [
 
 // TODO: Self-assessement chart
 // TODO: Send message button
-const ClientDetails = ({ client, getDetails }) => {
+const ClientDetails = ({ client, getDetails, deleteAssignment }) => {
     // const chartLabel = ({ percent, name, index }) => {
     //     return <text>{`${(percent * 100).toFixed(0)}% ${name}`}</text>;
     // };
@@ -95,12 +95,28 @@ const ClientDetails = ({ client, getDetails }) => {
                             );
                         } else if (row.original.status === 'Not submitted') {
                             return (
+                                <div className={styles.operations}>
                                 <Link
                                     to={`/clients/${row.original.client.shortId}/assignment/${row.original.shortId}/edit`}
-                                    className="primary-btn"
+                                        className="icon-btn"
                                 >
-                                    Edit
+                                        <i
+                                            className="las la-pen"
+                                            title="Edit assignment"
+                                        />
                                 </Link>
+                                    <button
+                                        className="icon-btn"
+                                        onClick={() =>
+                                            deleteAssignment(row.original._id)
+                                        }
+                                    >
+                                        <i
+                                            className="las la-trash"
+                                            title="Delete assignment"
+                                        />
+                                    </button>
+                                </div>
                             );
                         } else return null;
                     }
@@ -452,10 +468,12 @@ const ClientDetails = ({ client, getDetails }) => {
 ClientDetails.propTypes = {
     client: PropTypes.object,
     getDetails: PropTypes.func.isRequired,
+    deleteAssignment: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
     getDetails: clientActions.getDetails,
+    deleteAssignment: clientActions.deleteAssignment,
 };
 
 export default connect(null, mapDispatchToProps)(ClientDetails);

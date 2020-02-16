@@ -9,6 +9,7 @@ export const clientActions = {
     create,
     update,
     createAssignment,
+    deleteAssignment,
 };
 
 function getAll() {
@@ -100,4 +101,30 @@ function createAssignment(assignment) {
         return { type: clientConstants.CREATE_ASSIGNMENT_FAILURE, error };
     }
 }
+function deleteAssignment(id) {
+    return dispatch => {
+        dispatch(request(id));
+        clientService
+            .deleteAssignment(id)
+            .then(res => {
+                toast.success('Assignment deleted successfully');
+                dispatch(success(id));
             })
+            .catch(error => {
+                dispatch(failure(error.message));
+                // dispatch(alertActions.error(error.toString()));
+            });
+    };
+    function request(id) {
+        return { type: clientConstants.DELETE_ASSIGNMENT_REQUEST, id };
+    }
+    function success(id) {
+        return {
+            type: clientConstants.DELETE_ASSIGNMENT_SUCCESS,
+            id,
+        };
+    }
+    function failure(error) {
+        return { type: clientConstants.DELETE_ASSIGNMENT_FAILURE, error };
+    }
+}
