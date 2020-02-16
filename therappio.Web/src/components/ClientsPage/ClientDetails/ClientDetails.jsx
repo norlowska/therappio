@@ -48,7 +48,14 @@ const ClientDetails = ({ client, getDetails, deleteAssignment }) => {
             {
                 Header: '',
                 id: 'read-more-btn',
-                Cell: row => <button className="primary-btn">Read more</button>,
+                Cell: row => (
+                    <button className="icon-btn">
+                        <i
+                            className="las la-chevron-circle-right"
+                            title="Read more"
+                        />
+                    </button>
+                ),
             },
         ],
         []
@@ -88,23 +95,26 @@ const ClientDetails = ({ client, getDetails, deleteAssignment }) => {
                             return (
                                 <Link
                                     to={`/clients/${row.original.client.shortId}/assignment/${row.original.shortId}`}
-                                    className="primary-btn"
+                                    className="icon-btn"
                                 >
-                                    Review
+                                    <i
+                                        className="las la-chevron-circle-right"
+                                        title="Review"
+                                    />
                                 </Link>
                             );
                         } else if (row.original.status === 'Not submitted') {
                             return (
                                 <div className={styles.operations}>
-                                <Link
-                                    to={`/clients/${row.original.client.shortId}/assignment/${row.original.shortId}/edit`}
+                                    <Link
+                                        to={`/clients/${row.original.client.shortId}/assignment/${row.original.shortId}/edit`}
                                         className="icon-btn"
-                                >
+                                    >
                                         <i
                                             className="las la-pen"
                                             title="Edit assignment"
                                         />
-                                </Link>
+                                    </Link>
                                     <button
                                         className="icon-btn"
                                         onClick={() =>
@@ -157,10 +167,20 @@ const ClientDetails = ({ client, getDetails, deleteAssignment }) => {
                 accessor: 'read-more-btn',
                 Cell: ({ row }) => (
                     <button
-                        className="primary-btn"
+                        className="icon-btn"
                         {...row.getExpandedToggleProps()}
                     >
-                        {row.isExpanded ? 'Read less' : 'Read more'}
+                        {row.isExpanded ? (
+                            <i
+                                className="las la-chevron-circle-up"
+                                title="Read less"
+                            />
+                        ) : (
+                            <i
+                                className="las la-chevron-circle-right"
+                                title="Read more"
+                            />
+                        )}
                     </button>
                 ),
             },
@@ -185,10 +205,20 @@ const ClientDetails = ({ client, getDetails, deleteAssignment }) => {
                 accessor: 'read-more-btn',
                 Cell: ({ row }) => (
                     <button
-                        className="primary-btn"
+                        className="icon-btn"
                         {...row.getExpandedToggleProps()}
                     >
-                        {row.isExpanded ? 'Read less' : 'Read more'}
+                        {row.isExpanded ? (
+                            <i
+                                className="las la-chevron-circle-up"
+                                title="Read less"
+                            />
+                        ) : (
+                            <i
+                                className="las la-chevron-circle-right"
+                                title="Read more"
+                            />
+                        )}
                     </button>
                 ),
             },
