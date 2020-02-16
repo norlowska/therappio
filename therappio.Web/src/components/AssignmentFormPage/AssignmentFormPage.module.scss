@@ -1,4 +1,9 @@
-@import '../../../styles/helpers/variables';
+@import 'src/styles/helpers/variables';
+
+.saveAssignmentBtn {
+    margin: 20px 10px 0 0;
+    float: right;
+}
 
 .formName {
     padding: 30px 0;

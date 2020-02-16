@@ -11,13 +11,13 @@ import {
     ClientsPage,
     LoginPage,
     AssignmentPage,
-    NewAssignmentPage,
+    AssignmentFormPage,
     PrivateRoute,
     PublicRoute,
 } from './index';
 import { PageNotFound, Header } from './';
 
-const App = ({ isAuthenticated, getDetails, getClients }) => {
+const App = ({ isAuthenticated, clients, getDetails, getClients }) => {
     useEffect(() => {
         if (isAuthenticated) {
             getDetails();
@@ -43,12 +43,23 @@ const App = ({ isAuthenticated, getDetails, getClients }) => {
                     <PrivateRoute
                         exact
                         path="/clients/:clientId/assignments/new"
-                        component={NewAssignmentPage}
+                        component={AssignmentFormPage}
                     />
                     <PrivateRoute
                         exact
                         path="/clients/:clientId/assignment/:assignmentId"
                         component={AssignmentPage}
+                    />
+                    <PrivateRoute
+                        exact
+                        path="/clients/:clientId/assignment/:assignmentId/edit"
+                        component={props => (
+                            <AssignmentFormPage
+                                {...props}
+                                clients={clients}
+                                editMode
+                            />
+                        )}
                     />
                     {/* <Route path="/settings" component={SettingsPage} /> */}
                     <PublicRoute
@@ -69,10 +80,12 @@ App.propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
     getDetails: PropTypes.func.isRequired,
     getClients: PropTypes.func.isRequired,
+    clients: PropTypes.arrayOf(PropTypes.object),
 };
 
 const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated,
+    clients: state.clients.items,
 });
 
 const mapDispatchToProps = {

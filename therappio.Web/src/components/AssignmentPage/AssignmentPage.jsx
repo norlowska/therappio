@@ -68,7 +68,6 @@ const AssignmentPage = ({ match, clients }) => {
                                         )
                                     ) : (
                                         <div>
-                                            {console.log(field.answer)}
                                             {field.answer && field.answer.length
                                                 ? field.answer.map(
                                                       answer => answer

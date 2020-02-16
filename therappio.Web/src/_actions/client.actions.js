@@ -1,4 +1,5 @@
 // import { history } from '../_helpers';
+import { toast } from 'react-toastify';
 import { clientConstants } from '../_constants';
 import { clientService } from '../_services';
 
@@ -9,7 +10,9 @@ export const clientActions = {
     create,
     update,
     createAssignment,
+    updateAssignment,
     deleteAssignment,
+    createSession,
 };
 
 function getAll() {
@@ -81,6 +84,7 @@ function createAssignment(assignment) {
         clientService
             .createAssignment(assignment)
             .then(res => {
+                toast.success('New assignment created successfully');
                 dispatch(success(res.data, res.message));
             })
             .catch(error => {
@@ -101,6 +105,35 @@ function createAssignment(assignment) {
         return { type: clientConstants.CREATE_ASSIGNMENT_FAILURE, error };
     }
 }
+
+function updateAssignment(assignment, clientShortId) {
+    return dispatch => {
+        dispatch(request(assignment));
+        clientService
+            .updateAssignment(assignment)
+            .then(res => {
+                toast.success('Assignment updated successfully');
+                dispatch(success(assignment, clientShortId, res.message));
+            })
+            .catch(error => {
+                dispatch(failure(error.message));
+                // dispatch(alertActions.error(error.toString()));
+            });
+    };
+    function request(assignment) {
+        return { type: clientConstants.UPDATE_ASSIGNMENT_REQUEST, assignment };
+    }
+    function success(assignment, clientShortId, message) {
+        return {
+            type: clientConstants.UPDATE_ASSIGNMENT_SUCCESS,
+            payload: { assignment, clientShortId, message },
+        };
+    }
+    function failure(error) {
+        return { type: clientConstants.UPDATE_ASSIGNMENT_FAILURE, error };
+    }
+}
+
 function deleteAssignment(id) {
     return dispatch => {
         dispatch(request(id));

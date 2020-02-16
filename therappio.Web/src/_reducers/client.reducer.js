@@ -91,6 +91,39 @@ export function clients(state = initialState, action) {
                 isFetching: false,
                 errorMessage: action.error,
             };
+        case clientConstants.UPDATE_ASSIGNMENT_REQUEST:
+            return {
+                ...state,
+                isFetching: true,
+            };
+        case clientConstants.UPDATE_ASSIGNMENT_SUCCESS:
+            const newAssignment = action.payload.assignment;
+            return {
+                ...state,
+                isFetching: false,
+                items: state.items.map(client => {
+                    return client.shortId === action.payload.clientShortId
+                        ? {
+                              ...client,
+                              assignments: client.assignments.map(
+                                  assignment => {
+                                      return assignment._id ===
+                                          newAssignment._id
+                                          ? { ...assignment, ...newAssignment }
+                                          : assignment;
+                                  }
+                              ),
+                          }
+                        : client;
+                }),
+            };
+        case clientConstants.UPDATE_ASSIGNMENT_FAILURE:
+            return {
+                ...state,
+                isFetching: false,
+                errorMessage: action.error,
+            };
+
         case clientConstants.DELETE_ASSIGNMENT_REQUEST:
             return {
                 ...state,

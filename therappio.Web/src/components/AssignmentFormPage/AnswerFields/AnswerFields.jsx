@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { FormInput } from '../../../index';
+import { FormInput } from '../../index';
 import style from './AnswerFields.module.scss';
 
 const AnswerFields = ({
