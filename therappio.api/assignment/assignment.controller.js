@@ -15,7 +15,9 @@ module.exports = router;
 function create(req, res, next) {
   assignmentService
     .create(req.body)
-    .then(assignment => res.json({ message: "Assignment successfully created.", data: assignment }))
+    .then(assignment =>
+      res.status(201).json({ message: "Assignment successfully created.", data: assignment })
+    )
     .catch(err => next(err));
 }
 
@@ -67,34 +69,38 @@ function getById(req, res, next) {
 // TODO: restrict
 function update(req, res, next) {
   const currentUser = req.user;
-  const assignment = req.body;
-
-  if (
-    assignment.client.therapist.toString() !== currentUser.sub ||
-    assignment.client.id !== currentUser.sub
-  ) {
-    return res.status(401).json({ message: "Unauthorized" });
-  }
+  const newAssignment = req.body;
 
   assignmentService
-    .update(req.params.id, assignment)
-    .then(() => res.json({ message: "Assignment successfully updated" }))
+    .getById(req.params.id)
+    .then(assignment => {
+      if (
+        assignment.client.therapist.toString() !== currentUser.sub &&
+        assignment.client.id !== currentUser.sub
+      ) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+      assignmentService
+        .update(req.params.id, newAssignment)
+        .then(() => res.json({ message: "Assignment successfully deleted" }));
+    })
     .catch(err => next(err));
 }
 
 function _delete(req, res, next) {
   const currentUser = req.user;
-  const assignment = req.body;
-
-  if (
-    assignment.client.therapist.toString() !== currentUser.sub ||
-    assignment.client.id !== currentUser.sub
-  ) {
-    return res.status(401).json({ message: "Unauthorized" });
-  }
-
   assignmentService
-    .delete(req.params.id)
-    .then(() => res.json({ message: "Assignment successfully deleted" }))
+    .getById(req.params.id)
+    .then(assignment => {
+      if (
+        assignment.client.therapist.toString() !== currentUser.sub &&
+        assignment.client.id !== currentUser.sub
+      ) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+      assignmentService
+        .delete(req.params.id)
+        .then(() => res.json({ message: "Assignment successfully deleted" }));
+    })
     .catch(err => next(err));
 }
