@@ -1,11 +1,9 @@
 @mixin button-base {
-    font-family: 'Open Sans', sans-serif;
-    // font-weight: 400;
+    font-size: 1rem;
+    font-weight: $normal;
+    line-height: 16px;
     border: none;
     transition: 0.3s;
-    // display: flex;
-    // align-items: center;
-    // justify-content: center;
 
     &:hover,
     &:focus {

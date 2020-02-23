@@ -4,7 +4,7 @@
     position: fixed;
     z-index: 100;
     width: 100%;
-    background-color: $royal-blue;
+    background-color: $chambray-blue;
     color: #eee;
     height: 60px;
     display: flex;
@@ -14,7 +14,7 @@
 
 .logo {
     font-size: 2rem;
-    font-weight: 700;
+    font-weight: $bold;
     min-width: 192px;
     width: 20%;
     padding: 15px 20px 10px 15px;
@@ -42,7 +42,7 @@
         line-height: 1.5;
         align-items: center;
         justify-content: center;
-        font-weight: 400;
+        font-weight: $normal;
         font-size: 1rem;
         letter-spacing: 1px;
         padding: 10px 20px;
@@ -52,12 +52,12 @@
         height: auto;
 
         &Active {
-            font-weight: 700;
+            font-weight: $bold;
         }
 
         &Icon {
             font-size: 1.8rem;
-            font-weight: 100;
+            font-weight: $light;
         }
 
         &:hover,
@@ -67,7 +67,7 @@
         }
 
         &:hover {
-            background-color: $congress-blue;
+            background-color: $big-stone-blue;
         }
     }
 }

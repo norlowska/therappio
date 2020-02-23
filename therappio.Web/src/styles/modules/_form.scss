@@ -17,14 +17,18 @@ textarea {
 
     &:focus {
         outline: 0;
-        box-shadow: 0 0 0.35rem 0.2rem rgba($royal-blue, 0.5);
+        box-shadow: 0 0 0.35rem 0.2rem rgba($chambray-blue, 0.5);
     }
 }
 
 label {
     display: inline-block;
-    color: $mine-shaft-gray;
+    color: $chambray-blue;
     margin-bottom: 5px;
+}
+
+::placeholder {
+    color: $chambray-blue;
 }
 
 input[type='number'],
@@ -111,7 +115,7 @@ select::-ms-expand {
     }
 
     a:hover {
-        text-decoration: underline solid $royal-blue;
-        color: $royal-blue;
+        text-decoration: underline solid $chambray-blue;
+        color: $chambray-blue;
     }
 }

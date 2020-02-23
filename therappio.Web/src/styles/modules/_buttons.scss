@@ -2,26 +2,26 @@
 
 .primary-btn {
     @include button-base;
-    border-radius: 9px;
+    border-radius: $border-radius;
     padding: 9px 18px;
-    background-color: $royal-blue;
+    background-color: $chambray-blue;
     color: $white;
 
     &:hover {
-        background-color: $congress-blue;
+        background-color: $big-stone-blue;
     }
 }
 
 .primary-btn-invert {
     @include button-base;
-    border-radius: 9px;
+    border-radius: $border-radius;
     padding: 9px 18px;
-    border: 2px solid $royal-blue;
+    border: 2px solid $chambray-blue;
     background-color: $white;
-    color: $royal-blue;
+    color: $chambray-blue;
 
     &:hover {
-        background-color: $athens-gray;
+        background-color: $mystic-white;
     }
 }
 
@@ -29,13 +29,13 @@
     @include button-base;
     border-radius: 1px;
     padding: 4px 8px;
-    border: 1px solid $royal-blue;
+    border: 1px solid $chambray-blue;
     background-color: $white;
-    color: $royal-blue;
+    color: $chambray-blue;
     margin: 4px 3px;
 
     &:hover {
-        background-color: $athens-gray;
+        background-color: $mystic-white;
     }
 }
 
@@ -43,19 +43,19 @@
     @include button-base;
     border-radius: 1px;
     padding: 4px 8px;
-    border: 1px solid $royal-blue;
-    background-color: $royal-blue;
+    border: 1px solid $chambray-blue;
+    background-color: $chambray-blue;
     color: $white;
     margin: 4px 3px;
 
     &:hover {
-        background-color: $congress-blue;
+        background-color: $big-stone-blue;
     }
 
     &:disabled {
-        background-color: $athens-gray;
-        border: 1px solid $athens-gray;
-        color: $royal-blue;
+        background-color: $mystic-white;
+        border: 1px solid $mystic-white;
+        color: $chambray-blue;
         cursor: default;
     }
 }

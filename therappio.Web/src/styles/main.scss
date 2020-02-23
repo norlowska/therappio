@@ -3,7 +3,7 @@
 @import 'helpers/variables';
 
 @import url('https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css');
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600|Raleway:400,600,700,800&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap');
 
 .checkin-btn {
     display: flex;
@@ -17,14 +17,14 @@
     margin: 10px 20px;
     padding: 10px 15px;
     border-radius: 5px;
-    border: 1px solid mix($royal-blue, $trout-gray, 65%);
+    border: 1px solid $chambray-blue;
     display: flex;
     flex-direction: row;
     transition: background-color 0.3s;
 
     &:hover,
     &:focus {
-        background-color: mix($royal-blue, $athens-gray, 10%);
+        background-color: mix($chambray-blue, $mystic-white, 10%);
     }
 
     div {
@@ -35,8 +35,8 @@
         width: 65%;
 
         .name {
-            color: $royal-blue;
-            font-weight: 700;
+            color: $chambray-blue;
+            font-weight: $bold;
             font-size: 1.3rem;
         }
 

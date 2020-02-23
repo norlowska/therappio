@@ -9,21 +9,18 @@ $base-line-height: 24px !default;
 
 // The length unit in which to output vertical rhythm values.
 // Supported values: px, em, rem.
-$base-unit: 'em' !default;
+$base-unit: 'rem' !default;
 
 // The default font family.
-$base-font-family: 'Raleway', sans-serif !default;
+$base-font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif !default;
 
 // The font sizes for h1-h6.
 $h1-font-size: 2 * $base-font-size !default;
-$h2-font-size: 1.8 * $base-font-size !default;
-$h3-font-size: 1.5 * $base-font-size !default;
-$h4-font-size: 1.25 * $base-font-size !default;
-$h5-font-size: 1.125 * $base-font-size !default;
-$h6-font-size: 1 * $base-font-size !default;
-
-// The headings font family
-$heading-font-family: 'Open Sans', sans-serif !default;
+$h2-font-size: 1.5 * $base-font-size !default;
+$h3-font-size: 1.3 * $base-font-size !default;
+$h4-font-size: 1.17 * $base-font-size !default;
+$h5-font-size: 0.95 * $base-font-size !default;
+$h6-font-size: 0.83 * $base-font-size !default;
 
 // The amount lists and blockquotes are indented.
 $indent-amount: 40px !default;
@@ -43,18 +40,19 @@ $bold: 700;
 
 // Colors
 $white: #fff;
-$alabaster-white: #f7f7f7;
-$royal-blue: #2269b3;
-$congress-blue: #004791;
-$athens-gray: #e9ebf1;
-$trout-gray: #495057;
-$mine-shaft-gray: #333;
-$silver: #ccc;
+$gallery-white: #f0f0f0;
+$chambray-blue: #2c567c; // !!
+$big-stone-blue: #1a344a;
+$mystic-white: #e9edf3;
+$mine-shaft-gray: #2d2d2d;
+$silver: #cacaca;
 
-$background-color: $alabaster-white !default;
-$input-background: $athens-gray !default;
+$background-color: $gallery-white !default;
+$input-background: $mystic-white !default;
 
-$base-font-color: $trout-gray !default;
-$input-font-color: $trout-gray !default;
+$base-font-color: $mine-shaft-gray !default;
+$input-font-color: $chambray-blue !default;
 
 $border-color: $silver !default;
+
+$border-radius: 0.23rem;
