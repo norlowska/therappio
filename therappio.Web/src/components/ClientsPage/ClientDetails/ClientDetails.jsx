@@ -9,6 +9,9 @@ import { clientActions } from '../../../_actions';
 import Tabs from '../../shared/Tabs';
 import Table from '../../shared/Table';
 import styles from './ClientDetails.module.scss';
+import Card from '../../shared/Card/Card';
+import CardHeader from '../../shared/Card/CardHeader';
+import CardBody from '../../shared/Card/CardBody';
 
 const moodchartKeys = [
     { color: '#f44336', name: 'High energy, unpleasant' },
@@ -46,8 +49,9 @@ const ClientDetails = ({ client, getDetails, deleteAssignment }) => {
                 },
             },
             {
-                Header: '',
-                id: 'read-more-btn',
+                Header: 'Actions',
+                id: 'actions',
+                className: styles.actions,
                 Cell: row => (
                     <button className="icon-btn">
                         <i
@@ -84,8 +88,9 @@ const ClientDetails = ({ client, getDetails, deleteAssignment }) => {
                 accessor: 'status',
             },
             {
-                Header: '',
-                id: 'review-btn',
+                Header: 'Actions',
+                id: 'actions',
+                className: styles.actions,
                 Cell: ({ row }) => {
                     if (row.original.client && row.original.client.shortId) {
                         if (
@@ -105,7 +110,7 @@ const ClientDetails = ({ client, getDetails, deleteAssignment }) => {
                             );
                         } else if (row.original.status === 'Not submitted') {
                             return (
-                                <div className={styles.operations}>
+                                <>
                                     <Link
                                         to={`/clients/${row.original.client.shortId}/assignment/${row.original.shortId}/edit`}
                                         className="icon-btn"
@@ -126,7 +131,7 @@ const ClientDetails = ({ client, getDetails, deleteAssignment }) => {
                                             title="Delete assignment"
                                         />
                                     </button>
-                                </div>
+                                </>
                             );
                         } else return null;
                     }
@@ -163,8 +168,9 @@ const ClientDetails = ({ client, getDetails, deleteAssignment }) => {
                     moment(row.values.createdAt).format('DD MMM YYYY HH:mm'),
             },
             {
-                Header: () => null,
-                accessor: 'read-more-btn',
+                Header: 'Actions',
+                accessor: 'actions',
+                className: styles.actions,
                 Cell: ({ row }) => (
                     <button
                         className="icon-btn"
@@ -201,8 +207,9 @@ const ClientDetails = ({ client, getDetails, deleteAssignment }) => {
                 Cell: date => moment(date).format('DD MMM YYYY HH:mm'),
             },
             {
-                Header: '',
-                accessor: 'read-more-btn',
+                Header: 'Actions',
+                accessor: 'actions',
+                className: styles.actions,
                 Cell: ({ row }) => (
                     <button
                         className="icon-btn"
@@ -272,11 +279,8 @@ const ClientDetails = ({ client, getDetails, deleteAssignment }) => {
                             Client ID: {client.shortId}
                         </h4>
                     </div>
-                    <div className={styles.clientDetails}>
-                        <div className={styles.sectionHeading}>
-                            <h4>Personal details</h4>
-                        </div>
-                        <div className={`card ${styles.personalInfo}`}>
+                    <Card className={styles.clientDetails}>
+                        <CardBody className={styles.personalInfo}>
                             <div className={styles.col}>
                                 <div className={styles.row}>
                                     <strong className={styles.title}>
@@ -291,9 +295,10 @@ const ClientDetails = ({ client, getDetails, deleteAssignment }) => {
                                         DoB
                                     </strong>
                                     <span className={styles.cont}>
-                                        {moment(client.dateOfBirth).format(
-                                            'DD MMM YYYY'
-                                        )}
+                                        {!!client.dateOfBirth &&
+                                            moment(client.dateOfBirth).format(
+                                                'DD MMM YYYY'
+                                            )}
                                     </span>
                                 </div>
                                 <div className={styles.row}>
@@ -372,41 +377,52 @@ const ClientDetails = ({ client, getDetails, deleteAssignment }) => {
                                         : 'Not diagnosed'}
                                 </ul>
                             </div>
-                        </div>
-                    </div>
+                        </CardBody>
+                    </Card>
                 </section>
                 <section className={styles.sessionsSection}>
-                    <div className={styles.sectionHeading}>
-                        <h4>Sessions</h4>
-                    </div>
-                    <div className={`card ${styles.sessions}`}>
-                        <Table
-                            columns={sessionsColumns}
-                            data={client.therapySessions || []}
-                        />
-                    </div>
+                    <Card>
+                        <CardHeader style={{ justifyContent: 'space-between' }}>
+                            <h3>Sessions</h3>
+                            <Link
+                                to={`/clients/${client.shortId}/assignments/new`}
+                                className={`primary-btn`}
+                            >
+                                <i className={`las la-plus`} /> New
+                            </Link>
+                        </CardHeader>
+                        <CardBody>
+                            <Table
+                                columns={sessionsColumns}
+                                data={client.therapySessions || []}
+                            />
+                        </CardBody>
+                    </Card>
                 </section>
                 <section className={styles.assignmentsSection}>
-                    <div className={styles.sectionHeading}>
-                        <h4>Assignments</h4>
-                        <Link to={`/clients/${client.shortId}/assignments/new`}>
-                            <button className={`primary-btn`}>
+                    <Card>
+                        <CardHeader style={{ justifyContent: 'space-between' }}>
+                            <h3>Assignments</h3>
+                            <Link
+                                to={`/clients/${client.shortId}/assignments/new`}
+                                className={`primary-btn`}
+                            >
                                 <i className={`las la-plus`} /> New
-                            </button>
-                        </Link>
-                    </div>
-                    <div className={`card ${styles.assignments}`}>
-                        <Table
-                            columns={assignmentsColumns}
-                            data={client.assignments || []}
-                        />
-                    </div>
+                            </Link>
+                        </CardHeader>
+                        <CardBody>
+                            <Table
+                                columns={assignmentsColumns}
+                                data={client.assignments || []}
+                            />
+                        </CardBody>
+                    </Card>
                 </section>
             </div>
             <div className={styles.col35}>
                 {/* <section className={styles.moodSection}>
                     <div className={styles.sectionHeading}>
-                        <h4>Mood Chart</h4>
+                        <h3>Mood Chart</h3>
                     </div>
                     <div className={`card ${styles.moodChart}`}>
                         <div className={styles.selectPeriod}>
@@ -455,32 +471,34 @@ const ClientDetails = ({ client, getDetails, deleteAssignment }) => {
                     </div>
                 </section> */}
                 <section className={styles.recordsSection}>
-                    <div className={`card ${styles.records}`}>
-                        <Tabs>
-                            <div label="Mood Records">
-                                <div className={`${styles.moodRecords}`}>
-                                    <Table
-                                        columns={moodRecordsColumns}
-                                        data={client.moodRecords || []}
-                                        renderRowSubComponent={
-                                            renderMoodComment
-                                        }
-                                    />
+                    <Card>
+                        <CardBody>
+                            <Tabs>
+                                <div label="Mood Records">
+                                    <div className={`${styles.moodRecords}`}>
+                                        <Table
+                                            columns={moodRecordsColumns}
+                                            data={client.moodRecords || []}
+                                            renderRowSubComponent={
+                                                renderMoodComment
+                                            }
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                            <div label="Journal Records">
-                                <div className={`${styles.journalRecords}`}>
-                                    <Table
-                                        columns={journalRecordsColumns}
-                                        data={client.journalRecords || []}
-                                        renderRowSubComponent={
-                                            renderJournalContent
-                                        }
-                                    />
+                                <div label="Journal Records">
+                                    <div className={`${styles.journalRecords}`}>
+                                        <Table
+                                            columns={journalRecordsColumns}
+                                            data={client.journalRecords || []}
+                                            renderRowSubComponent={
+                                                renderJournalContent
+                                            }
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                        </Tabs>
-                    </div>
+                            </Tabs>
+                        </CardBody>
+                    </Card>
                 </section>
             </div>
             {/* <section className={styles.assessmentsSection}>

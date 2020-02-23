@@ -10,7 +10,7 @@
 }
 
 .clientRecord {
-    width: 75vw;
+    width: 80vw;
     padding: 10px 40px;
     display: flex;
     flex-wrap: wrap;
@@ -28,25 +28,8 @@ section {
 
 .col35 {
     width: 35%;
-    padding-top: 57px;
+    padding-top: 47px;
 }
-
-// .selectPeriod {
-//     display: flex;
-//     justify-content: center;
-
-//     button {
-//         border-radius: 30px;
-//         padding: 4px 15px;
-//     }
-
-//     .invertBtn {
-//         background: transparent;
-//         color: $royal-blue;
-//         border: 2px solid $royal-blue;
-//         margin-left: 10%;
-//     }
-// }
 
 .legend {
     display: flex;
@@ -67,41 +50,55 @@ section {
     margin-top: 7px;
 }
 
-.sessions {
-    thead th:nth-child(1) {
-        width: 8%;
-    }
-
-    thead th:nth-child(2) {
-        width: 20%;
-    }
-
-    thead th:nth-child(4) {
-        width: 20%;
-    }
-}
-
-.assignmentsSection {
+.sessionsSection table {
     width: 100%;
+
+    thead th:nth-child(1),
+    tbody td:nth-child(1) {
+        width: 45px;
+    }
+
+    thead th:nth-child(2),
+    tbody td:nth-child(2) {
+        width: 160px;
+    }
+
+    thead th:nth-child(4),
+    tbody td:nth-child(4) {
+        width: 70px;
+    }
 }
 
-.assignments {
-    thead th:nth-child(2) {
-        width: 20%;
+.assignmentsSection table {
+    width: 100%;
+
+    thead th:nth-child(2),
+    tbody td:nth-child(2) {
+        width: 150px;
     }
 
-    thead th:nth-child(3) {
-        width: 20%;
-    }
-
-    thead th:nth-child(4) {
-        width: 20%;
-    }
-}
-
-.journalRecords {
+    thead th:nth-child(3),
     tbody td:nth-child(3) {
-        text-align: start;
+        width: 150px;
+    }
+
+    thead th:nth-child(4),
+    tbody td:nth-child(4) {
+        width: 115px;
+    }
+
+    thead th:nth-child(5),
+    tbody td:nth-child(5) {
+        width: 90px;
+    }
+}
+
+.recordsSection table {
+    width: 100%;
+
+    thead th:nth-child(3),
+    tbody td:nth-child(3) {
+        width: 70px;
     }
 }
 
@@ -112,18 +109,16 @@ section {
 .name {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 25px;
-    h2 {
-        color: $royal-blue;
-    }
-}
 
-.sectionHeading {
-    margin-bottom: 10px;
-    margin-left: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    h2 {
+        color: $chambray-blue;
+        font-size: 2.5rem;
+        font-weight: $bold;
+    }
+
+    h4 {
+        font-weight: $normal;
+    }
 }
 
 .personalInfo {
@@ -132,7 +127,7 @@ section {
 }
 
 .col {
-    font-weight: normal;
+    font-weight: $normal;
     width: 34%;
 }
 
@@ -145,7 +140,8 @@ section {
     width: 80px;
     text-transform: uppercase;
     margin-right: 15px;
-    font-weight: 700;
+    font-weight: $semibold;
+    color: $chambray-blue;
 }
 
 .notes {
@@ -200,17 +196,14 @@ section {
 }
 
 .commentHeader {
-    color: $royal-blue;
-    font-weight: 700;
-    margin-right: 15px;
+    color: $chambray-blue;
+    font-weight: $semibold;
+    margin-right: 10px;
 }
 
-.operations {
+td.actions {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
-
-    > * {
-        margin-right: 10px;
-    }
+    height: 100%;
 }
