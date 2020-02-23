@@ -45,8 +45,8 @@ const Table = ({
     };
 
     const getVisiblePages = (newPage, total) => {
-        if (total < 5) {
-            return filterPages([1, 2, 3, 4], total);
+        if (total <= 5) {
+            return filterPages([1, 2, 3, 4, 5], total);
         } else if (newPage % 3 >= 0 && newPage > 2 && newPage + 3 <= total) {
             return [1, '...', newPage - 1, newPage, newPage + 1, '...', total];
         } else if (newPage % 3 >= 0 && newPage > 2 && newPage + 2 === total) {
@@ -100,7 +100,9 @@ const Table = ({
                             {page}
                         </button>
                     ) : (
-                        <span key={index}>{page}</span>
+                        <span key={index} className="out-of-range">
+                            {page}
+                        </span>
                     );
                 })}
                 <button
