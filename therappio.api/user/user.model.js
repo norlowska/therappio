@@ -6,7 +6,7 @@ const { Schema } = mongoose;
 const genders = ["male", "female"];
 
 const UserSchema = new Schema({
-  shortId: { type: String, unique: true, default: () => nanoid(10) },
+  _id: { type: String, default: () => nanoid(14) },
   email: {
     type: String,
     required: true,
@@ -20,14 +20,14 @@ const UserSchema = new Schema({
   phoneNumber: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   address: String,
-  therapist: { type: Schema.Types.ObjectId, ref: "User" },
+  therapist: { type: String, ref: "User" },
   dateOfBirth: Date,
   gender: { type: String, enum: genders },
   emergencyContact: {
     name: String,
     phoneNumber: String
   },
-  diagnosis: [String],
+  diagnosis: { type: [String], default: undefined },
   role: { type: String, enum: Object.values(Role), required: true }
 });
 

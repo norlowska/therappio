@@ -23,7 +23,6 @@ async function getClientsSessions(id) {
 }
 
 async function create(sessionParam) {
-  console.log(sessionParam);
   const newSession = new TherapySession(sessionParam);
   await newSession.save();
 }

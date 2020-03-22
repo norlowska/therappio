@@ -13,19 +13,19 @@ module.exports = {
 async function getAll() {
   return await JournalRecord.find()
     .select("-__v")
-    .populate("client", "_id shortId therapist");
+    .populate("client", "_id therapist");
 }
 
 async function getById(id) {
   return await JournalRecord.findById(id)
     .select("-__v")
-    .populate("client", "_id shortId therapist");
+    .populate("client", "_id therapist");
 }
 
 async function getClientsRecords(id) {
   return await JournalRecord.find({ client: id })
     .select("-__v")
-    .populate("client", "_id shortId therapist");
+    .populate("client", "_id therapist");
 }
 
 async function create(recordParam) {

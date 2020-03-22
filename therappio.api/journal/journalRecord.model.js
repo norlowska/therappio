@@ -5,9 +5,9 @@ const { Schema } = mongoose;
 const types = ["diary", "gratitude"];
 
 const JournalRecordSchema = new Schema({
-  shortId: { type: String, unique: true, default: () => nanoid(10) },
-  client: { type: Schema.Types.ObjectId, ref: "User" },
-  createdAt: { type: Date, required: true },
+  _id: { type: String, default: () => nanoid() },
+  client: { type: String, ref: "User" },
+  createdAt: { type: Date, default: Date.now },
   content: String,
   type: { type: String, enum: types, required: true }
 });

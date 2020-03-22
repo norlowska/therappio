@@ -25,8 +25,8 @@ const TaskSchema = new Schema({
 });
 
 const AssignmentSchema = new Schema({
-  shortId: { type: String, unique: true, default: () => nanoid(10) },
-  client: { type: Schema.Types.ObjectId, ref: "User", required: true },
+  _id: { type: String, default: () => nanoid() },
+  client: { type: String, ref: "User", required: true },
   createdAt: { type: Date, required: true, default: Date.now },
   dueDate: { type: Date, required: true },
   submittedAt: Date,

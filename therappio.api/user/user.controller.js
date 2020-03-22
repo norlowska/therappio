@@ -46,7 +46,7 @@ function getProfile(req, res, next) {
 function getById(req, res, next) {
   const currentUser = req.user;
   const id = req.params.id;
-  console.log(currentUser);
+
   // allow client to get only his/her own record
   if (currentUser.role === Role.Client && id !== currentUser.sub) {
     return res.status(401).json({ message: "Unauthorized" });

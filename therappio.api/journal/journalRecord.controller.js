@@ -15,7 +15,7 @@ module.exports = router;
 function create(req, res, next) {
   const currentUser = req.user;
   const record = { ...req.body, ["client"]: currentUser.sub };
-  console.log(record);
+
   journalRecordService
     .create(record)
     .then(() => res.json({ message: "Journal record successfully created." }))
