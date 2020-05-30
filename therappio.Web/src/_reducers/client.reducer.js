@@ -102,7 +102,7 @@ export function clients(state = initialState, action) {
                 ...state,
                 isFetching: false,
                 items: state.items.map(client => {
-                    return client.shortId === action.payload.clientShortId
+                    return client._id === action.payload.clientId
                         ? {
                               ...client,
                               assignments: client.assignments.map(

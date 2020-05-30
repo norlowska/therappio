@@ -92,14 +92,14 @@ const ClientDetails = ({ client, getDetails, deleteAssignment }) => {
                 id: 'actions',
                 className: styles.actions,
                 Cell: ({ row }) => {
-                    if (row.original.client && row.original.client.shortId) {
+                    if (row.original.client && row.original.client._id) {
                         if (
                             row.original.status === 'On time' ||
                             row.original.status === 'Late'
                         ) {
                             return (
                                 <Link
-                                    to={`/clients/${row.original.client.shortId}/assignment/${row.original.shortId}`}
+                                    to={`/clients/${row.original.client._id}/assignment/${row.original._id}`}
                                     className="icon-btn"
                                 >
                                     <i
@@ -112,7 +112,7 @@ const ClientDetails = ({ client, getDetails, deleteAssignment }) => {
                             return (
                                 <>
                                     <Link
-                                        to={`/clients/${row.original.client.shortId}/assignment/${row.original.shortId}/edit`}
+                                        to={`/clients/${row.original.client._id}/assignment/${row.original._id}/edit`}
                                         className="icon-btn"
                                     >
                                         <i
@@ -275,9 +275,7 @@ const ClientDetails = ({ client, getDetails, deleteAssignment }) => {
                 <section>
                     <div className={styles.name}>
                         <h2>{`${client.firstName} ${client.lastName}`}</h2>
-                        <h4 className={styles.id}>
-                            Client ID: {client.shortId}
-                        </h4>
+                        <h4 className={styles.id}>Client ID: {client._id}</h4>
                     </div>
                     <Card className={styles.clientDetails}>
                         <CardBody className={styles.personalInfo}>
@@ -385,7 +383,7 @@ const ClientDetails = ({ client, getDetails, deleteAssignment }) => {
                         <CardHeader style={{ justifyContent: 'space-between' }}>
                             <h3>Sessions</h3>
                             <Link
-                                to={`/clients/${client.shortId}/assignments/new`}
+                                to={`/clients/${client._id}/assignments/new`}
                                 className={`primary-btn`}
                             >
                                 <i className={`las la-plus`} /> New
@@ -404,7 +402,7 @@ const ClientDetails = ({ client, getDetails, deleteAssignment }) => {
                         <CardHeader style={{ justifyContent: 'space-between' }}>
                             <h3>Assignments</h3>
                             <Link
-                                to={`/clients/${client.shortId}/assignments/new`}
+                                to={`/clients/${client._id}/assignments/new`}
                                 className={`primary-btn`}
                             >
                                 <i className={`las la-plus`} /> New

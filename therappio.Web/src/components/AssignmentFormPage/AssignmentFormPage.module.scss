@@ -43,9 +43,9 @@
     font-size: 96px;
     justify-content: center;
     align-items: center;
-    border: 2px dashed mix($athens-gray, $trout-gray, 55%);
+    border: 2px dashed mix($mystic-white, $silver, 55%);
     border-radius: 5px;
-    color: mix($athens-gray, $trout-gray, 50%);
+    color: mix($mystic-white, $silver, 50%);
     padding: 40px;
     margin: 20px 10px 20px 10px;
     width: calc(100% - 20px);
@@ -60,6 +60,6 @@
 
     label {
         // width: 250px;
-        font-weight: 700;
+        font-weight: $bold;
     }
 }

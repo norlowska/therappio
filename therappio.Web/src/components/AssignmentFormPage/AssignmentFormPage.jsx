@@ -49,22 +49,18 @@ const AssignmentFormPage = ({
 
     useEffect(() => {
         const selectedClient = clients.find(
-            client => client.shortId === match.params.clientId
+            client => client._id === match.params.clientId
         );
 
         const assignment = selectedClient.assignments.find(
-            assignment => assignment.shortId === match.params.assignmentId
+            assignment => assignment._id === match.params.assignmentId
         );
 
         if (editMode) {
             setId(assignment._id);
             setTitle(assignment.title);
             setFields(assignment.fields);
-            setDueDate(
-                moment(assignment.dueDate)
-                    .format()
-                    .substr(0, 16)
-            );
+            setDueDate(moment(assignment.dueDate).format().substr(0, 16));
         }
     }, [match.params.clientId, clients]);
 

@@ -12,7 +12,6 @@ export const clientActions = {
     createAssignment,
     updateAssignment,
     deleteAssignment,
-    createSession,
 };
 
 function getAll() {
@@ -106,14 +105,14 @@ function createAssignment(assignment) {
     }
 }
 
-function updateAssignment(assignment, clientShortId) {
+function updateAssignment(assignment, clientId) {
     return dispatch => {
         dispatch(request(assignment));
         clientService
             .updateAssignment(assignment)
             .then(res => {
                 toast.success('Assignment updated successfully');
-                dispatch(success(assignment, clientShortId, res.message));
+                dispatch(success(assignment, clientId, res.message));
             })
             .catch(error => {
                 dispatch(failure(error.message));
@@ -123,10 +122,10 @@ function updateAssignment(assignment, clientShortId) {
     function request(assignment) {
         return { type: clientConstants.UPDATE_ASSIGNMENT_REQUEST, assignment };
     }
-    function success(assignment, clientShortId, message) {
+    function success(assignment, clientId, message) {
         return {
             type: clientConstants.UPDATE_ASSIGNMENT_SUCCESS,
-            payload: { assignment, clientShortId, message },
+            payload: { assignment, clientId, message },
         };
     }
     function failure(error) {

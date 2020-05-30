@@ -51,9 +51,9 @@ const ClientsList = ({ clients }) => {
             <ul className={style.clientsList}>
                 {searchResults.map(client => {
                     return (
-                        <li key={client.shortId}>
+                        <li key={client._id}>
                             <Link
-                                to={`/clients/${client.shortId}`}
+                                to={`/clients/${client._id}`}
                                 className={'clientCard'}
                             >
                                 <div className={'clientInfo'}>

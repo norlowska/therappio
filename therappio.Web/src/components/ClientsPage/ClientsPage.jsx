@@ -13,7 +13,7 @@ const ClientsPage = ({ match, clients, getAll }) => {
     // Set selected client
     useEffect(() => {
         const selectedClient = clients.find(
-            client => client.shortId.toString() === match.params.clientId
+            client => client._id.toString() === match.params.clientId
         );
 
         setSelectedClient(selectedClient);
