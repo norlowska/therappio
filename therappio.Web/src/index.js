@@ -6,6 +6,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunkMiddleware from 'redux-thunk';
 import rootReducer from './_reducers';
 import { App } from './components';
+import 'antd/dist/antd.css';
 
 const store = createStore(
     rootReducer,
