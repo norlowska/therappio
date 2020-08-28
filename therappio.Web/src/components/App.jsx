@@ -3,19 +3,10 @@ import { Router, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Layout } from 'antd';
-import { history } from '../_helpers';
+import { history, routes } from '../_helpers';
+import { PRIVATE_ROUTE, PUBLIC_ROUTE, RESTRICTED_ROUTE } from '../_constants';
 import { userActions, clientActions } from '../_actions';
-import {
-    DashboardPage,
-    ClientsPage,
-    LoginPage,
-    AssignmentPage,
-    AssignmentFormPage,
-    PageNotFound,
-    Header,
-    PrivateRoute,
-    PublicRoute,
-} from './index';
+import { Header, PrivateRoute, PublicRoute } from './index';
 import '../styles/main.scss';
 
 const App = ({ isAuthenticated, clients, getDetails, getClients }) => {
@@ -30,44 +21,43 @@ const App = ({ isAuthenticated, clients, getDetails, getClients }) => {
         <Router history={history}>
             <Layout style={{ height: '100vh' }}>
                 {isAuthenticated ? <Header /> : null}
-                <Switch>
-                    <PrivateRoute exact path="/" component={DashboardPage} />
-                    <PrivateRoute
-                        exact
-                        path="/clients/:clientId?"
-                        component={ClientsPage}
-                    />
-                    <PrivateRoute
-                        exact
-                        path="/clients/:clientId/assignments/new"
-                        component={AssignmentFormPage}
-                    />
-                    <PrivateRoute
-                        exact
-                        path="/clients/:clientId/assignment/:assignmentId"
-                        component={AssignmentPage}
-                    />
-                    <PrivateRoute
-                        exact
-                        path="/clients/:clientId/assignment/:assignmentId/edit"
-                        component={props => (
-                            <AssignmentFormPage
-                                {...props}
-                                clients={clients}
-                                editMode
-                            />
-                        )}
-                    />
-                    {/* <Route path="/settings" component={SettingsPage} /> */}
-                    <PublicRoute
-                        restricted
-                        path="/login"
-                        component={LoginPage}
-                    />
-
-                    <PublicRoute component={PageNotFound} />
-                    <Redirect from="*" to="/" />
-                </Switch>
+                <Layout.Content className="content-container">
+                    <Switch>
+                        {routes.map(route => {
+                            switch (route.type) {
+                                case PRIVATE_ROUTE:
+                                    return (
+                                        <PrivateRoute
+                                            key={route.path}
+                                            exact={route.exact}
+                                            path={route.path}
+                                            component={route.component}
+                                        />
+                                    );
+                                case PUBLIC_ROUTE:
+                                    return (
+                                        <PublicRoute
+                                            key={route.path}
+                                            exact={route.exact}
+                                            path={route.path}
+                                            component={route.component}
+                                        />
+                                    );
+                                case RESTRICTED_ROUTE:
+                                    return (
+                                        <PublicRoute
+                                            key={route.path}
+                                            restricted
+                                            exact={route.exact}
+                                            path={route.path}
+                                            component={route.component}
+                                        />
+                                    );
+                            }
+                        })}
+                        <Redirect from="*" to="/404" />
+                    </Switch>
+                </Layout.Content>
             </Layout>
         </Router>
     );
