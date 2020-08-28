@@ -2,36 +2,33 @@ import React, { useEffect } from 'react';
 import { Router, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Layout } from 'antd';
 import { history } from '../_helpers';
 import { userActions, clientActions } from '../_actions';
-import '../styles/main.scss';
-
 import {
     DashboardPage,
     ClientsPage,
     LoginPage,
     AssignmentPage,
     AssignmentFormPage,
+    PageNotFound,
+    Header,
     PrivateRoute,
     PublicRoute,
 } from './index';
-import { PageNotFound, Header } from './';
+import '../styles/main.scss';
 
 const App = ({ isAuthenticated, clients, getDetails, getClients }) => {
     useEffect(() => {
         if (isAuthenticated) {
             getDetails();
+            getClients();
         }
     }, [isAuthenticated]);
 
-    // Fetch clients
-    useEffect(() => {
-        getClients();
-    }, []);
-
     return (
         <Router history={history}>
-            <div className="app">
+            <Layout style={{ height: '100vh' }}>
                 {isAuthenticated ? <Header /> : null}
                 <Switch>
                     <PrivateRoute exact path="/" component={DashboardPage} />
@@ -71,7 +68,7 @@ const App = ({ isAuthenticated, clients, getDetails, getClients }) => {
                     <PublicRoute component={PageNotFound} />
                     <Redirect from="*" to="/" />
                 </Switch>
-            </div>
+            </Layout>
         </Router>
     );
 };

@@ -28,7 +28,8 @@
 }
 
 .clientsList {
-    height: calc(100% - 122px);
+    height: calc(100% - 130px);
     overflow-y: scroll;
     list-style-type: none;
+    margin-block-end: 0;
 }

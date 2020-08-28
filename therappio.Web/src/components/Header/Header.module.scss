@@ -1,73 +1,13 @@
 @import '../../styles/helpers/variables';
 
-.header {
-    position: fixed;
-    z-index: 100;
-    width: 100%;
-    background-color: $chambray-blue;
-    color: #eee;
+header {
     height: 60px;
-    display: flex;
-    -webkit-box-shadow: 0 0 35px 0 rgba(52, 60, 61, 0.45);
-    box-shadow: 0 0 35px 0 rgba(52, 60, 61, 0.45);
 }
 
 .logo {
     font-size: 2rem;
     font-weight: $bold;
     min-width: 192px;
-    width: 20%;
-    padding: 15px 20px 10px 15px;
-}
-
-.nav {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-
-    a {
-        color: $white;
-    }
-
-    &Group {
-        &Center,
-        &Right {
-            height: 100%;
-            display: flex;
-        }
-    }
-
-    &Link {
-        display: flex;
-        line-height: 1.5;
-        align-items: center;
-        justify-content: center;
-        font-weight: $normal;
-        font-size: 1rem;
-        letter-spacing: 1px;
-        padding: 10px 20px;
-        text-transform: uppercase;
-        transition: background-color 0.3s;
-        border-radius: 0;
-        height: auto;
-
-        &Active {
-            font-weight: $bold;
-        }
-
-        &Icon {
-            font-size: 1.8rem;
-            font-weight: $light;
-        }
-
-        &:hover,
-        &:focus {
-            outline: none;
-            cursor: pointer;
-        }
-
-        &:hover {
-            background-color: $big-stone-blue;
-        }
-    }
+    color: $white;
+    float: left;
 }
