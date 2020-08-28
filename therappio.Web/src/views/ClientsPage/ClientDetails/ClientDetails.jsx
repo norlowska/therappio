@@ -6,12 +6,8 @@ import moment from 'moment';
 // import { PieChart, Pie, Cell } from 'recharts';
 import { Link } from 'react-router-dom';
 import { clientActions } from '../../../_actions';
-import Tabs from '../../shared/Tabs';
-import Table from '../../shared/Table';
+import { Tabs, Table, Card, CardHeader, CardBody } from '../../../components';
 import styles from './ClientDetails.module.scss';
-import Card from '../../shared/Card/Card';
-import CardHeader from '../../shared/Card/CardHeader';
-import CardBody from '../../shared/Card/CardBody';
 
 const moodchartKeys = [
     { color: '#f44336', name: 'High energy, unpleasant' },

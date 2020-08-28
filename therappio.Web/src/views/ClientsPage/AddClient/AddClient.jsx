@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
-import { FormInput } from '../../index';
+import { FormInput } from '../../../components';
 import style from './AddClient.module.scss';
 
 Modal.setAppElement('#root');

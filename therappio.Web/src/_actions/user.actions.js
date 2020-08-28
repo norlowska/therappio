@@ -1,4 +1,4 @@
-import { history } from '../_helpers';
+import { history } from '../_utilities';
 import { userConstants } from '../_constants';
 import { userService } from '../_services';
 

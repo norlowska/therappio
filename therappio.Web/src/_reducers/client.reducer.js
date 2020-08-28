@@ -1,5 +1,5 @@
 import { clientConstants } from '../_constants';
-import { compareValues } from '../_helpers/compare';
+import { compareValues } from '../_utilities';
 
 const initialState = {
     isFetching: false,

@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { clientActions } from '../../_actions';
-import { history } from '../../_helpers';
+import { history } from '../../_utilities';
 import AnswerFields from './AnswerFields/AnswerFields';
-import FormInput from '../shared/FormInput';
+import { FormInput } from '../../components';
 import style from './AssignmentFormPage.module.scss';
 
 const AssignmentFormPage = ({
@@ -25,10 +25,7 @@ const AssignmentFormPage = ({
         },
     ]);
     const [dueDate, setDueDate] = useState(
-        moment(new Date())
-            .add(7, 'days')
-            .format()
-            .substr(0, 16)
+        moment(new Date()).add(7, 'days').format().substr(0, 16)
     );
 
     const questionTypeOptions = useMemo(

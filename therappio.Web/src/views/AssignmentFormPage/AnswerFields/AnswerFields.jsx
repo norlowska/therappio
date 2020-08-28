@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { FormInput } from '../../index';
+import { FormInput } from '../../../components';
 import style from './AnswerFields.module.scss';
 
 const AnswerFields = ({
@@ -117,8 +117,9 @@ const AnswerFields = ({
                                         />
                                         <FormInput
                                             type="text"
-                                            name={`q${questionIndex +
-                                                1}a0opt${index + 1}`}
+                                            name={`q${questionIndex + 1}a0opt${
+                                                index + 1
+                                            }`}
                                             value={option}
                                             onChange={e =>
                                                 setOptionValue(
@@ -176,8 +177,9 @@ const AnswerFields = ({
                                         />
                                         <FormInput
                                             type="text"
-                                            name={`q${questionIndex +
-                                                1}a0opt${index + 1}`}
+                                            name={`q${questionIndex + 1}a0opt${
+                                                index + 1
+                                            }`}
                                             value={option}
                                             onChange={e =>
                                                 setOptionValue(
@@ -234,8 +236,9 @@ const AnswerFields = ({
                                     <div className={style.optionValueInput}>
                                         <FormInput
                                             type="text"
-                                            name={`q${questionIndex +
-                                                1}a0opt${index + 1}`}
+                                            name={`q${questionIndex + 1}a0opt${
+                                                index + 1
+                                            }`}
                                             value={option}
                                             onChange={e =>
                                                 setOptionValue(

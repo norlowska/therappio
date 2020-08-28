@@ -3,7 +3,7 @@ import { Router, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Layout } from 'antd';
-import { history, routes } from '../_helpers';
+import { history, routes } from '../_utilities';
 import { PRIVATE_ROUTE, PUBLIC_ROUTE, RESTRICTED_ROUTE } from '../_constants';
 import { userActions, clientActions } from '../_actions';
 import { Header, PrivateRoute, PublicRoute } from './index';

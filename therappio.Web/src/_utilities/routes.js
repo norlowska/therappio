@@ -2,10 +2,11 @@ import React from 'react';
 import {
     ClientsPage,
     DashboardPage,
+    AssignmentPage,
     AssignmentFormPage,
     LoginPage,
-    PageNotFound,
-} from '../components';
+    NotFoundPage,
+} from '../views';
 import {
     PRIVATE_ROUTE,
     PUBLIC_ROUTE,
@@ -49,7 +50,7 @@ export const routes = [
     },
     {
         path: '/404',
-        component: props => <PageNotFound {...props} />,
+        component: props => <NotFoundPage {...props} />,
         type: PUBLIC_ROUTE,
     },
 ];
