@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
-import { Router, Switch, Redirect } from 'react-router-dom';
+import { Router, Switch, Redirect, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Layout } from 'antd';
-import { history, routes } from '../_utilities';
+import { history } from '../_utilities';
 import { PRIVATE_ROUTE, PUBLIC_ROUTE, RESTRICTED_ROUTE } from '../_constants';
 import { userActions, clientActions } from '../_actions';
-import { Header, PrivateRoute, PublicRoute } from './index';
+import { Header, PrivateRoute, PublicRoute, Breadcrumbs } from './index';
+import routes from '../routes';
 import '../styles/main.scss';
 
-const App = ({ isAuthenticated, clients, getDetails, getClients }) => {
+const App = ({ isAuthenticated, getDetails, getClients }) => {
     useEffect(() => {
         if (isAuthenticated) {
             getDetails();
@@ -22,6 +23,7 @@ const App = ({ isAuthenticated, clients, getDetails, getClients }) => {
             <Layout style={{ height: '100vh' }}>
                 {isAuthenticated ? <Header /> : null}
                 <Layout.Content className="content-container">
+                    {isAuthenticated ? <Breadcrumbs /> : null}
                     <Switch>
                         {routes.map(route => {
                             switch (route.type) {
@@ -53,6 +55,14 @@ const App = ({ isAuthenticated, clients, getDetails, getClients }) => {
                                             component={route.component}
                                         />
                                     );
+                                default:
+                                    return (
+                                        <Route
+                                            key={route.path}
+                                            path={route.path}
+                                            component={route.component}
+                                        />
+                                    );
                             }
                         })}
                         <Redirect from="*" to="/404" />
@@ -67,12 +77,10 @@ App.propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
     getDetails: PropTypes.func.isRequired,
     getClients: PropTypes.func.isRequired,
-    clients: PropTypes.arrayOf(PropTypes.object),
 };
 
 const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated,
-    clients: state.clients.items,
 });
 
 const mapDispatchToProps = {

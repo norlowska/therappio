@@ -1,4 +1,3 @@
-export { default as App } from './App';
 export { default as Header } from './Header/Header';
 export { default as FormInput } from './shared/FormInput';
 export { default as Tabs } from './shared/Tabs';
@@ -8,3 +7,6 @@ export { default as CardHeader } from './shared/Card/CardHeader';
 export { default as CardBody } from './shared/Card/CardBody';
 export { default as PrivateRoute } from './shared/PrivateRoute';
 export { default as PublicRoute } from './shared/PublicRoute';
+export { default as Breadcrumbs } from './Breadcrumbs/Breadcrumbs';
+export { default as DashboardBreadcrumb } from './Breadcrumbs/DashboardBreadcrumb';
+export { default as PatientDetailsBreadcrumb } from './Breadcrumbs/PatientDetailsBreadcrumb';

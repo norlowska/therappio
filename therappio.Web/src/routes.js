@@ -1,30 +1,38 @@
 import React from 'react';
 import {
-    ClientsPage,
     DashboardPage,
     AssignmentPage,
-    AssignmentFormPage,
+    ClientsPage,
     LoginPage,
     NotFoundPage,
-} from '../views';
+} from './views';
+import { DashboardBreadcrumb, PatientDetailsBreadcrumb } from './components';
 import {
     PRIVATE_ROUTE,
     PUBLIC_ROUTE,
     RESTRICTED_ROUTE,
-} from '../_constants/routes.constants';
+} from './_constants/routes.constants';
 
-export const routes = [
+const routes = [
     {
         path: '/',
         exact: true,
         type: PRIVATE_ROUTE,
-        component: props => <DashboardPage {...props} />,
+        component: DashboardPage,
+        breadcrumb: props => <DashboardBreadcrumb {...props} />,
+    },
+    {
+        path: '/clients/:clientId?',
+        exact: true,
+        type: PRIVATE_ROUTE,
+        component: props => <ClientsPage {...props} />,
+        breadcrumb: props => <PatientDetailsBreadcrumb {...props} />,
     },
     {
         path: '/clients/:clientId/assignment/:assignmentId',
         exact: true,
-        component: props => <AssignmentPage {...props} />,
         type: PRIVATE_ROUTE,
+        component: AssignmentPage,
     },
     // TODO: fetch clients from state
     // {
@@ -38,19 +46,15 @@ export const routes = [
     //     type: PRIVATE_ROUTE,
     // },
     {
-        path: '/clients/:clientId?',
-        component: props => <ClientsPage {...props} />,
-        exact: true,
-        type: PRIVATE_ROUTE,
-    },
-    {
         path: '/login',
-        component: props => <LoginPage {...props} />,
         type: RESTRICTED_ROUTE,
+        component: props => <LoginPage {...props} />,
     },
     {
         path: '/404',
-        component: props => <NotFoundPage {...props} />,
         type: PUBLIC_ROUTE,
+        component: props => <NotFoundPage {...props} />,
     },
 ];
+
+export default routes;
