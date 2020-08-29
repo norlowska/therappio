@@ -1,5 +1,5 @@
 import DashboardPage from './DashboardPage/DashboardPage';
-import ClientsPage from './ClientsPage/ClientsPage';
+import PatientsPage from './PatientsPage/PatientsPage';
 import AssignmentPage from './AssignmentPage/AssignmentPage';
 import AssignmentFormPage from './AssignmentFormPage/AssignmentFormPage';
 import NotFoundPage from './NotFoundPage/NotFoundPage';
@@ -7,7 +7,7 @@ import LoginPage from './LoginPage/LoginPage';
 
 export {
     DashboardPage,
-    ClientsPage,
+    PatientsPage,
     AssignmentPage,
     AssignmentFormPage,
     NotFoundPage,

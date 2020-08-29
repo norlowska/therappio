@@ -2,7 +2,7 @@ import React from 'react';
 import {
     DashboardPage,
     AssignmentPage,
-    ClientsPage,
+    PatientsPage,
     LoginPage,
     NotFoundPage,
 } from './views';
@@ -22,11 +22,11 @@ const routes = [
         breadcrumb: props => <DashboardBreadcrumb {...props} />,
     },
     {
-        path: '/clients/:clientId?',
+        path: '/clients',
         exact: true,
         type: PRIVATE_ROUTE,
-        component: props => <ClientsPage {...props} />,
-        breadcrumb: props => <PatientDetailsBreadcrumb {...props} />,
+        component: props => <PatientsPage {...props} />,
+        breadcrumb: 'Patients list',
     },
     {
         path: '/clients/:clientId/assignment/:assignmentId',
