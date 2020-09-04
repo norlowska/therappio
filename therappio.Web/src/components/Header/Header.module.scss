@@ -1,0 +1,14 @@
+@import '../../styles/helpers/variables';
+
+header {
+    height: 60px;
+    margin-bottom: 22px;
+}
+
+.logo {
+    font-size: 2rem;
+    font-weight: $bold;
+    min-width: 192px;
+    color: $white;
+    float: left;
+}

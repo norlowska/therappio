@@ -1,0 +1,80 @@
+@import '../helpers/mixins';
+
+.primary-btn {
+    @include button-base;
+    border-radius: $border-radius;
+    padding: 9px 18px;
+    background-color: $chambray-blue;
+    color: $white;
+
+    &:hover {
+        background-color: $big-stone-blue;
+    }
+}
+
+.primary-btn-invert {
+    @include button-base;
+    border-radius: $border-radius;
+    padding: 9px 18px;
+    border: 2px solid $chambray-blue;
+    background-color: $white;
+    color: $chambray-blue;
+
+    &:hover {
+        background-color: $mystic-white;
+    }
+}
+
+.page-btn {
+    @include button-base;
+    border-radius: 1px;
+    padding: 4px 8px;
+    border: 1px solid $chambray-blue;
+    background-color: $white;
+    color: $chambray-blue;
+    margin: 4px 3px;
+
+    &:hover {
+        background-color: $mystic-white;
+    }
+}
+
+.page-btn-active {
+    @include button-base;
+    border-radius: 1px;
+    padding: 4px 8px;
+    border: 1px solid $chambray-blue;
+    background-color: $chambray-blue;
+    color: $white;
+    margin: 4px 3px;
+
+    &:hover {
+        background-color: $big-stone-blue;
+    }
+
+    &:disabled {
+        background-color: $mystic-white;
+        border: 1px solid $mystic-white;
+        color: $chambray-blue;
+        cursor: default;
+    }
+}
+
+.icon-btn {
+    @include button-base;
+    background: none;
+    color: inherit;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    text-align: right;
+
+    i {
+        font-size: $h1-font-size;
+    }
+}
+
+button.table-icon-btn > i {
+    font-size: 22px;
+}

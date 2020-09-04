@@ -1,0 +1,40 @@
+@import 'src/styles/helpers/variables';
+
+.tab-list {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.tab-list-item {
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: $border-radius;
+    padding: 9px 18px;
+    color: $chambray-blue;
+    background: transparent;
+    border: 1px solid $chambray-blue;
+    margin-right: 15px;
+    line-height: 1.15rem;
+
+    &:last-child {
+        margin-right: 0;
+    }
+
+    &:hover {
+        background-color: darken($mystic-white, 10);
+    }
+}
+
+.tab-list-active {
+    background-color: $chambray-blue;
+    color: $white;
+
+    &:hover {
+        border: 1px solid $big-stone-blue;
+        background-color: $big-stone-blue;
+        cursor: pointer;
+    }
+}

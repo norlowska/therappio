@@ -1,0 +1,93 @@
+@import 'vendors/normalize';
+@import 'vendors/react-big-calendar';
+@import 'helpers/variables';
+
+@import url('https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap');
+
+.breadcrumbs-wrapper {
+    margin-bottom: 15px;
+
+    .ant-breadcrumb {
+        font-family: 'Roboto';
+        font-size: 14px;
+        line-height: 19px;
+
+        > :first-child {
+            font-size: 16px;
+            line-height: 1;
+        }
+    }
+}
+
+.checkin-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 135px;
+    width: 35%;
+}
+
+.clientCard {
+    margin: 10px 20px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: 1px solid $chambray-blue;
+    display: flex;
+    flex-direction: row;
+    transition: background-color 0.3s;
+
+    &:hover,
+    &:focus {
+        background-color: mix($chambray-blue, $mystic-white, 10%);
+    }
+
+    div {
+        margin: 5px 0;
+    }
+
+    .clientInfo {
+        width: 65%;
+
+        .name {
+            color: $chambray-blue;
+            font-weight: $bold;
+            font-size: 1.3rem;
+        }
+
+        .id {
+            font-size: 1rem;
+        }
+
+        .phone {
+            display: flex;
+            align-items: center;
+
+            i {
+                font-size: 1.3rem;
+                margin-right: 5px;
+            }
+
+            span {
+                font-size: 1rem;
+            }
+        }
+    }
+}
+button.ant-btn > .icon {
+    font-size: 15px;
+}
+button.ant-btn > .icon + span {
+    margin-left: 5px;
+}
+
+@import './layout/layout';
+@import './layout/sidebar';
+@import './base/base';
+@import './base/typography';
+@import './modules/buttons';
+@import './modules/card';
+@import './modules/form';
+@import './modules/scrollbar';
+@import './modules/tables';
+@import './modules/tabs';

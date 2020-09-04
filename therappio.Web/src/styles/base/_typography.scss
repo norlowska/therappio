@@ -1,0 +1,52 @@
+html {
+    font-size: $base-font-size;
+    font-family: $base-font-family;
+}
+
+body {
+    color: $base-font-color;
+    font-weight: $normal;
+    line-height: $base-line-height;
+}
+
+/* =========== HEADINGS =========== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+    color: $mine-shaft-gray;
+    font-weight: $semibold;
+}
+
+h1 {
+    font-size: $h1-font-size;
+}
+
+h2 {
+    font-size: $h2-font-size;
+}
+
+h3 {
+    font-size: $h3-font-size;
+}
+h4 {
+    font-size: $h4-font-size;
+}
+h5 {
+    font-size: $h5-font-size;
+}
+h6 {
+    font-size: $h6-font-size;
+}
+
+strong {
+    color: $mine-shaft-gray;
+    font-size: 1.1 * $base-font-size;
+}

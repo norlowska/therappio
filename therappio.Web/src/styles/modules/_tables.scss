@@ -1,0 +1,55 @@
+@import 'src/styles/helpers/variables';
+
+table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+th {
+    color: $chambray-blue;
+    padding: 10px;
+}
+
+tr {
+    border-top: 1px solid #ddd;
+}
+
+thead > tr > th {
+    border-bottom: 2px solid #ddd;
+}
+
+thead:first-child > tr:first-child {
+    border-top: 0;
+}
+
+td {
+    text-align: center;
+    padding: 10px;
+}
+
+.pagination {
+    margin-bottom: 10px;
+    float: right;
+
+    input,
+    select {
+        display: inline-block;
+        width: 100px;
+    }
+}
+
+.out-of-range {
+    letter-spacing: 1px;
+    font-size: 1.3rem;
+    color: $chambray-blue;
+}
+
+.expanded-row {
+    width: 100%;
+    border-top: 0;
+}
+
+.expanded-row td {
+    text-align: start;
+}

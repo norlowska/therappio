@@ -1,0 +1,90 @@
+@import 'src/styles/helpers/variables';
+
+.answer {
+    font-size: 14px;
+}
+
+.withConfigInput {
+    display: flex;
+    align-items: center;
+
+    :global(.formGroup) {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        label {
+            margin: 15px 8px;
+        }
+    }
+
+    &.number {
+        width: 540px;
+        justify-content: space-between;
+
+        &:first-child {
+            margin-right: 30px;
+        }
+    }
+
+    &.slider div:first-child {
+        width: 60%;
+    }
+}
+
+.addOption {
+    border: none;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    color: #606060;
+    font-weight: 600;
+    font-size: 17px;
+    font-family: inherit;
+    transition: color 0.3s;
+
+    i {
+        font-size: 18px;
+        margin-right: 6px;
+    }
+
+    &:hover {
+        color: $mine-shaft-gray;
+    }
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.option {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+
+    input[type='radio'],
+    input[type='checkbox'] {
+        height: 1.5rem;
+        width: auto;
+        margin-bottom: 5px;
+        margin-right: 20px;
+    }
+
+    label {
+        margin-left: 10px;
+    }
+    button {
+        margin-left: 15px;
+    }
+}
+
+.optionValueInput {
+    width: calc(100% - 46px);
+    display: flex;
+    align-items: center;
+}
+
+ul {
+    list-style-type: none;
+}

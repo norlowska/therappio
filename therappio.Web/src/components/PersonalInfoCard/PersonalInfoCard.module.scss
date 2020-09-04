@@ -1,0 +1,20 @@
+@import '../../styles/helpers/variables';
+
+.infoRow {
+    margin-bottom: 8px;
+
+    > .label {
+        text-transform: uppercase;
+        font-weight: 600;
+        color: $accent-font-color;
+        font-size: 13px;
+    }
+}
+
+.emergencyContactTitle {
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.85);
+}

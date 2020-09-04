@@ -1,0 +1,43 @@
+@import 'src/styles/helpers/variables';
+
+.card-section {
+    background: $white;
+    margin-top: 25px;
+    box-shadow: 0 0 5px 2px rgba($chambray-blue, 0.2);
+    border-radius: $border-radius;
+}
+
+.card-header {
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    font-weight: $semibold;
+    font-size: 1.3rem;
+    color: $chambray-blue;
+    display: flex;
+    align-items: center;
+}
+
+.card-header-img {
+    position: relative;
+    img {
+        display: block;
+        width: 100%;
+        border-radius: 2px 2px 0 0;
+        position: relative;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-footer {
+    padding: 12px 20px;
+    border-top: 2px solid #ddd;
+    display: flex;
+    align-items: center;
+}
