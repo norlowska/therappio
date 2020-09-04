@@ -32,15 +32,15 @@ const columns = [
             <>{dayjs(record.dateOfBirth).format('D MMM YYYY')}</>
         ),
     },
-    {
-        key: 'age',
-        title: 'Age',
-        align: 'center',
-        dataIndex: 'dateOfBirth',
-        render: (text, record, index) => (
-            <>{dayjs().diff(record.dateOfBirth, 'y')} yrs</>
-        ),
-    },
+    // {
+    //     key: 'age',
+    //     title: 'Age',
+    //     align: 'center',
+    //     dataIndex: 'dateOfBirth',
+    //     render: (text, record, index) => (
+    //         <>{dayjs().diff(record.dateOfBirth, 'y')} yrs</>
+    //     ),
+    // },
     {
         key: 'gender',
         title: 'Gender',
@@ -55,13 +55,10 @@ const columns = [
         render: (text, record, index) => (
             <NavLink to={`/clients/${record._id}`}>
                 <Button
+                    className="table-icon-btn"
                     type="link"
                     shape="circle"
-                    icon={
-                        <i
-                            className={`la la-arrow-circle-right ${style.goToPatientDetailsBtn}`}
-                        />
-                    }
+                    icon={<i className={`la la-arrow-circle-right`} />}
                 ></Button>
             </NavLink>
         ),

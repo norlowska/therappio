@@ -42,15 +42,18 @@ $bold: 700;
 $white: #fff;
 $gallery-white: #f0f0f0;
 $chambray-blue: #2c567c; // !!
+$denim-blue: #166ec5;
 $big-stone-blue: #1a344a;
 $mystic-white: #e9edf3;
 $mine-shaft-gray: #2d2d2d;
 $silver: #cacaca;
+$black: #000;
 
 $background-color: $gallery-white !default;
 $input-background: $mystic-white !default;
 
-$base-font-color: $mine-shaft-gray !default;
+$base-font-color: $black !default;
+$accent-font-color: $denim-blue !default;
 $input-font-color: $chambray-blue !default;
 
 $border-color: $silver !default;

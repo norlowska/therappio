@@ -6,7 +6,7 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap');
 
 .breadcrumbs-wrapper {
-    margin: 24px 0;
+    margin-bottom: 15px;
 
     .ant-breadcrumb {
         font-family: 'Roboto';
@@ -73,6 +73,12 @@
             }
         }
     }
+}
+button.ant-btn > .icon {
+    font-size: 15px;
+}
+button.ant-btn > .icon + span {
+    margin-left: 5px;
 }
 
 @import './layout/layout';

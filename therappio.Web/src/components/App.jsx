@@ -20,7 +20,7 @@ const App = ({ isAuthenticated, getDetails, getClients }) => {
 
     return (
         <Router history={history}>
-            <Layout style={{ height: '100vh' }}>
+            <Layout style={{ height: '100%' }}>
                 {isAuthenticated ? <Header /> : null}
                 <Layout.Content className="content-container">
                     {isAuthenticated ? <Breadcrumbs /> : null}

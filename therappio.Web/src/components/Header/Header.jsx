@@ -19,7 +19,7 @@ const Header = ({ logout }) => {
     const handleMenuItemClick = e => setSelectedMenuItem(e.key);
 
     return (
-        <Layout.Header>
+        <Layout.Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
             <div className={styles.logo}>therapp.io</div>
             <Menu
                 theme="dark"

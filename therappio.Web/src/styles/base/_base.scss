@@ -1,12 +1,3 @@
-body {
-    background-color: $background-color;
-}
-
-main {
-    height: calc(100vh - 64px);
-    display: flex;
-}
-
 a {
     text-decoration: none;
     color: $base-font-color;

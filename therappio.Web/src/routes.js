@@ -2,7 +2,9 @@ import React from 'react';
 import {
     DashboardPage,
     AssignmentPage,
+    AssignmentFormPage,
     PatientsPage,
+    PatientDetailsPage,
     LoginPage,
     NotFoundPage,
 } from './views';
@@ -29,6 +31,13 @@ const routes = [
         breadcrumb: 'Patients list',
     },
     {
+        path: '/clients/:clientId',
+        exact: true,
+        type: PRIVATE_ROUTE,
+        component: props => <PatientDetailsPage {...props} />,
+        breadcrumb: props => <PatientDetailsBreadcrumb {...props} />,
+    },
+    {
         path: '/clients/:clientId/assignment/:assignmentId',
         exact: true,
         type: PRIVATE_ROUTE,
@@ -40,11 +49,16 @@ const routes = [
     //     component: props => <AssignmentFormPage editMode {...props} />,
     // },
     // TODO: fetch clients from state
-    // {
-    //     path: '/clients/:clientId/assignments/new',
-    //     component: props => <AssignmentFormPage {...props} />,
-    //     type: PRIVATE_ROUTE,
-    // },
+    {
+        path: '/clients/:clientId/assignments/new',
+        component: props => <AssignmentFormPage {...props} />,
+        type: PRIVATE_ROUTE,
+    },
+    {
+        path: '/clients/:clientId/sessions/new',
+        component: props => <PatientsPage {...props} />,
+        type: PRIVATE_ROUTE,
+    },
     {
         path: '/login',
         type: RESTRICTED_ROUTE,
