@@ -19,13 +19,26 @@ export const selectClients = state => Object.values(state.clients.byId);
 export const selectClient = (state, id) => state.clients.byId[id];
 
 export const selectClientAssignments = (state, clientId) => {
-    const clientAssignments = state.clients.byId[clientId].assignments;
-    return clientAssignments.map(item => selectAssignment(state, item.id));
+    if (
+        !state.clients.byId[clientId] ||
+        !state.clients.byId[clientId].assignments
+    )
+        return null;
+    return state.clients.byId[clientId].map(item =>
+        selectAssignment(state, item.id)
+    );
 };
 
 export const selectClientTherapySessions = (state, clientId) => {
-    const clientTherapySessions = state.clients.byId[clientId].therapySessions;
-    return clientTherapySessions.map(item =>
+    if (
+        !state.clients.byId[clientId] ||
+        !state.clients.byId[clientId].therapySessions
+    )
+        return null;
+
+    return state.clients.byId[
+        clientId
+    ].therapySessionsclientTherapySessions.map(item =>
         selectTherapySession(state, item.id)
     );
 };
@@ -43,13 +56,25 @@ export const selectSessionsByMonth = (state, month) => {
 };
 
 export const selectClientMoodRecords = (state, clientId) => {
-    const clientMoodRecords = state.clients.items[clientId].moodRecords;
-    return clientMoodRecords.map(item => selectMoodRecord(state, item.id));
+    if (
+        !state.clients.byId[clientId] ||
+        !state.clients.byId[clientId].moodRecords
+    )
+        return null;
+
+    return state.clients.byId[clientId].moodRecords.map(item =>
+        selectMoodRecord(state, item.id)
+    );
 };
 
 export const selectClientJournalRecords = (state, clientId) => {
-    const clientJournalRecords = state.clients.items[clientId].journalRecords;
-    return clientJournalRecords.map(item =>
+    if (
+        !state.clients.byId[clientId] ||
+        !state.clients.byId[clientId].journalRecords
+    )
+        return null;
+
+    return state.clients.byId[clientId].journalRecords.map(item =>
         selectJournalRecord(state, item.id)
     );
 };
