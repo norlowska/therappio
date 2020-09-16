@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Router, Switch, Redirect, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Layout } from 'antd';
+import { Layout, Row } from 'antd';
 import { history } from '../_utilities';
 import { PRIVATE_ROUTE, PUBLIC_ROUTE, RESTRICTED_ROUTE } from '../_constants';
 import { userActions, clientActions } from '../_actions';
@@ -23,7 +23,7 @@ const App = ({ isAuthenticated, getDetails, getClients }) => {
             <Layout style={{ height: '100%' }}>
                 {isAuthenticated ? <Header /> : null}
                 <Layout.Content className="content-container">
-                    {isAuthenticated ? <Breadcrumbs /> : null}
+                    <Row>{isAuthenticated ? <Breadcrumbs /> : null}</Row>
                     <Switch>
                         {routes.map(route => {
                             switch (route.type) {
@@ -68,6 +68,9 @@ const App = ({ isAuthenticated, getDetails, getClients }) => {
                         <Redirect from="*" to="/404" />
                     </Switch>
                 </Layout.Content>
+                <Layout.Footer style={{ textAlign: 'center' }}>
+                    <div>therapp.io ©2020 Created by Natalia Orłowska</div>
+                </Layout.Footer>
             </Layout>
         </Router>
     );

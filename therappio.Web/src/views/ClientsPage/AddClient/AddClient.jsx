@@ -22,7 +22,6 @@ const AddClient = () => {
     ];
 
     const openModal = () => {
-        console.log(modalIsOpen);
         setIsOpen(true);
     };
 

@@ -5,8 +5,8 @@ import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunkMiddleware from 'redux-thunk';
 import rootReducer from './_reducers';
-import App from './components/App';
 import 'antd/dist/antd.css';
+import App from './components/App';
 
 const store = createStore(
     rootReducer,

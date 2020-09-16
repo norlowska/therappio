@@ -43,12 +43,10 @@ const routes = [
         type: PRIVATE_ROUTE,
         component: AssignmentPage,
     },
-    // TODO: fetch clients from state
-    // {
-    //     path: "/clients/:clientId/assignment/:assignmentId/edit",
-    //     component: props => <AssignmentFormPage editMode {...props} />,
-    // },
-    // TODO: fetch clients from state
+    {
+        path: '/clients/:clientId/assignment/:assignmentId/edit',
+        component: props => <AssignmentFormPage editMode {...props} />,
+    },
     {
         path: '/clients/:clientId/assignments/new',
         component: props => <AssignmentFormPage {...props} />,

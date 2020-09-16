@@ -110,7 +110,6 @@ function update(client) {
 }
 
 function createAssignment(assignment) {
-    console.log(assignment);
     return axios.post(`${config.apiUrl}/assignments`, assignment).then(res => {
         return res.data;
     });

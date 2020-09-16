@@ -141,3 +141,5 @@ web-report/
 
 # API config gile
 therappio.api/config.json
+
+out/

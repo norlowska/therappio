@@ -1,101 +1,78 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Card } from 'antd';
+import { clientActions } from '../../_actions';
 import style from './AssignmentPage.module.scss';
 
-const AssignmentPage = ({ match, clients }) => {
-    const [assignment, setAssignment] = useState(undefined);
-
-    // Set selected client
+const AssignmentPage = ({ match, client, assignment, getDetails }) => {
     useEffect(() => {
-        const selectedClient = clients.find(
-            client => client.shortId.toString() === match.params.clientId
-        );
-        const selectedAssignment =
-            selectedClient && selectedClient.assignments
-                ? selectedClient.assignments.find(
-                      assignment =>
-                          assignment.shortId.toString() ===
-                          match.params.assignmentId
-                  )
-                : undefined;
-
-        setAssignment(selectedAssignment);
-    }, [match.params.assignmentId, clients]);
+        if (client && !client.hasOwnProperty('assignments'))
+            getDetails(client._id);
+    }, [client]);
 
     return (
-        <main className="center-container">
-            <div className="assignment-container">
-                <div className={style.assignmentHeader}>
-                    <h2>
-                        {assignment &&
-                        !!assignment.title &&
-                        assignment.title.length > 0
-                            ? assignment.title
-                            : 'Untitled'}
-                    </h2>{' '}
-                    {assignment && assignment.status === 'Not submitted' ? (
-                        <Link
-                            className={`primary-btn ${style.editLink}`}
-                            to={`/clients/${match.params.clientId}/assignments/${match.params.assignmentId}/edit`}
-                        >
-                            Edit
-                        </Link>
-                    ) : null}
-                </div>
-                <div className={style.tasks}>
-                    {assignment &&
-                        assignment.fields.map((field, index) => (
-                            <div className={style.task} key={index + 1}>
-                                <h4 className={style.question}>
-                                    {field.question}
-                                </h4>
-                                <div className={style.answer}>
-                                    {field.options && field.options.length ? (
-                                        field.options.map(option =>
-                                            option === field.answer ? (
-                                                <div
-                                                    className={
-                                                        style.optionSelected
-                                                    }
-                                                >
-                                                    {option}
-                                                </div>
-                                            ) : (
-                                                <div>{option}</div>
-                                            )
+        <>
+            <h2 className="page-heading">
+                {assignment && !!assignment.title && assignment.title.length > 0
+                    ? assignment.title
+                    : ''}
+            </h2>
+            <div className={style.tasks}>
+                {assignment &&
+                    assignment.fields.map((field, index) => (
+                        <Card title={field.question} key={`q${index + 1}`}>
+                            <div className={style.answer}>
+                                {field.options && field.options.length ? (
+                                    field.options.map((option, index) =>
+                                        option === field.answer ? (
+                                            <div
+                                                key={`op${index}`}
+                                                className={style.optionSelected}
+                                            >
+                                                {option}
+                                            </div>
+                                        ) : (
+                                            <div key={`op${index}`}>
+                                                {option}
+                                            </div>
                                         )
-                                    ) : (
-                                        <div>
-                                            {field.answer && field.answer.length
-                                                ? field.answer.map(
-                                                      answer => answer
-                                                  )
-                                                : 'No answer given'}
-                                        </div>
-                                    )}
-                                </div>
+                                    )
+                                ) : (
+                                    <div>
+                                        {field.answer && field.answer.length
+                                            ? field.answer.map(answer => answer)
+                                            : 'No answer given'}
+                                    </div>
+                                )}
                             </div>
-                        ))}
-                </div>
+                        </Card>
+                    ))}
             </div>
-        </main>
+        </>
     );
 };
 
-const mapStateToProps = state => ({
-    clients: state.clients.items,
-});
-
-AssignmentPage.propTypes = {
-    match: PropTypes.shape({
-        params: PropTypes.shape({
-            clientId: PropTypes.string,
-            assignmentId: PropTypes.string,
-        }),
-    }),
-    clients: PropTypes.arrayOf(PropTypes.object),
+const mapStateToProps = (state, props) => {
+    const client = state.clients.items.length
+        ? state.clients.items.find(
+              client => client._id === props.match.params.clientId
+          )
+        : null;
+    return {
+        client,
+        assignment:
+            client && client.assignments
+                ? client.assignments.find(
+                      a => a._id === props.match.params.assignmentId
+                  )
+                : null,
+    };
 };
 
-export default connect(mapStateToProps)(AssignmentPage);
+const mapDispatchToProps = {
+    getDetails: clientActions.getDetails,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AssignmentPage);

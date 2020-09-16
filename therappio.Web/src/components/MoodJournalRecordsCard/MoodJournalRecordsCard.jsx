@@ -68,7 +68,6 @@ const tabList = [
 
 const MoodJournalRecordsCard = ({ moodRecords, journalRecords }) => {
     const [activeKey, setActiveKey] = useState('mood');
-    console.log(moodRecords);
 
     const contentList = {
         mood: (

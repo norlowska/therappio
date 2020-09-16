@@ -41,7 +41,6 @@ const columns = [
 ];
 
 const SessionsCard = ({ therapySessions, patientId }) => {
-    console.log(therapySessions);
     const handleAdd = e => {};
     return (
         <Card

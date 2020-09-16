@@ -81,6 +81,14 @@ button.ant-btn > .icon + span {
     margin-left: 5px;
 }
 
+.ant-card {
+    margin: 8px 4px;
+}
+
+.page-heading {
+    margin-bottom: 20px;
+}
+
 @import './layout/layout';
 @import './layout/sidebar';
 @import './base/base';

@@ -76,11 +76,11 @@ export function clients(state = initialState, action) {
                 items: state.items.map(client => {
                     return client._id === action.payload.id
                         ? {
-                              ...client,
                               assignments: [
-                                  ...client.assignment,
-                                  action.payload,
+                                  ...client.assignments,
+                                  action.payload.assignment,
                               ],
+                              ...client,
                           }
                         : client;
                 }),

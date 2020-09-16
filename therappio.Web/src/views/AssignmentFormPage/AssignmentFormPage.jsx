@@ -2,7 +2,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import moment from 'moment';
+import { Card, Button } from 'antd';
+import dayjs from 'dayjs';
 import { clientActions } from '../../_actions';
 import { history } from '../../_utilities';
 import AnswerFields from './AnswerFields/AnswerFields';
@@ -11,7 +12,7 @@ import style from './AssignmentFormPage.module.scss';
 
 const AssignmentFormPage = ({
     match,
-    clients,
+    assignment,
     createAssignment,
     updateAssignment,
     editMode = false,
@@ -25,7 +26,7 @@ const AssignmentFormPage = ({
         },
     ]);
     const [dueDate, setDueDate] = useState(
-        moment(new Date()).add(7, 'days').format().substr(0, 16)
+        dayjs().add(7, 'day').format('YYYY-MM-DDTHH:mm')
     );
 
     const questionTypeOptions = useMemo(
@@ -45,21 +46,13 @@ const AssignmentFormPage = ({
     );
 
     useEffect(() => {
-        const selectedClient = clients.find(
-            client => client._id === match.params.clientId
-        );
-
-        const assignment = selectedClient.assignments.find(
-            assignment => assignment._id === match.params.assignmentId
-        );
-
-        if (editMode) {
+        if (editMode && assignment) {
             setId(assignment._id);
             setTitle(assignment.title);
             setFields(assignment.fields);
-            setDueDate(moment(assignment.dueDate).format().substr(0, 16));
+            setDueDate(dayjs(assignment.dueDate).format('YYYY-MM-DDTHH:mm'));
         }
-    }, [match.params.clientId, clients]);
+    }, [match.params.clientId, assignment]);
 
     const saveAssignment = event => {
         event.preventDefault();
@@ -67,6 +60,7 @@ const AssignmentFormPage = ({
             title,
             fields,
             dueDate,
+            client: match.params.clientId,
         };
         if (editMode) {
             updateAssignment(
@@ -118,62 +112,66 @@ const AssignmentFormPage = ({
         setFields(newFields);
     };
 
+    const titleInput = (
+        <div className={`${style.formName}`}>
+            <FormInput
+                type="text"
+                value={title}
+                name="form-name"
+                onChange={e => setTitle(e.target.value)}
+            />
+        </div>
+    );
+
     return (
-        <main className="center-container">
+        <Card title={titleInput} className="center-container">
             <div className="assignment-container">
                 <form className={`clearfix`} onSubmit={saveAssignment}>
-                    <div className={`formGroup ${style.formName}`}>
-                        <FormInput
-                            type="text"
-                            value={title}
-                            name="form-name"
-                            onChange={e => setTitle(e.target.value)}
-                        />
-                    </div>
                     <div className={style.formQuestions}>
-                        {fields.map((field, index) => (
-                            <div className={style.formItem} key={index + 1}>
-                                <div className={style.question}>
-                                    <div className={'formGroup'}>
-                                        <FormInput
-                                            type="textarea"
-                                            value={field.question}
-                                            name={`q${index + 1}`}
-                                            onChange={e =>
-                                                setQuestion(
-                                                    index,
-                                                    e.target.value,
-                                                    field.type
-                                                )
-                                            }
-                                        />
+                        {fields &&
+                            fields.map((field, index) => (
+                                <div className={style.formItem} key={index + 1}>
+                                    <div className={style.question}>
+                                        <div className={'formGroup'}>
+                                            <FormInput
+                                                type="textarea"
+                                                value={field.question}
+                                                name={`q${index + 1}`}
+                                                onChange={e =>
+                                                    setQuestion(
+                                                        index,
+                                                        e.target.value,
+                                                        field.type
+                                                    )
+                                                }
+                                            />
+                                        </div>
+                                        <div className={'formGroup'}>
+                                            <FormInput
+                                                type="select"
+                                                value={field.type.value}
+                                                name={`q${index + 1}Type`}
+                                                options={questionTypeOptions}
+                                                onChange={e =>
+                                                    setQuestion(
+                                                        index,
+                                                        field.question,
+                                                        e.target.value
+                                                    )
+                                                }
+                                            />
+                                        </div>
                                     </div>
-                                    <div className={'formGroup'}>
-                                        <FormInput
-                                            type="select"
-                                            value={field.type.value}
-                                            name={`q${index + 1}Type`}
-                                            options={questionTypeOptions}
-                                            onChange={e =>
-                                                setQuestion(
-                                                    index,
-                                                    field.question,
-                                                    e.target.value
-                                                )
-                                            }
-                                        />
-                                    </div>
+                                    <AnswerFields
+                                        questionType={field.type}
+                                        questionIndex={index}
+                                        options={field.options}
+                                        addOption={addOption}
+                                        setOptionValue={setOptionValue}
+                                        deleteOption={deleteOption}
+                                    />
                                 </div>
-                                <AnswerFields
-                                    questionType={field.type}
-                                    questionIndex={index}
-                                    options={field.options}
-                                    addOption={addOption}
-                                    setOptionValue={setOptionValue}
-                                    deleteOption={deleteOption}
-                                />
-                            </div>
-                        ))}
+                            ))}
                         <button
                             className={style.addQuestion}
                             onClick={addQuestion}
@@ -187,21 +185,21 @@ const AssignmentFormPage = ({
                             Due date
                             <input
                                 type="datetime-local"
-                                defaultValue={dueDate}
+                                value={dueDate}
                                 name="dueDate"
                                 onChange={e => setDueDate(e.target.value)}
                             />
                         </label>
-                        <button
-                            className={`primary-btn ${style.saveAssignmentBtn}`}
-                            type="submit"
-                        >
-                            Save assignment
-                        </button>
+                        <div className={style.buttonsGroup}>
+                            <Button>Cancel</Button>
+                            <Button onClick={saveAssignment} type="primary">
+                                Save assignment
+                            </Button>
+                        </div>
                     </div>
                 </form>
             </div>
-        </main>
+        </Card>
     );
 };
 
@@ -212,15 +210,32 @@ AssignmentFormPage.propTypes = {
             assignmentId: PropTypes.string,
         }),
     }),
-    clients: PropTypes.arrayOf(PropTypes.object).isRequired,
     createAssignment: PropTypes.func.isRequired,
     updateAssignment: PropTypes.func.isRequired,
     editMode: PropTypes.bool,
 };
 
-const mapStateToProps = state => ({ clients: state.clients.items });
+const mapStateToProps = (state, props) => {
+    const client =
+        state.clients.items.length &&
+        state.clients.items.find(
+            client => client._id === props.match.params.clientId
+        );
+    if (client && !client.hasOwnProperty('assignments'))
+        mapDispatchToProps.getDetails(props.match.params.clientId);
+    console.log(client);
+    return {
+        assignment:
+            client && client.assignments
+                ? client.assignments.find(
+                      a => a._id === props.match.params.assignmentId
+                  )
+                : null,
+    };
+};
 
 const mapDispatchToProps = {
+    getDetails: clientActions.getDetails,
     createAssignment: clientActions.createAssignment,
     updateAssignment: clientActions.updateAssignment,
 };

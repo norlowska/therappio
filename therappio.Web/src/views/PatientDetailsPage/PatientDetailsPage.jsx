@@ -13,101 +13,51 @@ import style from './PatientDetailsPage.module.scss';
 
 const PatientDetailsPage = ({ match, patient, getDetails }) => {
     useEffect(() => {
-        if (
-            patient &&
-            !patient.hasOwnProperty('therapySessions') &&
-            !patient.hasOwnProperty('assignments') &&
-            !patient.hasOwnProperty('moodRecords') &&
-            !patient.hasOwnProperty('journalRecords')
-        ) {
-            getDetails(patient._id);
-        }
-    }, [patient]);
+        getDetails(match.params.clientId);
+    }, [match.params.clientId]);
 
     return (
         <>
             <Row>
-                <h2 className={style.patientNameHeading}>
+                <h2 className="page-heading">
                     {patient && `${patient.firstName} ${patient.lastName}`}
                 </h2>
             </Row>
-            <Row gutter={8}>
-                <Col md={{ span: 24 }} lg={{ span: 16 }}>
-                    <Row gutter={[8, 8]}>
-                        <Col span={24}>
-                            <PersonalInfoCard patient={patient} />
-                        </Col>
-                    </Row>
-                    <Row gutter={[8, 8]}>
-                        <Col span={24}>
-                            <SessionsCard
-                                therapySessions={
-                                    patient && patient.therapySessions
-                                        ? patient.therapySessions
-                                        : null
-                                }
-                                patientId={
-                                    patient && patient._id ? patient._id : null
-                                }
-                            />
-                        </Col>
-                    </Row>
-                    <Row gutter={[8, 8]}>
-                        <Col span={24}>
-                            <AssignmentsCard
-                                assignments={
-                                    patient && patient.assignments
-                                        ? patient.assignments
-                                        : null
-                                }
-                                patientId={
-                                    patient && patient._id ? patient._id : null
-                                }
-                            />
-                        </Col>
-                    </Row>
-                </Col>
-                <Col md={{ span: 24 }} lg={{ span: 8 }}>
-                    <Row gutter={[8, 8]}>
-                        <Col span={24}>
-                            <NotesCard patient={patient} />
-                        </Col>
-                    </Row>
-                    <Row gutter={[8, 8]}>
-                        <Col span={24}>
-                            <MoodJournalRecordsCard
-                                moodRecords={
-                                    patient && patient.moodRecords
-                                        ? patient.moodRecords
-                                        : null
-                                }
-                                journalRecords={
-                                    patient && patient.journalRecords
-                                        ? patient.journalRecords
-                                        : null
-                                }
-                            />
-                        </Col>
-                    </Row>
-                </Col>
-                {/* <Col span={24}>
-                    
-                </Col>
-                <Col md={{ span: 24 }} lg={{ span: 16 }}>
+            <Row>
+                <Col xs={{ span: 24 }} lg={{ span: 16 }}>
                     <PersonalInfoCard patient={patient} />
-                </Col>
-                <Col md={{ span: 24 }} lg={{ span: 8 }}>
-                    
-                </Col>
-                <Col md={{ span: 24 }} lg={{ span: 16 }}>
                     <SessionsCard
                         therapySessions={
                             patient && patient.therapySessions
                                 ? patient.therapySessions
                                 : null
                         }
+                        patientId={patient && patient._id ? patient._id : null}
                     />
-                </Col> */}
+                    <AssignmentsCard
+                        assignments={
+                            patient && patient.assignments
+                                ? patient.assignments
+                                : null
+                        }
+                        patientId={patient && patient._id ? patient._id : null}
+                    />
+                </Col>
+                <Col xs={{ span: 24 }} lg={{ span: 8 }}>
+                    <NotesCard patient={patient} />
+                    <MoodJournalRecordsCard
+                        moodRecords={
+                            patient && patient.moodRecords
+                                ? patient.moodRecords
+                                : null
+                        }
+                        journalRecords={
+                            patient && patient.journalRecords
+                                ? patient.journalRecords
+                                : null
+                        }
+                    />
+                </Col>
             </Row>
         </>
     );
