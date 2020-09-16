@@ -25,22 +25,17 @@ export const selectClientAssignments = (state, clientId) => {
 };
 
 export const selectClientTherapySessions = (state, clientId) => {
-    if (
-        !state.clients.byId[clientId] ||
-        !state.clients.byId[clientId].therapySessions
-    )
-        return null;
+    if (!state.therapySessions) return null;
 
-    return state.clients.byId[
-        clientId
-    ].therapySessionsclientTherapySessions.map(item =>
-        selectTherapySession(state, item.id)
-    );
+    const therapySessions = selectTherapySessions(state);
+    return therapySessions.filter(item => item.client._id === clientId);
 };
 
 export const selectTodaysSessions = state => {
     const therapySessions = selectTherapySessions(state);
-    return therapySessions.filter(item => item.therapist._id === therapistId);
+    return therapySessions.filter(item =>
+        dayjs(item.date).isSame(dayjs(), 'date')
+    );
 };
 
 export const selectSessionsByMonth = (state, month) => {
@@ -51,25 +46,15 @@ export const selectSessionsByMonth = (state, month) => {
 };
 
 export const selectClientMoodRecords = (state, clientId) => {
-    if (
-        !state.clients.byId[clientId] ||
-        !state.clients.byId[clientId].moodRecords
-    )
-        return null;
+    if (!state.moodRecords) return null;
 
-    return state.clients.byId[clientId].moodRecords.map(item =>
-        selectMoodRecord(state, item.id)
-    );
+    const moodRecords = selectMoodRecords(state);
+    return moodRecords.filter(item => item.client._id === clientId);
 };
 
 export const selectClientJournalRecords = (state, clientId) => {
-    if (
-        !state.clients.byId[clientId] ||
-        !state.clients.byId[clientId].journalRecords
-    )
-        return null;
+    if (!state.journalRecords) return null;
 
-    return state.clients.byId[clientId].journalRecords.map(item =>
-        selectJournalRecord(state, item.id)
-    );
+    const journalRecords = selectJournalRecords(state);
+    return journalRecords.filter(item => item.client._id === clientId);
 };
