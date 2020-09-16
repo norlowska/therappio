@@ -10,11 +10,11 @@ import { Header, PrivateRoute, PublicRoute, Breadcrumbs } from './index';
 import routes from '../routes';
 import '../styles/main.scss';
 
-const App = ({ isAuthenticated, getDetails, getClients }) => {
+const App = ({ isAuthenticated, getDetails, fetchClients }) => {
     useEffect(() => {
         if (isAuthenticated) {
             getDetails();
-            getClients();
+            fetchClients();
         }
     }, [isAuthenticated]);
 
@@ -79,7 +79,7 @@ const App = ({ isAuthenticated, getDetails, getClients }) => {
 App.propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
     getDetails: PropTypes.func.isRequired,
-    getClients: PropTypes.func.isRequired,
+    fetchClients: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -88,7 +88,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     getDetails: userActions.getDetails,
-    getClients: clientActions.getAll,
+    fetchClients: clientActions.fetchClients,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

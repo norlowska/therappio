@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { Table, Button } from 'antd';
+import { selectClients } from '../../_selectors';
 import style from './PatientsPage.module.scss';
 
 const columns = [
@@ -79,7 +80,7 @@ const PatientsPage = ({ patients }) => {
 };
 
 const mapStateToProps = state => ({
-    patients: state.clients.items,
+    patients: selectClients(state),
 });
 
 export default connect(mapStateToProps)(PatientsPage);

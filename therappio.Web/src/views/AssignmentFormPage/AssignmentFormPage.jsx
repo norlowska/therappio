@@ -236,7 +236,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = {
     getDetails: clientActions.getDetails,
-    createAssignment: clientActions.createAssignment,
+    createAssignment: () => console.log('create'),
     updateAssignment: clientActions.updateAssignment,
 };
 
