@@ -5,7 +5,12 @@ import PropTypes from 'prop-types';
 import { Layout, Row } from 'antd';
 import { history } from '../_utilities';
 import { PRIVATE_ROUTE, PUBLIC_ROUTE, RESTRICTED_ROUTE } from '../_constants';
-import { userActions, clientActions, assignmentActions } from '../_actions';
+import {
+    userActions,
+    clientActions,
+    assignmentActions,
+    therapySessionActions,
+} from '../_actions';
 import { Header, PrivateRoute, PublicRoute, Breadcrumbs } from './index';
 import routes from '../routes';
 import '../styles/main.scss';
@@ -15,12 +20,14 @@ const App = ({
     getDetails,
     fetchClients,
     fetchAssignments,
+    fetchTherapySessions,
 }) => {
     useEffect(() => {
         if (isAuthenticated) {
             getDetails();
             fetchClients();
             fetchAssignments();
+            fetchTherapySessions();
         }
     }, [isAuthenticated]);
 
@@ -96,6 +103,7 @@ const mapDispatchToProps = {
     getDetails: userActions.getDetails,
     fetchClients: clientActions.fetchClients,
     fetchAssignments: assignmentActions.fetchAssignments,
+    fetchTherapySessions: therapySessionActions.fetchTherapySessions,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

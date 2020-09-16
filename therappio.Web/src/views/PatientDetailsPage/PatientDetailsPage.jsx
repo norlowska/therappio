@@ -1,11 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col } from 'antd';
-import {
-    selectClient,
-    selectClientAssignments,
-    selectClientTherapySessions,
-} from '../../_selectors';
+import { selectClient } from '../../_selectors';
 import {
     PersonalInfoCard,
     NotesCard,
@@ -27,11 +23,6 @@ const PatientDetailsPage = ({ patient }) => {
                 <Col xs={{ span: 24 }} lg={{ span: 16 }}>
                     <PersonalInfoCard patient={patient} />
                     <SessionsCard
-                        therapySessions={
-                            patient && patient.therapySessions
-                                ? patient.therapySessions
-                                : null
-                        }
                         patientId={patient && patient._id ? patient._id : null}
                     />
                     <AssignmentsCard

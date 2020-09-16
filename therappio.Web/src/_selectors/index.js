@@ -28,7 +28,7 @@ export const selectClientTherapySessions = (state, clientId) => {
     if (!state.therapySessions) return null;
 
     const therapySessions = selectTherapySessions(state);
-    return therapySessions.filter(item => item.client._id === clientId);
+    return therapySessions.filter(item => item.client === clientId);
 };
 
 export const selectTodaysSessions = state => {

@@ -39,7 +39,7 @@ function fetchAssignments() {
 function createAssignment(assignment) {
     return dispatch => {
         dispatch(request(assignment));
-        assignemntService
+        assignmentService
             .create(assignment)
             .then(res => {
                 toast.success('New assignment created successfully');

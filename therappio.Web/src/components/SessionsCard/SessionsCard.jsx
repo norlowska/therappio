@@ -1,7 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import dayjs from 'dayjs';
 import { NavLink } from 'react-router-dom';
 import { Card, Table, Button } from 'antd';
+import { selectClientTherapySessions } from '../../_selectors';
 import style from './SessionsCard.module.scss';
 
 const columns = [
@@ -66,4 +68,9 @@ const SessionsCard = ({ therapySessions, patientId }) => {
         </Card>
     );
 };
-export default SessionsCard;
+
+const mapStateToProps = (state, props) => ({
+    therapySessions: selectClientTherapySessions(state, props.patientId),
+});
+
+export default connect(mapStateToProps, null)(SessionsCard);
