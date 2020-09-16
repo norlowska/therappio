@@ -3,7 +3,8 @@ import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import dayjs from 'dayjs';
 import { Card, Table, Button } from 'antd';
-import { clientActions } from '../../_actions';
+import { assignmentActions } from '../../_actions';
+import { selectClientAssignments } from '../../_selectors';
 import style from './AssignmentsCard.module.scss';
 
 const AssignmentsCard = ({ assignments, patientId, deleteAssignment }) => {
@@ -136,8 +137,12 @@ const AssignmentsCard = ({ assignments, patientId, deleteAssignment }) => {
     );
 };
 
+const mapStateToProps = (state, props) => ({
+    assignments: selectClientAssignments(state, props.patientId),
+});
+
 const mapDispatchToProps = {
-    deleteAssignment: clientActions.deleteAssignment,
+    deleteAssignment: assignmentActions.deleteAssignment,
 };
 
-export default connect(null, mapDispatchToProps)(AssignmentsCard);
+export default connect(mapStateToProps, mapDispatchToProps)(AssignmentsCard);

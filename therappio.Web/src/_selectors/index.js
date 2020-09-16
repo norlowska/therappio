@@ -19,14 +19,9 @@ export const selectClients = state => Object.values(state.clients.byId);
 export const selectClient = (state, id) => state.clients.byId[id];
 
 export const selectClientAssignments = (state, clientId) => {
-    if (
-        !state.clients.byId[clientId] ||
-        !state.clients.byId[clientId].assignments
-    )
-        return null;
-    return state.clients.byId[clientId].map(item =>
-        selectAssignment(state, item.id)
-    );
+    if (!state.assignments) return null;
+    const assignments = selectAssignments(state);
+    return assignments.filter(item => item.client._id === clientId);
 };
 
 export const selectClientTherapySessions = (state, clientId) => {
