@@ -1,24 +1,24 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const moodRecordService = require("./moodRecord.service");
-const authorize = require("_helpers/authorize");
-const Role = require("_helpers/role");
+const moodRecordService = require('./moodRecord.service');
+const authorize = require('_helpers/authorize');
+const Role = require('_helpers/role');
 
 // routes
-router.post("/", authorize(Role.Client), create);
-router.get("/", authorize(), getAll);
-router.get("/:id", authorize(), getById);
-router.put("/:id", authorize(Role.Client), update);
-router.delete("/:id", authorize(Role.Client), _delete);
+router.post('/', authorize(Role.Client), create);
+router.get('/', authorize(), getAll);
+router.get('/:id', authorize(), getById);
+router.put('/:id', authorize(Role.Client), update);
+router.delete('/:id', authorize(Role.Client), _delete);
 module.exports = router;
 
 function create(req, res, next) {
   const currentUser = req.user;
-  const record = { ...req.body, ["client"]: currentUser.sub };
+  const record = { ...req.body, ['client']: currentUser.sub };
 
   moodRecordService
     .create(record)
-    .then(() => res.json({ message: "Mood record successfully created." }))
+    .then(() => res.json({ message: 'Mood record successfully created.' }))
     .catch(err => next(err));
 }
 
@@ -31,7 +31,7 @@ function getAll(req, res, next) {
       // allow therapist to get his/her patients' record
       records = records.filter(
         record =>
-          record.client.id === currentUser.sub ||
+          record.client._id === currentUser.sub ||
           record.client.therapist.toString() === currentUser.sub
       );
 
@@ -53,7 +53,7 @@ function getById(req, res, next) {
         currentUser.sub !== record.client.toString() &&
         currentUser.sub !== record.client.therapist.toString()
       ) {
-        return res.status(401).json({ message: "Unauthorized" });
+        return res.status(401).json({ message: 'Unauthorized' });
       }
 
       res.json(record);
@@ -68,12 +68,12 @@ function update(req, res, next) {
     .getById(req.params.id)
     .then(record => {
       if (record.client.id !== currentUser.sub) {
-        return res.status(401).json({ message: "Unauthorized" });
+        return res.status(401).json({ message: 'Unauthorized' });
       }
 
       moodRecordService
-        .update(req.params.id, { ...req.body, ["client"]: currentUser.sub })
-        .then(() => res.json({ message: "Mood record successfully updated" }))
+        .update(req.params.id, { ...req.body, ['client']: currentUser.sub })
+        .then(() => res.json({ message: 'Mood record successfully updated' }))
         .catch(err => next(err));
     })
     .catch(err => next(err));
@@ -86,12 +86,12 @@ function _delete(req, res, next) {
     .getById(req.params.id)
     .then(record => {
       if (record.client.id !== currentUser.sub) {
-        return res.status(401).json({ message: "Unauthorized" });
+        return res.status(401).json({ message: 'Unauthorized' });
       }
 
       moodRecordService
         .delete(req.params.id)
-        .then(() => res.json({ message: "Mood record successfully deleted" }))
+        .then(() => res.json({ message: 'Mood record successfully deleted' }))
         .catch(err => next(err));
     })
     .catch(err => next(err));
