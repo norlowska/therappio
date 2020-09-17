@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { Card } from 'antd';
+import { Card, Checkbox } from 'antd';
 import { selectAssignment } from '../../_selectors';
 import style from './AssignmentPage.module.scss';
 
@@ -19,24 +19,31 @@ const AssignmentPage = ({ match, assignment }) => {
                             <div className={style.answer}>
                                 {field.options && field.options.length ? (
                                     field.options.map((option, index) =>
-                                        option === field.answer ? (
+                                        field.answer.indexOf(option) >= 0 ? (
                                             <div
                                                 key={`op${index}`}
-                                                className={style.optionSelected}
+                                                className={`${style.option} ${style.optionSelected}`}
                                             >
-                                                {option}
+                                                <Checkbox checked={true} />
+                                                <span>{option}</span>
                                             </div>
                                         ) : (
-                                            <div key={`op${index}`}>
-                                                {option}
+                                            <div
+                                                key={`op${index}`}
+                                                className={`${style.option}`}
+                                            >
+                                                <Checkbox checked={false} />
+                                                <span>{option}</span>
                                             </div>
                                         )
                                     )
                                 ) : (
-                                    <div>
-                                        {field.answer && field.answer.length
-                                            ? field.answer.map(answer => answer)
-                                            : 'No answer given'}
+                                    <div className={style.answer}>
+                                        {field.answer && field.answer.length ? (
+                                            field.answer.map(answer => answer)
+                                        ) : (
+                                            <i>No answer given</i>
+                                        )}
                                     </div>
                                 )}
                             </div>
