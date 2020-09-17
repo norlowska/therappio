@@ -10,6 +10,7 @@ import {
     clientActions,
     assignmentActions,
     therapySessionActions,
+    journalRecordActions,
 } from '../_actions';
 import { Header, PrivateRoute, PublicRoute, Breadcrumbs } from './index';
 import routes from '../routes';
@@ -21,6 +22,7 @@ const App = ({
     fetchClients,
     fetchAssignments,
     fetchTherapySessions,
+    fetchJournalRecords,
 }) => {
     useEffect(() => {
         if (isAuthenticated) {
@@ -28,6 +30,7 @@ const App = ({
             fetchClients();
             fetchAssignments();
             fetchTherapySessions();
+            fetchJournalRecords();
         }
     }, [isAuthenticated]);
 
@@ -104,6 +107,7 @@ const mapDispatchToProps = {
     fetchClients: clientActions.fetchClients,
     fetchAssignments: assignmentActions.fetchAssignments,
     fetchTherapySessions: therapySessionActions.fetchTherapySessions,
+    fetchJournalRecords: journalRecordActions.fetchJournalRecords,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

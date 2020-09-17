@@ -32,16 +32,7 @@ const PatientDetailsPage = ({ patient }) => {
                 <Col xs={{ span: 24 }} lg={{ span: 8 }}>
                     <NotesCard patient={patient} />
                     <MoodJournalRecordsCard
-                        moodRecords={
-                            patient && patient.moodRecords
-                                ? patient.moodRecords
-                                : null
-                        }
-                        journalRecords={
-                            patient && patient.journalRecords
-                                ? patient.journalRecords
-                                : null
-                        }
+                        patientId={patient && patient._id ? patient._id : null}
                     />
                 </Col>
             </Row>

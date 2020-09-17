@@ -38,7 +38,7 @@ function getAll(req, res, next) {
       // allow therapist to get mood records of his/her patients
       records = records.filter(
         record =>
-          record.client.id === currentUser.sub ||
+          record.client._id === currentUser.sub ||
           record.client.therapist.toString() === currentUser.sub
       );
 

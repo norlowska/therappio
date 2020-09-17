@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import dayjs from 'dayjs';
 import { Card, Table, Button } from 'antd';
+import {
+    selectClientJournalRecords,
+    selectClientMoodRecords,
+} from '../../_selectors';
 import style from './MoodJournalRecordsCard.module.scss';
 
 const moodchartKeys = [
@@ -106,4 +111,9 @@ const MoodJournalRecordsCard = ({ moodRecords, journalRecords }) => {
     );
 };
 
-export default MoodJournalRecordsCard;
+const mapStateToProps = (state, props) => ({
+    journalRecords: selectClientJournalRecords(state, props.patientId),
+    moodRecords: selectClientMoodRecords(state, props.patientId),
+});
+
+export default connect(mapStateToProps)(MoodJournalRecordsCard);
