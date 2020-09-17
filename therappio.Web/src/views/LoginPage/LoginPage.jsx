@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Card } from 'antd';
 import { userActions } from '../../_actions';
 import styles from './LoginPage.module.scss';
 
@@ -33,41 +34,39 @@ class LoginPage extends Component {
 
     render() {
         return (
-            <main>
-                <div className={`card ${styles.loginCard}`}>
-                    <h2>Sign in</h2>
-                    <form onSubmit={this.handleSubmit}>
-                        <div className="formGroup">
-                            <label htmlFor="email">E-mail address</label>
-                            <input
-                                type="email"
-                                name="email"
-                                id="email"
-                                placeholder="Enter your email address"
-                                onChange={this.handleChange}
-                                required
-                            />
-                        </div>
-                        <div className="formGroup">
-                            <label htmlFor="password">Password</label>
-                            <input
-                                type="password"
-                                name="password"
-                                id="password"
-                                placeholder="Enter your password"
-                                onChange={this.handleChange}
-                                required
-                            />
-                        </div>
-                        <button type="submit" className="primary-btn">
-                            Sign in
-                        </button>
-                        <div className="formFooter">
-                            <Link to="#">Forgot password?</Link>
-                        </div>
-                    </form>
-                </div>
-            </main>
+            <Card className={styles.loginCard}>
+                <h2>Sign in</h2>
+                <form onSubmit={this.handleSubmit}>
+                    <div className="formGroup">
+                        <label htmlFor="email">E-mail address</label>
+                        <input
+                            type="email"
+                            name="email"
+                            id="email"
+                            placeholder="Enter your email address"
+                            onChange={this.handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="formGroup">
+                        <label htmlFor="password">Password</label>
+                        <input
+                            type="password"
+                            name="password"
+                            id="password"
+                            placeholder="Enter your password"
+                            onChange={this.handleChange}
+                            required
+                        />
+                    </div>
+                    <button type="submit" className="primary-btn">
+                        Sign in
+                    </button>
+                    <div className="formFooter">
+                        <Link to="#">Forgot password?</Link>
+                    </div>
+                </form>
+            </Card>
         );
     }
 }

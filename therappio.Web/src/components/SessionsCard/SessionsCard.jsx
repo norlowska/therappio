@@ -48,16 +48,14 @@ const SessionsCard = ({ therapySessions, patientId }) => {
         <Card
             title="SESSIONS"
             extra={
-                <NavLink to={`/clients/${patientId}/sessions/new`}>
-                    <Button
-                        onClick={handleAdd}
-                        type="primary"
-                        style={{ marginBottom: 16 }}
-                        icon={<i className="las la-plus icon"></i>}
-                    >
-                        Add session
-                    </Button>
-                </NavLink>
+                <Button
+                    onClick={handleAdd}
+                    type="primary"
+                    style={{ marginBottom: 16 }}
+                    icon={<i className="las la-plus icon"></i>}
+                >
+                    Add session
+                </Button>
             }
         >
             <Table

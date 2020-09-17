@@ -61,7 +61,8 @@ export function assignments(state = initialState, action) {
                 isFetching: true,
             };
         case assignmentConstants.UPDATE_ASSIGNMENT_SUCCESS: {
-            const { assignment } = action.payload;
+            const assignment = action.payload.assignment;
+
             return {
                 ...state,
                 isFetching: false,
@@ -83,13 +84,15 @@ export function assignments(state = initialState, action) {
                 ...state,
                 isFetching: true,
             };
-        case assignmentConstants.DELETE_ASSIGNMENT_SUCCESS:
+        case assignmentConstants.DELETE_ASSIGNMENT_SUCCESS: {
             const { [action.payload.id]: omit, ...rest } = state.byId;
             return {
                 ...state,
                 isFetching: false,
                 byId: rest,
             };
+        }
+
         case assignmentConstants.DELETE_ASSIGNMENT_FAILURE:
             return {
                 ...state,

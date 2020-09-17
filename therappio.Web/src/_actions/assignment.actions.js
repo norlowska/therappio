@@ -1,6 +1,7 @@
 import { toast } from 'react-toastify';
 import { assignmentConstants } from '../_constants';
 import { assignmentService } from '../_services';
+import { history } from '../_utilities';
 
 export const assignmentActions = {
     fetchAssignments,
@@ -42,8 +43,9 @@ function createAssignment(assignment) {
         assignmentService
             .create(assignment)
             .then(res => {
-                toast.success('New assignment created successfully');
                 dispatch(success(res.data, res.message));
+                toast.success('New assignment created successfully');
+                history.push(`/clients/${res.data.client}`);
             })
             .catch(error => {
                 dispatch(failure(error.message));
@@ -73,8 +75,9 @@ function updateAssignment(assignment, clientId) {
         assignmentService
             .update(assignment)
             .then(res => {
-                toast.success('Assignment updated successfully');
                 dispatch(success(assignment, clientId, res.message));
+                // toast.success('Assignment updated successfully');
+                history.push(`/clients/${clientId}`);
             })
             .catch(error => {
                 dispatch(failure(error.message));

@@ -24,4 +24,8 @@
         display: inline-block;
         margin: 10px auto;
     }
+
+    label {
+        font-weight: $semibold;
+    }
 }

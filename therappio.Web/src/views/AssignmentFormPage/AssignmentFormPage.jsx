@@ -2,23 +2,22 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import { Card, Button } from 'antd';
 import dayjs from 'dayjs';
 import { assignmentActions } from '../../_actions';
 import { selectAssignment } from '../../_selectors';
-import { history } from '../../_utilities';
 import AnswerFields from './AnswerFields/AnswerFields';
 import { FormInput } from '../../components';
 import style from './AssignmentFormPage.module.scss';
 
 const AssignmentFormPage = ({
-    match,
     assignment,
     createAssignment,
     updateAssignment,
+    match,
     editMode = false,
 }) => {
-    const [id, setId] = useState(null);
     const [title, setTitle] = useState('Assignment title');
     const [fields, setFields] = useState([
         {
@@ -48,7 +47,6 @@ const AssignmentFormPage = ({
 
     useEffect(() => {
         if (editMode && assignment) {
-            setId(assignment._id);
             setTitle(assignment.title);
             setFields(assignment.fields);
             setDueDate(dayjs(assignment.dueDate).format('YYYY-MM-DDTHH:mm'));
@@ -61,18 +59,19 @@ const AssignmentFormPage = ({
             title,
             fields,
             dueDate,
-            // client: match.params.clientId,
         };
         if (editMode) {
             updateAssignment(
-                { ...newAssignment, _id: id }
-                // match.params.clientId
+                { ...assignment, ...newAssignment },
+                match.params.clientId
             );
         } else {
-            createAssignment(newAssignment);
+            createAssignment({
+                ...newAssignment,
+                createdAt: new Date(),
+                client: match.params.clientId,
+            });
         }
-
-        // history.push(`/clients/${match.params.clientId}`);
     };
 
     const addQuestion = () => {
@@ -192,7 +191,9 @@ const AssignmentFormPage = ({
                             />
                         </label>
                         <div className={style.buttonsGroup}>
-                            <Button>Cancel</Button>
+                            <NavLink to={`/clients/${match.params.clientId}`}>
+                                <Button>Cancel</Button>
+                            </NavLink>
                             <Button onClick={saveAssignment} type="primary">
                                 Save assignment
                             </Button>
@@ -221,7 +222,7 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = {
-    createAssignment: () => console.log('create'),
+    createAssignment: assignmentActions.createAssignment,
     updateAssignment: assignmentActions.updateAssignment,
 };
 

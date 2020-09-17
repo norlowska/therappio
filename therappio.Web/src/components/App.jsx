@@ -87,9 +87,11 @@ const App = ({
                         <Redirect from="*" to="/404" />
                     </Switch>
                 </Layout.Content>
-                <Layout.Footer style={{ textAlign: 'center' }}>
-                    <div>therapp.io ©2020 Created by Natalia Orłowska</div>
-                </Layout.Footer>
+                {isAuthenticated ? (
+                    <Layout.Footer style={{ textAlign: 'center' }}>
+                        <div>therapp.io ©2020 Created by Natalia Orłowska</div>
+                    </Layout.Footer>
+                ) : null}
             </Layout>
         </Router>
     );
