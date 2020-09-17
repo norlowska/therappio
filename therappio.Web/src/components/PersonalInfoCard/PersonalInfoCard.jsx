@@ -74,23 +74,32 @@ const PersonalInfoCard = ({ patient, updatePatient }) => {
         setIsEditing(!isEditing);
     };
 
+    const handleCancelEditing = e => {
+        setIsEditing(false);
+    };
+
     return (
         <Card
             title="BASIC INFO"
             extra={
-                <Button
-                    onClick={handleSaveEditClick}
-                    type="primary"
-                    icon={
-                        <i
-                            className={`las ${
-                                isEditing ? 'la-save' : 'la-pen'
-                            } icon`}
-                        />
-                    }
-                >
-                    <span>{isEditing ? 'Save' : 'Edit'}</span>
-                </Button>
+                <div className="buttons-group">
+                    {isEditing && (
+                        <Button onClick={handleCancelEditing}>Cancel</Button>
+                    )}
+                    <Button
+                        onClick={handleSaveEditClick}
+                        type="primary"
+                        icon={
+                            <i
+                                className={`las ${
+                                    isEditing ? 'la-save' : 'la-pen'
+                                } icon`}
+                            />
+                        }
+                    >
+                        <span>{isEditing ? 'Save' : 'Edit'}</span>
+                    </Button>
+                </div>
             }
         >
             {patient && (
