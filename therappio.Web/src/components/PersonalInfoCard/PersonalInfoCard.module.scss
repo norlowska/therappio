@@ -9,6 +9,10 @@
         color: $accent-font-color;
         font-size: 13px;
     }
+
+    > .info {
+        padding: 7px 0;
+    }
 }
 
 .emergencyContactTitle {
@@ -17,4 +21,10 @@
     font-size: 13px;
     font-weight: 500;
     color: rgba(0, 0, 0, 0.85);
+}
+
+.diagnosisCol {
+    margin-top: 5px;
+    padding-top: 10px;
+    border-top: 1px solid #f0f0f0;
 }

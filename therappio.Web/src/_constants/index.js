@@ -6,3 +6,14 @@ export * from './moodRecord.constants';
 export * from './journalRecord.constants';
 export * from './user.constants';
 export * from './routes.constants';
+
+export const genderOptions = [
+    {
+        value: 'male',
+        displayValue: 'male',
+    },
+    {
+        value: 'female',
+        displayValue: 'female',
+    },
+];

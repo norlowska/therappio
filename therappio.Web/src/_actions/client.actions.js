@@ -35,4 +35,25 @@ function fetchClients() {
 
 function create(user) {}
 
-function update(user) {}
+function update(client) {
+    return dispatch => {
+        dispatch(request());
+        clientService
+            .update(client)
+            .then(res => {
+                dispatch(success(res.data.client));
+            })
+            .catch(error => {
+                dispatch(failure(error.message));
+            });
+    };
+    function request() {
+        return { type: clientConstants.UPDATE_CLIENT_REQUEST };
+    }
+    function success(client) {
+        return { type: clientConstants.UPDATE_CLIENT_SUCCESS, client };
+    }
+    function failure(error) {
+        return { type: clientConstants.UPDATE_CLIENT_FAILURE, error };
+    }
+}

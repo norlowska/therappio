@@ -36,6 +36,27 @@ export function clients(state = initialState, action) {
                 isFetching: false,
                 errorMessage: action.error,
             };
+
+        case clientConstants.UPDATE_CLIENT_REQUEST:
+            return {
+                ...state,
+                isFetching: true,
+            };
+        case clientConstants.UPDATE_CLIENT_SUCCESS: {
+            return {
+                ...state,
+                isFetching: false,
+                byId: { ...state.byId, [action.client._id]: action.client },
+            };
+        }
+
+        case clientConstants.UPDATE_CLIENT_FAILURE:
+            return {
+                ...state,
+                isFetching: false,
+                errorMessage: action.error,
+            };
+
         default:
             return state;
     }

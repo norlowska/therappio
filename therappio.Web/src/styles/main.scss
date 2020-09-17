@@ -74,13 +74,20 @@
         }
     }
 }
-button.ant-btn > .icon {
-    font-size: 15px;
-}
-button.ant-btn > .icon + span {
-    margin-left: 5px;
-}
+button.ant-btn {
+    > .icon {
+        font-size: 17.5px;
+    }
 
+    > span {
+        line-height: 18px;
+        vertical-align: top;
+    }
+
+    > .icon + span {
+        margin-left: 5px;
+    }
+}
 .page-heading {
     margin-bottom: 20px;
 }

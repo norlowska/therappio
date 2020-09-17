@@ -176,7 +176,8 @@ function create(req, res, next) {
 }
 
 function update(req, res, next) {
-  const id = req.client.id;
+  const id = req.body._id;
+  const currentUser = req.user;
 
   // allow client to update only his/her record
   if (currentUser.role === Role.Client && id !== currentUser.sub) {
@@ -189,14 +190,14 @@ function update(req, res, next) {
       // allow therapist to update only his/her patient's record
       if (
         currentUser.role === Role.Therapist &&
-        (!client.therapist || client.therapist.id === currentUser.sub)
+        (!client.therapist || client.therapist.id !== currentUser.sub)
       ) {
         return res.status(401).json({ message: "Unauthorized" });
       }
 
       clientService
         .update(req.params.id, req.body)
-        .then(() => res.json({ message: "Client successfully updated" }))
+        .then((client) => res.json({ client, message: "Client successfully updated" }))
         .catch(err => next(err));
     })
     .catch(err => next(err));

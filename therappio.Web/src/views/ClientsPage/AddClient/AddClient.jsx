@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { FormInput } from '../../../components';
+import { genderOptions } from '../../../_constants';
 import style from './AddClient.module.scss';
 
 Modal.setAppElement('#root');
@@ -9,17 +10,6 @@ const AddClient = () => {
     const [modalIsOpen, setIsOpen] = useState(false);
     // eslint-disable-next-line no-unused-vars
     const [gender, setGender] = useState('male');
-
-    const genderOptions = [
-        {
-            value: 'male',
-            displayValue: 'Male',
-        },
-        {
-            value: 'female',
-            displayValue: 'Female',
-        },
-    ];
 
     const openModal = () => {
         setIsOpen(true);

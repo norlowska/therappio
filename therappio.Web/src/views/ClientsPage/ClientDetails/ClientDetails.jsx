@@ -514,7 +514,7 @@ ClientDetails.propTypes = {
 };
 
 const mapDispatchToProps = {
-    getDetails: clientActions.getDetails,
+    // getDetails: clientActions.getDetails,
     deleteAssignment: clientActions.deleteAssignment,
 };
 

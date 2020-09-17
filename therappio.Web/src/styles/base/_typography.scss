@@ -1,12 +1,10 @@
 html {
-    font-size: $base-font-size;
-    font-family: $base-font-family;
+    font: $normal $base-font-size/$base-line-height $base-font-family;
 }
 
 body {
     color: $base-font-color;
     font-weight: $normal;
-    line-height: $base-line-height;
 }
 
 /* =========== HEADINGS =========== */
