@@ -3,15 +3,10 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Card } from 'antd';
-import { clientActions } from '../../_actions';
+import { selectAssignment } from '../../_selectors';
 import style from './AssignmentPage.module.scss';
 
-const AssignmentPage = ({ match, client, assignment, getDetails }) => {
-    useEffect(() => {
-        if (client && !client.hasOwnProperty('assignments'))
-            getDetails(client._id);
-    }, [client]);
-
+const AssignmentPage = ({ match, assignment }) => {
     return (
         <>
             <h2 className="page-heading">
@@ -54,25 +49,8 @@ const AssignmentPage = ({ match, client, assignment, getDetails }) => {
     );
 };
 
-const mapStateToProps = (state, props) => {
-    const client = state.clients.items.length
-        ? state.clients.items.find(
-              client => client._id === props.match.params.clientId
-          )
-        : null;
-    return {
-        client,
-        assignment:
-            client && client.assignments
-                ? client.assignments.find(
-                      a => a._id === props.match.params.assignmentId
-                  )
-                : null,
-    };
-};
+const mapStateToProps = (state, props) => ({
+    assignment: selectAssignment(state, props.match.params.assignmentId),
+});
 
-const mapDispatchToProps = {
-    getDetails: clientActions.getDetails,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(AssignmentPage);
+export default connect(mapStateToProps)(AssignmentPage);

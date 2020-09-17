@@ -13,7 +13,7 @@ import style from './PatientDetailsPage.module.scss';
 
 const PatientDetailsPage = ({ patient }) => {
     return patient ? (
-        <>
+        <div className={style.patientDetailsContent}>
             <Row>
                 <h2 className="page-heading">
                     {patient && `${patient.firstName} ${patient.lastName}`}
@@ -36,7 +36,7 @@ const PatientDetailsPage = ({ patient }) => {
                     />
                 </Col>
             </Row>
-        </>
+        </div>
     ) : null;
 };
 

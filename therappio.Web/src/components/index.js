@@ -17,3 +17,4 @@ export { default as PublicRoute } from './shared/PublicRoute';
 export { default as Breadcrumbs } from './Breadcrumbs/Breadcrumbs';
 export { default as DashboardBreadcrumb } from './Breadcrumbs/DashboardBreadcrumb';
 export { default as PatientDetailsBreadcrumb } from './Breadcrumbs/PatientDetailsBreadcrumb';
+export { default as AssignmentBreadcrumb } from './Breadcrumbs/AssignmentBreadcrumb';

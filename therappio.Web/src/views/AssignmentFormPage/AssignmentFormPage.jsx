@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Card, Button } from 'antd';
 import dayjs from 'dayjs';
-import { clientActions } from '../../_actions';
+import { assignmentActions } from '../../_actions';
+import { selectAssignment } from '../../_selectors';
 import { history } from '../../_utilities';
 import AnswerFields from './AnswerFields/AnswerFields';
 import { FormInput } from '../../components';
@@ -52,7 +53,7 @@ const AssignmentFormPage = ({
             setFields(assignment.fields);
             setDueDate(dayjs(assignment.dueDate).format('YYYY-MM-DDTHH:mm'));
         }
-    }, [match.params.clientId, assignment]);
+    }, [assignment]);
 
     const saveAssignment = event => {
         event.preventDefault();
@@ -60,18 +61,18 @@ const AssignmentFormPage = ({
             title,
             fields,
             dueDate,
-            client: match.params.clientId,
+            // client: match.params.clientId,
         };
         if (editMode) {
             updateAssignment(
-                { ...newAssignment, _id: id },
-                match.params.clientId
+                { ...newAssignment, _id: id }
+                // match.params.clientId
             );
         } else {
             createAssignment(newAssignment);
         }
 
-        history.push(`/clients/${match.params.clientId}`);
+        // history.push(`/clients/${match.params.clientId}`);
     };
 
     const addQuestion = () => {
@@ -206,7 +207,7 @@ const AssignmentFormPage = ({
 AssignmentFormPage.propTypes = {
     match: PropTypes.shape({
         params: PropTypes.shape({
-            clientId: PropTypes.string.isRequired,
+            // clientId: PropTypes.string.isRequired,
             assignmentId: PropTypes.string,
         }),
     }),
@@ -215,29 +216,13 @@ AssignmentFormPage.propTypes = {
     editMode: PropTypes.bool,
 };
 
-const mapStateToProps = (state, props) => {
-    const client =
-        state.clients.items.length &&
-        state.clients.items.find(
-            client => client._id === props.match.params.clientId
-        );
-    if (client && !client.hasOwnProperty('assignments'))
-        mapDispatchToProps.getDetails(props.match.params.clientId);
-    console.log(client);
-    return {
-        assignment:
-            client && client.assignments
-                ? client.assignments.find(
-                      a => a._id === props.match.params.assignmentId
-                  )
-                : null,
-    };
-};
+const mapStateToProps = (state, props) => ({
+    assignment: selectAssignment(state, props.match.params.assignmentId),
+});
 
 const mapDispatchToProps = {
-    getDetails: clientActions.getDetails,
     createAssignment: () => console.log('create'),
-    updateAssignment: clientActions.updateAssignment,
+    updateAssignment: assignmentActions.updateAssignment,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AssignmentFormPage);

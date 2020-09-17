@@ -7,7 +7,7 @@ import { assignmentActions } from '../../_actions';
 import { selectClientAssignments } from '../../_selectors';
 import style from './AssignmentsCard.module.scss';
 
-const AssignmentsCard = ({ assignments, patientId, deleteAssignment }) => {
+const AssignmentsCard = ({ assignments, deleteAssignment, patientId }) => {
     const columns = useMemo(
         () => [
             {
@@ -52,7 +52,7 @@ const AssignmentsCard = ({ assignments, patientId, deleteAssignment }) => {
                     ) {
                         return (
                             <NavLink
-                                to={`/clients/${patientId}/assignment/${record._id}`}
+                                to={`/clients/${patientId}/assignments/${record._id}`}
                             >
                                 <Button
                                     className="table-icon-btn"
@@ -64,7 +64,6 @@ const AssignmentsCard = ({ assignments, patientId, deleteAssignment }) => {
                                             title="Review"
                                         />
                                     }
-                                    // to={`/clients/${row.original.client.shortId}/assignment/${row.original.shortId}`}
                                 />
                             </NavLink>
                         );
@@ -72,10 +71,9 @@ const AssignmentsCard = ({ assignments, patientId, deleteAssignment }) => {
                         return (
                             <>
                                 <NavLink
-                                    to={`/clients/${patientId}/assignment/${record._id}/edit`}
+                                    to={`/clients/${patientId}/assignments/${record._id}/edit`}
                                 >
                                     <Button
-                                        // to={`/clients/${row.original.client.shortId}/assignment/${row.original.shortId}/edit`}
                                         className="table-icon-btn"
                                         type="link"
                                         shape="circle"

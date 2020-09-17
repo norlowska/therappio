@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import {
     DashboardPage,
     AssignmentPage,
@@ -8,7 +9,11 @@ import {
     LoginPage,
     NotFoundPage,
 } from './views';
-import { DashboardBreadcrumb, PatientDetailsBreadcrumb } from './components';
+import {
+    DashboardBreadcrumb,
+    PatientDetailsBreadcrumb,
+    AssignmentBreadcrumb,
+} from './components';
 import {
     PRIVATE_ROUTE,
     PUBLIC_ROUTE,
@@ -38,19 +43,31 @@ const routes = [
         breadcrumb: props => <PatientDetailsBreadcrumb {...props} />,
     },
     {
-        path: '/clients/:clientId/assignment/:assignmentId',
-        exact: true,
-        type: PRIVATE_ROUTE,
-        component: AssignmentPage,
-    },
-    {
-        path: '/clients/:clientId/assignment/:assignmentId/edit',
+        path: '/clients/:clientId/assignments/:assignmentId/edit',
         component: props => <AssignmentFormPage editMode {...props} />,
+        type: PRIVATE_ROUTE,
+        exact: true,
+        breadcrumb: 'Edit',
     },
     {
         path: '/clients/:clientId/assignments/new',
         component: props => <AssignmentFormPage {...props} />,
         type: PRIVATE_ROUTE,
+        exact: true,
+        breadcrumb: 'New assignment',
+    },
+    {
+        path: '/clients/:clientId/assignments/:assignmentId',
+        exact: true,
+        type: PRIVATE_ROUTE,
+        component: props => <AssignmentPage {...props} />,
+        breadcrumb: props => <AssignmentBreadcrumb {...props} />,
+    },
+    {
+        exact: true,
+        path: '/clients/:clientId/assignments',
+        breadcrumb: null,
+        // component: () => <Redirect to="/404" />,
     },
     {
         path: '/clients/:clientId/sessions/new',
