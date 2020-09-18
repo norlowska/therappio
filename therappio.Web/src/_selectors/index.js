@@ -1,4 +1,6 @@
 import dayjs from 'dayjs';
+import isBetween from 'dayjs/plugin/isBetween';
+dayjs.extend(isBetween);
 
 export const selectAssignments = state => Object.values(state.assignments.byId);
 export const selectAssignment = (state, id) => state.assignments.byId[id];
@@ -51,6 +53,24 @@ export const selectClientMoodRecords = (state, clientId) => {
     const moodRecords = selectMoodRecords(state);
     return moodRecords.filter(item => item.client._id === clientId);
 };
+
+export const selectLastWeekMoodRecords = (state, clientId) =>
+    selectClientMoodRecords(state, clientId).filter(item =>
+        dayjs(item.createdAt).isBetween(
+            dayjs(),
+            dayjs().subtract(7, 'days'),
+            '(]'
+        )
+    );
+
+export const selectLastMonthMoodRecords = (state, clientId) =>
+    selectClientMoodRecords(state, clientId).filter(item =>
+        dayjs(item.createdAt).isBetween(
+            dayjs(),
+            dayjs().subtract(30, 'days'),
+            '(]'
+        )
+    );
 
 export const selectClientJournalRecords = (state, clientId) => {
     if (!state.journalRecords) return null;

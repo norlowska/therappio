@@ -4,3 +4,10 @@
     white-space: nowrap;
     overflow: hidden;
 }
+
+.card :global(.ant-card-body) > * {
+    margin-bottom: 18px;
+}
+.card :global(.ant-card-body) > *:last-child {
+    margin-bottom: 0;
+}

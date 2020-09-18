@@ -6,14 +6,9 @@ import {
     selectClientJournalRecords,
     selectClientMoodRecords,
 } from '../../_selectors';
+import { moodchartKeys } from '../../_constants';
+import MoodChart from './MoodChart';
 import style from './MoodJournalRecordsCard.module.scss';
-
-const moodchartKeys = [
-    { color: '#f44336', name: 'High energy, unpleasant' },
-    { color: '#F7C602', name: 'High energy, pleasant' },
-    { color: '#42a5f5', name: 'Low energy, unpleasant' },
-    { color: '#66bb6a', name: 'Low energy, pleasant' },
-];
 
 const moodColumns = [
     {
@@ -71,16 +66,19 @@ const tabList = [
     },
 ];
 
-const MoodJournalRecordsCard = ({ moodRecords, journalRecords }) => {
+const MoodJournalRecordsCard = ({ moodRecords, journalRecords, patientId }) => {
     const [activeKey, setActiveKey] = useState('mood');
 
     const contentList = {
         mood: (
-            <Table
-                rowKey={record => record._id}
-                columns={moodColumns}
-                dataSource={moodRecords}
-            />
+            <>
+                <MoodChart patientId={patientId} />
+                <Table
+                    rowKey={record => record._id}
+                    columns={moodColumns}
+                    dataSource={moodRecords}
+                />
+            </>
         ),
         journal: (
             <Table
@@ -100,9 +98,9 @@ const MoodJournalRecordsCard = ({ moodRecords, journalRecords }) => {
     return (
         <>
             <Card
+                className={style.card}
                 tabList={tabList}
                 activeTabKey={activeKey}
-                // tabBarExtraContent={<a href="#">More</a>}
                 onTabChange={key => setActiveKey(key)}
             >
                 {contentList[activeKey]}
