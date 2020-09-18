@@ -21,5 +21,6 @@ module.exports = {
   TherapySession: require("therapy-session/therapySession.model"),
   JournalRecord: require("journal/journalRecord.model"),
   MoodRecord: require("mood/moodRecord.model"),
-  Assignment: require("assignment/assignment.model")
+  Assignment: require("assignment/assignment.model"),
+  Icd10Code: require("icd10-code/icd10Code.model"),
 };

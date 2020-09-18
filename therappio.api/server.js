@@ -31,6 +31,7 @@ app.use("/sessions", require("therapy-session/therapySession.controller"));
 app.use("/journal", require("journal/journalRecord.controller"));
 app.use("/moods", require("mood/moodRecord.controller"));
 app.use("/assignments", require("assignment/assignment.controller"));
+app.use("/icd10", require("icd10-code/icd10Code.controller"));
 
 // global error handler
 app.use(errorHandler);
