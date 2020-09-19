@@ -5,7 +5,6 @@ import { assignments } from './assignment.reducer';
 import { therapySessions } from './therapySession.reducer';
 import { journalRecords } from './journalRecord.reducer';
 import { moodRecords } from './moodRecord.reducer';
-import { icdCode } from './icdCode.reducer';
 import { diagnoses } from './diagnosis.reducer';
 
 const rootReducer = combineReducers({
@@ -15,7 +14,6 @@ const rootReducer = combineReducers({
     therapySessions,
     journalRecords,
     moodRecords,
-    icdCode,
     diagnoses,
 });
 

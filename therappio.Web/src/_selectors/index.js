@@ -79,8 +79,4 @@ export const selectClientJournalRecords = (state, clientId) => {
     return journalRecords.filter(item => item.client._id === clientId);
 };
 
-export const selectIcdCode = (state, fullCode) => state.icdCode.byId[fullCode];
-export const selectIcdCodes = (state, codes) =>
-    codes.map(code => selectIcdCode(state, code)).filter(code => code);
-
 export const selectDiagnosis = (state, id) => state.diagnoses.byId[id];

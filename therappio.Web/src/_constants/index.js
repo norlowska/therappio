@@ -6,7 +6,6 @@ export * from './moodRecord.constants';
 export * from './journalRecord.constants';
 export * from './user.constants';
 export * from './routes.constants';
-export * from './icdCode.constants';
 export * from './diagnosis.constants';
 
 export const genderOptions = [
