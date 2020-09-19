@@ -25,6 +25,7 @@ async function getClientsSessions(id) {
 async function create(sessionParam) {
   const newSession = new TherapySession(sessionParam);
   await newSession.save();
+  return getById(newSession._id);
 }
 
 async function update(id, sessionParam) {
@@ -35,6 +36,8 @@ async function update(id, sessionParam) {
 
   Object.assign(session, sessionParam);
   await session.save();
+
+  return getById(session._id);
 }
 
 async function _delete(id) {

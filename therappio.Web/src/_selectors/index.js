@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
+import { compareValues } from '../_utilities';
 dayjs.extend(isBetween);
 
 export const selectAssignments = state => Object.values(state.assignments.byId);
@@ -30,7 +31,9 @@ export const selectClientTherapySessions = (state, clientId) => {
     if (!state.therapySessions) return null;
 
     const therapySessions = selectTherapySessions(state);
-    return therapySessions.filter(item => item.client === clientId);
+    return therapySessions
+        .filter(item => item.client === clientId)
+        .sort(compareValues('session_no', 'desc'));
 };
 
 export const selectTodaysSessions = state => {

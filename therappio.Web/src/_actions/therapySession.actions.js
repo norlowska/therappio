@@ -45,8 +45,8 @@ function createTherapySession(therapySession) {
         therapySessionService
             .create(therapySession)
             .then(res => {
-                toast.success('New therapy session created successfully');
-                dispatch(success(res.data, res.message));
+                // toast.success('New therapy session created successfully');
+                dispatch(success(res.session, res.message));
             })
             .catch(error => {
                 dispatch(failure(error.message));
@@ -62,7 +62,8 @@ function createTherapySession(therapySession) {
     function success(therapySession, message) {
         return {
             type: therapySessionConstants.CREATE_THERAPY_SESSION_SUCCESS,
-            payload: { therapySession, message },
+            therapySession,
+            message,
         };
     }
     function failure(error) {
@@ -80,7 +81,7 @@ function updateTherapySession(therapySession, clientId) {
             .update(therapySession)
             .then(res => {
                 toast.success('Therapy session updated successfully');
-                dispatch(success(therapySession, clientId, res.message));
+                dispatch(success(res.session, clientId, res.message));
             })
             .catch(error => {
                 dispatch(failure(error.message));
@@ -96,7 +97,9 @@ function updateTherapySession(therapySession, clientId) {
     function success(therapySession, clientId, message) {
         return {
             type: therapySessionConstants.UPDATE_THERAPY_SESSION_SUCCESS,
-            payload: { therapySession, clientId, message },
+            therapySession,
+            clientId,
+            message,
         };
     }
     function failure(error) {

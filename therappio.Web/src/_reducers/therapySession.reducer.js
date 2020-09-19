@@ -38,7 +38,7 @@ export function therapySessions(state = initialState, action) {
                 isFetching: true,
             };
         case therapySessionConstants.CREATE_THERAPY_SESSION_SUCCESS: {
-            const { therapySession } = action.payload;
+            const { therapySession } = action;
             return {
                 ...state,
                 isFetching: false,
@@ -61,7 +61,7 @@ export function therapySessions(state = initialState, action) {
                 isFetching: true,
             };
         case therapySessionConstants.UPDATE_THERAPY_SESSION_SUCCESS: {
-            const { therapySession } = action.payload;
+            const { therapySession } = action;
             return {
                 ...state,
                 isFetching: false,
@@ -82,9 +82,10 @@ export function therapySessions(state = initialState, action) {
             return {
                 ...state,
                 isFetching: true,
+                id: action.id,
             };
         case therapySessionConstants.DELETE_THERAPY_SESSION_SUCCESS:
-            const { [action.payload.id]: omit, ...rest } = state.byId;
+            const { [action.id]: omit, ...rest } = state.byId;
             return {
                 ...state,
                 isFetching: false,

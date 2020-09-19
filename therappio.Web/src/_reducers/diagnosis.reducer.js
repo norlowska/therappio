@@ -38,7 +38,6 @@ export function diagnoses(state = initialState, action) {
                 isFetching: true,
             };
         case diagnosisConstants.CREATE_DIAGNOSIS_SUCCESS:
-            console.log('DIAGNOSIS Create diagnosis success');
             return {
                 ...state,
                 isFetching: false,

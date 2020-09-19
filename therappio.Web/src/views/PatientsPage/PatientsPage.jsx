@@ -69,6 +69,9 @@ const columns = [
 const PatientsPage = ({ patients }) => {
     return (
         <div>
+            <Button type="primary" icon={<i className={`las la-plus icon`} />}>
+                Add
+            </Button>
             <Table
                 dataSource={patients}
                 columns={columns}

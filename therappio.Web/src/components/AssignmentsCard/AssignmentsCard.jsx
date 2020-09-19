@@ -105,18 +105,12 @@ const AssignmentsCard = ({ assignments, deleteAssignment, patientId }) => {
         ],
         []
     );
-
-    const handleAdd = e => {};
-
-    const handleDelete = (e, id) => {};
-
     return (
         <Card
             title="ASSIGNMENTS"
             extra={
                 <NavLink to={`/clients/${patientId}/assignments/new`}>
                     <Button
-                        onClick={handleAdd}
                         type="primary"
                         style={{ marginBottom: 16 }}
                         icon={<i className="las la-plus icon"></i>}

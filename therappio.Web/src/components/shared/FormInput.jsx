@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 const FormInput = props => {
     let inputElement = null;
-    const inputStyle = props.className ? `${props.className} input` : 'input';
-    const { type, options, ...attributes } = props;
+    const { type, options, className, ...attributes } = props;
+    const inputStyle = className ? className + ' input' : 'input';
 
     switch (type) {
         case 'textarea':

@@ -56,8 +56,6 @@ export function clients(state = initialState, action) {
             };
 
         case diagnosisConstants.CREATE_DIAGNOSIS_SUCCESS: {
-            console.log('CLIENT Create diagnosis success');
-
             const newPatient = {
                 ...state.byId[action.diagnosis.client],
             };

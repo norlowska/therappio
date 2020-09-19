@@ -23,7 +23,10 @@ textarea.input {
 
 .label {
     display: inline-block;
-    color: $chambray-blue;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: $accent-font-color;
+    font-size: 13px;
     margin-bottom: 5px;
 }
 

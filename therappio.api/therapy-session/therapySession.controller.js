@@ -26,8 +26,8 @@ function create(req, res, next) {
 
       therapySessionService
         .create(session)
-        .then(() =>
-          res.json({ message: "Therapy session successfully created." })
+        .then(newSession =>
+          res.json({ session: newSession, message: "Therapy session successfully created." })
         )
         .catch(err => next(err));
     })
@@ -96,7 +96,7 @@ function update(req, res, next) {
 
   therapySessionService
     .update(req.params.id, session)
-    .then(() => res.json({ message: "Therapy session successfully updated" }))
+    .then(session => res.json({ session, message: "Therapy session successfully updated" }))
     .catch(err => next(err));
 }
 
@@ -113,7 +113,7 @@ function _delete(req, res, next) {
       therapySessionService
         .delete(req.params.id)
         .then(() =>
-          res.json({ message: "Therapy session successfully deleted" })
+          res.json({ id: req.params.id, message: "Therapy session successfully deleted" })
         )
         .catch(err => next(err));
     })

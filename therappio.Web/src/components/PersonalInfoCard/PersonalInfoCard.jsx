@@ -114,7 +114,7 @@ const PersonalInfoCard = ({
                 <Row gutter={15}>
                     <Col span={12}>
                         <div className={style.infoRow}>
-                            <div className={style.label}>Gender</div>
+                            <div className="label">Gender</div>
                             {isEditing ? (
                                 <FormInput
                                     name="gender"
@@ -131,7 +131,7 @@ const PersonalInfoCard = ({
                             )}
                         </div>
                         <div className={style.infoRow}>
-                            <div className={style.label}>DOB</div>
+                            <div className="label">DOB</div>
                             {isEditing ? (
                                 <FormInput
                                     name="dateOfBirth"
@@ -147,13 +147,13 @@ const PersonalInfoCard = ({
                             )}
                         </div>
                         <div className={style.infoRow}>
-                            <div className={style.label}>Age</div>
+                            <div className="label">Age</div>
                             <div className={style.info}>
                                 {dayjs().diff(DOB || patient.dateOfBirth, 'y')}
                             </div>
                         </div>
                         <div className={style.infoRow}>
-                            <div className={style.label}>Phone</div>
+                            <div className="label">Phone</div>
                             {isEditing ? (
                                 <FormInput
                                     name="phoneNumber"
@@ -173,7 +173,7 @@ const PersonalInfoCard = ({
                     </Col>
                     <Col span={12}>
                         <div className={style.infoRow}>
-                            <div className={style.label}>Email</div>
+                            <div className="label">Email</div>
                             {isEditing ? (
                                 <FormInput
                                     name="emailAddress"
@@ -191,7 +191,7 @@ const PersonalInfoCard = ({
                             )}
                         </div>
                         <div className={style.infoRow}>
-                            <div className={style.label}>Address</div>
+                            <div className="label">Address</div>
                             {isEditing ? (
                                 <FormInput
                                     name="address"
@@ -216,7 +216,7 @@ const PersonalInfoCard = ({
                         )}
                         {(hasEmergencyContact || isEditing) && (
                             <div className={style.infoRow}>
-                                <div className={style.label}>Name</div>
+                                <div className="label">Name</div>
                                 {isEditing ? (
                                     <FormInput
                                         name="emergencyContactName"
@@ -239,7 +239,7 @@ const PersonalInfoCard = ({
 
                         {(hasEmergencyContact || isEditing) && (
                             <div className={style.infoRow}>
-                                <div className={style.label}>Phone</div>
+                                <div className="label">Phone</div>
                                 {isEditing ? (
                                     <FormInput
                                         name="emergencyContactPhoneNumber"
@@ -262,7 +262,7 @@ const PersonalInfoCard = ({
                     </Col>
                     <Col span={24} className={style.diagnosisCol}>
                         <div className={style.infoRow}>
-                            <div className={style.label}>Diagnosis</div>
+                            <div className="label">Diagnosis</div>
                             <div className={style.info}>
                                 {patient.diagnosis && (
                                     <DiagnosisAutocompleteInput
