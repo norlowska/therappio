@@ -67,6 +67,7 @@ const DiagnosisAutocompleteInput = ({ diagnosis, updateDiagnosis }) => {
     return (
         <>
             <ReactTags
+                placeholderText={'Enter ICD-10 code or name'}
                 ref={reactTags}
                 tags={diagnosisTags}
                 suggestions={suggestions}

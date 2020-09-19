@@ -25,15 +25,17 @@ const moodColumns = [
         title: 'Name',
         align: 'center',
         dataIndex: 'name',
-        render: (text, record, index) => (
-            <span
-                style={{
-                    color: moodchartKeys[record.mood.quadrant - 1].color,
-                }}
-            >
-                {record.mood.name}
-            </span>
-        ),
+        render: (text, record, index) => {
+            return (
+                <span
+                    style={{
+                        color: moodchartKeys[record.mood.quadrant - 1].color,
+                    }}
+                >
+                    {record.mood.name}
+                </span>
+            );
+        },
     },
 ];
 

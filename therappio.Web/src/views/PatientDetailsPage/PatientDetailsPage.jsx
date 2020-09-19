@@ -30,7 +30,10 @@ const PatientDetailsPage = ({ patient }) => {
                     />
                 </Col>
                 <Col xs={{ span: 24 }} lg={{ span: 8 }}>
-                    <NotesCard patient={patient} />
+                    <NotesCard
+                        patientId={patient && patient._id ? patient._id : null}
+                        notes={patient.notes}
+                    />
                     <MoodJournalRecordsCard
                         patientId={patient && patient._id ? patient._id : null}
                     />

@@ -64,6 +64,7 @@ const UserSchema = new Schema({
     enum: Object.values(Role),
     required: true,
   },
+  notes: String,
 });
 
 UserSchema.virtual('fullName').get(function () {

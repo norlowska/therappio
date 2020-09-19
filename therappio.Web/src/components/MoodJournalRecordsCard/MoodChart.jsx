@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { PieChart, Pie, Cell, Label } from 'recharts';
 import { Button } from 'antd';
@@ -11,20 +11,36 @@ import style from './MoodJournalRecordsCard.module.scss';
 
 const MoodChart = ({ lastWeekRecords, lastMonthRecords }) => {
     const [currentView, setCurrentView] = useState('7 days');
-
-    const lastWeekMoodChartData = lastWeekRecords.map(item => ({
-        name: item.mood.name,
-        value: item.mood.quadrant,
-    }));
-    const lastMonthMoodChartData = lastMonthRecords.map(item => ({
-        name: item.mood.name,
-        value: item.mood.quadrant,
-    }));
+    const [lastWeekMoodChartData, setLastWeekMoodChartData] = useState([]);
+    const [lastMonthMoodChartData, setLastMonthMoodChartData] = useState([]);
+    useEffect(() => {
+        if (lastWeekRecords && lastWeekRecords.length) {
+            const newLastWeekData = moodchartKeys
+                .map(item => ({
+                    name: item.quadrant,
+                    value: lastWeekRecords.filter(
+                        record => record.mood.quadrant === item.quadrant
+                    ).length,
+                }))
+                .filter(item => item.value !== 0);
+            setLastWeekMoodChartData(newLastWeekData);
+        }
+        if (lastMonthRecords && lastMonthRecords.length) {
+            const newLastMonthData = moodchartKeys
+                .map(item => ({
+                    name: item.quadrant,
+                    value: lastMonthRecords.filter(
+                        record => record.mood.quadrant === item.quadrant
+                    ).length,
+                }))
+                .filter(item => item.value !== 0);
+            setLastMonthMoodChartData(newLastMonthData);
+        }
+    }, [lastWeekRecords, lastMonthRecords]);
 
     return (
         <div className="center-horizontal">
             <div className="buttons-group">
-                {/*className={styles.selectPeriod}*/}
                 <Button
                     onClick={() => setCurrentView('7 days')}
                     type={currentView === '7 days' ? 'primary' : 'default'}
@@ -38,26 +54,33 @@ const MoodChart = ({ lastWeekRecords, lastMonthRecords }) => {
                     Last 30 days
                 </Button>
             </div>
-            <PieChart width={410} height={240}>
-                <Pie
-                    data={
-                        currentView === '7 days'
-                            ? lastWeekMoodChartData
-                            : lastMonthMoodChartData
-                    }
-                    dataKey="value"
-                    nameKey="name"
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={80}
-                    fill="#8884d8"
-                    label={({ percent, ...rest }) => `${percent * 100}%`}
-                >
-                    {moodchartKeys.map((entry, index) => (
-                        <Cell key={`cell${index}`} fill={entry.color} />
-                    ))}
-                </Pie>
-            </PieChart>
+            {(currentView === '7 days' && lastWeekRecords.length) ||
+            (currentView === '30 days' && lastMonthRecords.length) ? (
+                <PieChart width={410} height={240}>
+                    <Pie
+                        data={
+                            currentView === '7 days'
+                                ? lastWeekMoodChartData
+                                : lastMonthMoodChartData
+                        }
+                        dataKey="value"
+                        nameKey="name"
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={80}
+                        fill="#8884d8"
+                        label={({ percent, ...rest }) => `${percent * 100}%`}
+                    >
+                        {moodchartKeys.map((entry, index) => (
+                            <Cell key={`cell${index}`} fill={entry.color} />
+                        ))}
+                    </Pie>
+                </PieChart>
+            ) : (
+                <div style={{ margin: '12px 0' }}>
+                    <i>No data provided in last {currentView}</i>
+                </div>
+            )}
             <div>
                 {moodchartKeys.map((entry, index) => (
                     <div key={index}>

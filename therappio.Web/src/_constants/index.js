@@ -21,8 +21,8 @@ export const genderOptions = [
 ];
 
 export const moodchartKeys = [
-    { color: '#f44336', name: 'High energy, unpleasant' },
-    { color: '#F7C602', name: 'High energy, pleasant' },
-    { color: '#42a5f5', name: 'Low energy, unpleasant' },
-    { color: '#66bb6a', name: 'Low energy, pleasant' },
+    { color: '#F7C602', name: 'High energy, pleasant', quadrant: 1 },
+    { color: '#f44336', name: 'High energy, unpleasant', quadrant: 2 },
+    { color: '#42a5f5', name: 'Low energy, unpleasant', quadrant: 3 },
+    { color: '#66bb6a', name: 'Low energy, pleasant', quadrant: 4 },
 ];

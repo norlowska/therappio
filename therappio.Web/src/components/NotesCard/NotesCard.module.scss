@@ -1,3 +1,18 @@
 .notesContainer {
     min-height: 280px;
+    display: flex;
+    flex-direction: column;
+}
+
+.noteInput,
+textarea.noteInput {
+    width: 100%;
+    flex-basis: 100%;
+    flex-shrink: 1;
+    flex-grow: 1;
+    resize: none;
+
+    &:focus {
+        border: none;
+    }
 }
