@@ -112,6 +112,10 @@ const AssignmentFormPage = ({
         setFields(newFields);
     };
 
+    const deleteQuestion = index => {
+        setFields(fields.filter((item, idx) => index !== idx));
+    };
+
     const titleInput = (
         <div className={`${style.formName}`}>
             <FormInput
@@ -161,6 +165,22 @@ const AssignmentFormPage = ({
                                                 }
                                             />
                                         </div>
+                                        <div className={'formGroup'}>
+                                            <Button
+                                                danger
+                                                type="link"
+                                                shape="circle"
+                                                onClick={() =>
+                                                    deleteQuestion(index)
+                                                }
+                                                icon={
+                                                    <i
+                                                        className="las la-trash icon"
+                                                        title="Delete assignment"
+                                                    />
+                                                }
+                                            />
+                                        </div>
                                     </div>
                                     <AnswerFields
                                         questionType={field.type}
@@ -187,10 +207,11 @@ const AssignmentFormPage = ({
                                 type="datetime-local"
                                 value={dueDate}
                                 name="dueDate"
+                                className="input"
                                 onChange={e => setDueDate(e.target.value)}
                             />
                         </label>
-                        <div className={style.buttonsGroup}>
+                        <div className={'buttons-group'}>
                             <NavLink to={`/clients/${match.params.clientId}`}>
                                 <Button>Cancel</Button>
                             </NavLink>

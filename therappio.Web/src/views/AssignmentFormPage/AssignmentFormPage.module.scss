@@ -26,13 +26,17 @@
 
     .question {
         display: flex;
-        justify-content: space-between;
-
         > div:first-child {
             width: 60%;
         }
-        > div {
+
+        > div:nth-child(2) {
             width: 30%;
+            margin: 0 10px;
+        }
+
+        > div:last-child {
+            margin-left: auto;
         }
     }
 }

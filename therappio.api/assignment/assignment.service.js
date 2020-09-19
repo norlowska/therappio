@@ -1,4 +1,4 @@
-const db = require("_helpers/db");
+const db = require('_helpers/db');
 const Assignment = db.Assignment;
 
 module.exports = {
@@ -7,37 +7,32 @@ module.exports = {
   getClientsAssignments,
   create,
   update,
-  delete: _delete
+  delete: _delete,
 };
 
 async function getAll() {
-  return await Assignment.find()
-    .select("-__v")
-    .populate("client", "_id therapist");
+  return await Assignment.find().select('-__v').populate('client', '_id therapist');
 }
 
 async function getById(id) {
-  return await Assignment.findById(id)
-    .select("-__v")
-    .populate("client", "_id therapist");
+  return await Assignment.findById(id).select('-__v').populate('client', '_id therapist');
 }
 
 async function getClientsAssignments(id) {
-  return await Assignment.find({ client: id })
-    .select("-__v")
-    .populate("client", "_id therapist");
+  return await Assignment.find({ client: id }).select('-__v').populate('client', '_id therapist');
 }
 
 async function create(assignmentParam) {
   const newAssignment = new Assignment(assignmentParam);
-  return await newAssignment.save();
+  await newAssignment.save();
+  return getById(newAssignment._id);
 }
 
 async function update(id, assignmentParam) {
   const assignment = await Assignment.findById(id);
 
   // validate
-  if (!assignment) throw "Assignment not found";
+  if (!assignment) throw 'Assignment not found';
 
   Object.assign(assignment, assignmentParam);
   await assignment.save();

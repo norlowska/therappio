@@ -45,7 +45,7 @@ function createAssignment(assignment) {
             .then(res => {
                 dispatch(success(res.data, res.message));
                 toast.success('New assignment created successfully');
-                history.push(`/clients/${res.data.client}`);
+                history.push(`/clients/${res.data.client._id}`);
             })
             .catch(error => {
                 dispatch(failure(error.message));
