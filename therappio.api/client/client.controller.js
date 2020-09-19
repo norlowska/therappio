@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const authorize = require("_helpers/authorize");
 const Role = require("_helpers/role");
+const clientService = require("client/client.service")
 
 // routes
 router.get("/", authorize(Role.Therapist), getAll);
