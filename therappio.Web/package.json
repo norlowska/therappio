@@ -24,6 +24,7 @@
         "react-router-breadcrumbs-hoc": "^3.3.0",
         "react-router-dom": "^5.1.2",
         "react-table": "^7.0.0-rc.15",
+        "react-tag-autocomplete": "^6.1.0",
         "react-through": "^1.1.4",
         "react-toastify": "^5.5.0",
         "recharts": "^2.0.0-beta.1",

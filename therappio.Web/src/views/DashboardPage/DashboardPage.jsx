@@ -42,7 +42,7 @@ const DashboardPage = props => {
         PhoneNumber: '725554614',
         PESEL: '82022777317',
         Birthdate: new Date(1972, 10, 5),
-        Gender: 'Male',
+        Gender: 'ale',
         Address: 'ul. Przykładowa 15 m. 6, 03-946 Przykładowo',
     };
 

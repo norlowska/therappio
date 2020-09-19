@@ -1,7 +1,7 @@
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const config = require("config.json");
-const db = require("_helpers/db");
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('config.json');
+const db = require('_helpers/db');
 const User = db.User;
 
 module.exports = {
@@ -11,15 +11,14 @@ module.exports = {
   getAll,
   getById,
   update,
-  delete: _delete
+  delete: _delete,
 };
 
 async function signup(userParam) {
   // validate email address
   if (await User.findOne({ email: userParam.email })) {
-    throw "Email " + userParam.email + " is already in use";
+    throw 'Email ' + userParam.email + ' is already in use';
   }
-
   const { password, ...userWithoutPassword } = userParam;
 
   // hash password
@@ -38,27 +37,25 @@ async function login({ email, password }) {
 
     return {
       email,
-      token
+      token,
     };
   }
 }
 
 async function getAll() {
-  return await User.find()
-    .select("-hash -__v")
-    .populate("therapist", "_id");
+  return await User.find().select('-hash -__v').populate('therapist', '_id');
 }
 
 async function getById(id) {
   return await User.findById(id)
-    .select("-hash  -__v")
-    .populate("therapist", "firstName lastName phoneNumber");
+    .select('-hash  -__v')
+    .populate('therapist', 'firstName lastName phoneNumber');
 }
 
 async function create(userParam) {
   // validate
   if (await User.findOne({ email: userParam.email })) {
-    throw "Email " + userParam.email + " is already in use";
+    throw 'Email ' + userParam.email + ' is already in use';
   }
 
   const { password, ...userWithoutPassword } = userParam;
@@ -75,11 +72,8 @@ async function update(id, userParam) {
   const user = await User.findById(id);
 
   // validate
-  if (!user) throw "User not found";
-  if (
-    user.email !== userParam.email &&
-    (await User.findOne({ email: userParam.email }))
-  ) {
+  if (!user) throw 'User not found';
+  if (user.email !== userParam.email && (await User.findOne({ email: userParam.email }))) {
     throw 'Email "' + userParam.email + '" is already in use';
   }
 
@@ -92,7 +86,7 @@ async function update(id, userParam) {
   // copy userParam properties to user
   Object.assign(user, userParam);
 
-  await user.save();
+  return await user.save();
 }
 
 async function _delete(id) {

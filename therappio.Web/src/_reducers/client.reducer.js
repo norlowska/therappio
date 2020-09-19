@@ -1,6 +1,4 @@
-import { actions } from 'react-table';
-import { assignmentConstants, clientConstants } from '../_constants';
-import { compareValues } from '../_utilities';
+import { clientConstants, diagnosisConstants } from '../_constants';
 
 const initialState = {
     isFetching: false,
@@ -57,6 +55,23 @@ export function clients(state = initialState, action) {
                 errorMessage: action.error,
             };
 
+        case diagnosisConstants.CREATE_DIAGNOSIS_SUCCESS: {
+            console.log('CLIENT Create diagnosis success');
+
+            const newPatient = {
+                ...state.byId[action.diagnosis.client],
+            };
+            newPatient.diagnosis = action.diagnosis._id;
+
+            return {
+                ...state,
+                isFetching: false,
+                byId: {
+                    ...state.byId,
+                    [action.diagnosis.client]: newPatient,
+                },
+            };
+        }
         default:
             return state;
     }

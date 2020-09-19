@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const FormInput = props => {
     let inputElement = null;
-    const inputStyle = props.className + ' input';
+    const inputStyle = props.className ? `${props.className} input` : 'input';
     const { type, options, ...attributes } = props;
 
     switch (type) {

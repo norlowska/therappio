@@ -3,11 +3,19 @@ import { connect } from 'react-redux';
 import dayjs from 'dayjs';
 import { Row, Col, Card, Button } from 'antd';
 import { FormInput } from '../index';
-import { clientActions } from '../../_actions';
+import DiagnosisAutocompleteInput from './DiagnosisAutocompleteInput';
+import { clientActions, diagnosisActions } from '../../_actions';
 import { genderOptions } from '../../_constants';
 import style from './PersonalInfoCard.module.scss';
+import { selectDiagnosis } from '../../_selectors';
 
-const PersonalInfoCard = ({ patient, updatePatient }) => {
+const PersonalInfoCard = ({
+    patient,
+    updatePatient,
+    fetchDiagnosis,
+    createDiagnosis,
+    diagnosisObj,
+}) => {
     const [isEditing, setIsEditing] = useState(false);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -15,7 +23,6 @@ const PersonalInfoCard = ({ patient, updatePatient }) => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [emailAddress, setEmailAddress] = useState('');
     const [DOB, setDOB] = useState(null);
-    const [diagnosis, setDiagnosis] = useState([]);
     const [address, setAddress] = useState('');
     const [
         emergencyContactPhoneNumber,
@@ -25,6 +32,9 @@ const PersonalInfoCard = ({ patient, updatePatient }) => {
 
     useEffect(() => {
         if (patient) {
+            if (!patient.diagnosis) createDiagnosis(patient._id);
+            else if (!diagnosisObj) fetchDiagnosis(patient.diagnosis);
+
             setDOB(patient.dateOfBirth);
             if (isEditing) {
                 setFirstName(patient.firstName);
@@ -32,7 +42,6 @@ const PersonalInfoCard = ({ patient, updatePatient }) => {
                 setGender(patient.gender);
                 setPhoneNumber(patient.phoneNumber);
                 setEmailAddress(patient.email);
-                setDiagnosis(patient.diagnosis);
                 setAddress(patient.address);
                 if (patient.emergencyContact) {
                     setEmergencyContactName(
@@ -66,7 +75,6 @@ const PersonalInfoCard = ({ patient, updatePatient }) => {
                     name: emergencyContactName,
                     phoneNumber: emergencyContactPhoneNumber,
                 },
-                diagnosis,
             };
 
             updatePatient(newPatient);
@@ -114,7 +122,6 @@ const PersonalInfoCard = ({ patient, updatePatient }) => {
                                     options={genderOptions}
                                     onChange={e => setGender(e.target.value)}
                                     value={gender}
-                                    className={style.input}
                                     title="Select gender"
                                 />
                             ) : (
@@ -131,7 +138,6 @@ const PersonalInfoCard = ({ patient, updatePatient }) => {
                                     type="date"
                                     onChange={e => setDOB(e.target.value)}
                                     value={dayjs(DOB).format('YYYY-MM-DD')}
-                                    className={style.input}
                                     title="Enter date of birth"
                                 />
                             ) : (
@@ -156,7 +162,6 @@ const PersonalInfoCard = ({ patient, updatePatient }) => {
                                         setPhoneNumber(e.target.value)
                                     }
                                     value={phoneNumber}
-                                    className={style.input}
                                     title="Enter phone number"
                                 />
                             ) : (
@@ -177,7 +182,6 @@ const PersonalInfoCard = ({ patient, updatePatient }) => {
                                         setEmailAddress(e.target.value)
                                     }
                                     value={emailAddress}
-                                    className={style.input}
                                     title="Enter email address"
                                 />
                             ) : (
@@ -194,7 +198,6 @@ const PersonalInfoCard = ({ patient, updatePatient }) => {
                                     type="textarea"
                                     onChange={e => setAddress(e.target.value)}
                                     value={address}
-                                    className={style.input}
                                     title="Enter address"
                                 />
                             ) : (
@@ -224,7 +227,6 @@ const PersonalInfoCard = ({ patient, updatePatient }) => {
                                             )
                                         }
                                         value={emergencyContactName}
-                                        className={style.input}
                                         title="Enter emergency contact's name"
                                     />
                                 ) : (
@@ -248,7 +250,6 @@ const PersonalInfoCard = ({ patient, updatePatient }) => {
                                             )
                                         }
                                         value={emergencyContactPhoneNumber}
-                                        className={style.input}
                                         title="Enter emergency contact's phone number"
                                     />
                                 ) : (
@@ -263,7 +264,11 @@ const PersonalInfoCard = ({ patient, updatePatient }) => {
                         <div className={style.infoRow}>
                             <div className={style.label}>Diagnosis</div>
                             <div className={style.info}>
-                                {/* {patient.emergencyContact.name} */}
+                                {patient.diagnosis && (
+                                    <DiagnosisAutocompleteInput
+                                        diagnosisId={patient.diagnosis}
+                                    />
+                                )}
                             </div>
                         </div>
                     </Col>
@@ -273,8 +278,14 @@ const PersonalInfoCard = ({ patient, updatePatient }) => {
     );
 };
 
+const mapStateToProps = (state, props) => ({
+    diagnosisObj: selectDiagnosis(state, props.patient.diagnosis),
+});
+
 const mapDispatchToProps = {
     updatePatient: clientActions.update,
+    fetchDiagnosis: diagnosisActions.fetchDiagnosis,
+    createDiagnosis: diagnosisActions.createDiagnosis,
 };
 
-export default connect(null, mapDispatchToProps)(PersonalInfoCard);
+export default connect(mapStateToProps, mapDispatchToProps)(PersonalInfoCard);

@@ -2,9 +2,9 @@
     margin-bottom: 16px;
 }
 
-input,
-select,
-textarea {
+.input,
+select.input,
+textarea.input {
     display: block;
     background: $input-background;
     border: none;
@@ -21,7 +21,7 @@ textarea {
     }
 }
 
-label {
+.label {
     display: inline-block;
     color: $chambray-blue;
     margin-bottom: 5px;
@@ -31,20 +31,20 @@ label {
     color: $chambray-blue;
 }
 
-input[type='number'],
-input[type='time'] {
+input[type='number'].input,
+input[type='time'].input {
     width: 100px;
 }
 
-input[type='date'] {
+input[type='date'].input {
     width: 150px;
 }
 
-input[type='datetime-local'] {
+input[type='datetime-local'].input {
     width: 200px;
 }
 
-input[type='range'] {
+input[type='range'].input {
     -webkit-appearance: none;
     width: 100%;
     height: 15px;
@@ -76,13 +76,13 @@ input[type='range'] {
     }
 }
 
-select {
+select.input {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
 }
 
-select::-ms-expand {
+select.input::-ms-expand {
     display: none;
 }
 
