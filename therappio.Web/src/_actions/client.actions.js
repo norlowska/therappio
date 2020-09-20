@@ -33,7 +33,28 @@ function fetchClients() {
     }
 }
 
-function create(user) {}
+function create(client) {
+    return dispatch => {
+        dispatch(request());
+        clientService
+            .create({ ...client, role: 'Client' })
+            .then(res => {
+                dispatch(success(res.data.client));
+            })
+            .catch(error => {
+                dispatch(failure(error.message));
+            });
+    };
+    function request() {
+        return { type: clientConstants.CREATE_CLIENT_REQUEST };
+    }
+    function success(client) {
+        return { type: clientConstants.CREATE_CLIENT_SUCCESS, client };
+    }
+    function failure(error) {
+        return { type: clientConstants.CREATE_CLIENT_FAILURE, error };
+    }
+}
 
 function update(client) {
     return dispatch => {

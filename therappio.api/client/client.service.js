@@ -21,6 +21,7 @@ async function create(userParam) {
 
   // save user
   await user.save();
+  return getById(user._id);
 }
 
 async function getAll() {

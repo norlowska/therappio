@@ -206,7 +206,7 @@ const PersonalInfoCard = ({
                                 </div>
                             )}
                         </div>
-                        <div className={style.emergencyContactTitle}>
+                        <div className={'emergency-contact-title'}>
                             Emergency contact
                         </div>
                         {!hasEmergencyContact && !isEditing && (

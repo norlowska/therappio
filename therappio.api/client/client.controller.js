@@ -57,9 +57,9 @@ function getById(req, res, next) {
 }
 
 function create(req, res, next) {
-  userService
+  clientService
     .create(req.body)
-    .then(() => res.json({ message: "Account creation success" }))
+    .then(client => res.json({ client, message: "Client creation success" }))
     .catch(err => next(err));
 }
 

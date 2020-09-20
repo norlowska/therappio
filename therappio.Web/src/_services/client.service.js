@@ -12,7 +12,7 @@ function getAll() {
 }
 
 function create(client) {
-    return axios.post(`${config.apiUrl}/clients`, client).then(res => {});
+    return axios.post(`${config.apiUrl}/clients`, client).then(res => res);
 }
 
 function update(client) {

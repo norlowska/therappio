@@ -3,6 +3,8 @@ import isBetween from 'dayjs/plugin/isBetween';
 import { compareValues } from '../_utilities';
 dayjs.extend(isBetween);
 
+export const selectCurrentUser = state => state.auth.user;
+
 export const selectAssignments = state => Object.values(state.assignments.byId);
 export const selectAssignment = (state, id) => state.assignments.byId[id];
 

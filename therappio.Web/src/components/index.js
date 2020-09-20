@@ -7,6 +7,7 @@ export { default as AssignmentsCard } from './AssignmentsCard/AssignmentsCard';
 export { default as MoodJournalRecordsCard } from './MoodJournalRecordsCard/MoodJournalRecordsCard';
 
 export { default as SessionFormModal } from './SessionFormModal/SessionFormModal';
+export { default as PatientFormModal } from './PatientFormModal/PatientFormModal';
 
 export { default as PrivateRoute } from './shared/PrivateRoute';
 export { default as PublicRoute } from './shared/PublicRoute';

@@ -102,6 +102,14 @@ input.react-tags__search-input {
     width: 100%;
 }
 
+.emergency-contact-title {
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.85);
+}
+
 @import './layout/layout';
 @import './layout/sidebar';
 @import './base/base';
