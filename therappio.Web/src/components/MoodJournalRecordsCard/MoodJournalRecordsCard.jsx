@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import dayjs from 'dayjs';
+import { format } from 'date-fns';
 import { Card, Table, Button } from 'antd';
 import {
     selectClientJournalRecords,
@@ -17,7 +17,7 @@ const moodColumns = [
         align: 'center',
         dataIndex: 'createdAt',
         render: (text, record, index) => (
-            <>{dayjs(record.createdAt).format('D MMM YYYY  HH:mm')}</>
+            <>{format(new Date(record.createdAt), 'd MMM yyyy  HH:mm')}</>
         ),
     },
     {
@@ -46,7 +46,7 @@ const journalColumns = [
         align: 'center',
         dataIndex: 'createdAt',
         render: (text, record, index) => (
-            <>{dayjs(record.createdAt).format('D MMM YYYY  HH:mm')}</>
+            <>{format(new Date(record.createdAt), 'd MMM yyyy  HH:mm')}</>
         ),
     },
     {

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { Card, Button } from 'antd';
-import dayjs from 'dayjs';
+import { format, addDays } from 'date-fns';
 import { assignmentActions } from '../../_actions';
 import { selectAssignment } from '../../_selectors';
 import AnswerFields from './AnswerFields/AnswerFields';
@@ -26,7 +26,7 @@ const AssignmentFormPage = ({
         },
     ]);
     const [dueDate, setDueDate] = useState(
-        dayjs().add(7, 'day').format('YYYY-MM-DDTHH:mm')
+        format(addDays(new Date(), 7), "yyyy-MM-dd'T'HH:mm")
     );
 
     const questionTypeOptions = useMemo(
@@ -49,7 +49,9 @@ const AssignmentFormPage = ({
         if (editMode && assignment) {
             setTitle(assignment.title);
             setFields(assignment.fields);
-            setDueDate(dayjs(assignment.dueDate).format('YYYY-MM-DDTHH:mm'));
+            setDueDate(
+                format(new Date(assignment.dueDate), "yyyy-MM-dd'T'HH:mm")
+            );
         }
     }, [assignment]);
 

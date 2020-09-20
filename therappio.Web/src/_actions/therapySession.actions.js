@@ -4,8 +4,8 @@ import { therapySessionService } from '../_services';
 
 export const therapySessionActions = {
     fetchTherapySessions,
-    createTherapySession,
-    updateTherapySession,
+    create: createTherapySession,
+    update: updateTherapySession,
     deleteTherapySession,
 };
 

@@ -1,0 +1,15 @@
+label.radio,
+label.radio > * {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+label.radio input[type='number'],
+label.radio :global(.react-tags) {
+    margin: 0 8px;
+}
+
+label.radio :global(.react-tags) {
+    width: 300px;
+}

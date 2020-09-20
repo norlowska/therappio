@@ -71,9 +71,19 @@ const MoodChart = ({ lastWeekRecords, lastMonthRecords }) => {
                         fill="#8884d8"
                         label={({ percent, ...rest }) => `${percent * 100}%`}
                     >
-                        {moodchartKeys.map((entry, index) => (
-                            <Cell key={`cell${index}`} fill={entry.color} />
-                        ))}
+                        {currentView === '7 days'
+                            ? lastWeekMoodChartData.map((entry, index) => (
+                                  <Cell
+                                      key={`cell${entry.index}`}
+                                      fill={moodchartKeys[entry.name - 1].color}
+                                  />
+                              ))
+                            : lastMonthMoodChartData.map((entry, index) => (
+                                  <Cell
+                                      key={`cell${entry.index}`}
+                                      fill={moodchartKeys[entry.name - 1].color}
+                                  />
+                              ))}
                     </Pie>
                 </PieChart>
             ) : (

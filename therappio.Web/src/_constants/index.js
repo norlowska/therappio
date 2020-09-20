@@ -7,10 +7,11 @@ export * from './journalRecord.constants';
 export * from './user.constants';
 export * from './routes.constants';
 export * from './diagnosis.constants';
+export * from './therapy.constants';
 
 export const genderOptions = [
     {
-        value: 'male',
+        id: 'male',
         displayValue: 'male',
     },
     {
@@ -24,4 +25,14 @@ export const moodchartKeys = [
     { color: '#f44336', name: 'High energy, unpleasant', quadrant: 2 },
     { color: '#42a5f5', name: 'Low energy, unpleasant', quadrant: 3 },
     { color: '#66bb6a', name: 'Low energy, pleasant', quadrant: 4 },
+];
+
+export const weekdays = [
+    { name: 'Monday', id: 1 },
+    { name: 'Tuesday', id: 2 },
+    { name: 'Wednesday', id: 3 },
+    { name: 'Thursday', id: 4 },
+    { name: 'Friday', id: 5 },
+    { name: 'Saturday', id: 6 },
+    { name: 'Sunday', id: 7 },
 ];

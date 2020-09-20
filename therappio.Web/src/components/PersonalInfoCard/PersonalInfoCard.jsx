@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import dayjs from 'dayjs';
+import { format, differenceInYears } from 'date-fns';
 import { Row, Col, Card, Button } from 'antd';
 import { FormInput } from '../index';
 import DiagnosisAutocompleteInput from './DiagnosisAutocompleteInput';
@@ -137,19 +137,26 @@ const PersonalInfoCard = ({
                                     name="dateOfBirth"
                                     type="date"
                                     onChange={e => setDOB(e.target.value)}
-                                    value={dayjs(DOB).format('YYYY-MM-DD')}
+                                    defaultValue={format(
+                                        DOB ? new Date(DOB) : new Date(),
+                                        'yyyy-MM-dd'
+                                    )}
                                     title="Enter date of birth"
                                 />
                             ) : (
                                 <div className={style.info}>
-                                    {dayjs(DOB).format('D MMM YYYY')}
+                                    {DOB && format(new Date(DOB), 'd MMM yyyy')}
                                 </div>
                             )}
                         </div>
                         <div className={style.infoRow}>
                             <div className="label">Age</div>
                             <div className={style.info}>
-                                {dayjs().diff(DOB || patient.dateOfBirth, 'y')}
+                                {(DOB || patient.dateOfBirth) &&
+                                    differenceInYears(
+                                        new Date(),
+                                        new Date(DOB || patient.dateOfBirth)
+                                    )}
                             </div>
                         </div>
                         <div className={style.infoRow}>

@@ -3,15 +3,23 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button, Row, Col } from 'antd';
 import PropTypes from 'prop-types';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
-import moment from 'moment';
+import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import style from './DashboardPage.module.scss';
+import format from 'date-fns/format';
+import parse from 'date-fns/parse';
+import startOfWeek from 'date-fns/startOfWeek';
+import getDay from 'date-fns/getDay';
 
-// TODO: Next client above schedule
-// TODO: Fetch events (sessions) for therapist
-// TODO: Add session
-// TODO: save defaultView type in locale
-const localizer = momentLocalizer(moment);
+const locales = {
+    'en-US': require('date-fns/locale/en-US'),
+};
+const localizer = dateFnsLocalizer({
+    format,
+    parse,
+    startOfWeek,
+    getDay,
+    locales,
+});
 
 const DashboardPage = props => {
     const events = [
@@ -34,28 +42,12 @@ const DashboardPage = props => {
             end: new Date(2019, 11, 4, 15, 30, 0),
         },
     ];
-    const client = {
-        UserId: 1,
-        Email: 'jan@nowak.pl',
-        FirstName: 'Jan',
-        LastName: 'Nowak',
-        PhoneNumber: '725554614',
-        PESEL: '82022777317',
-        Birthdate: new Date(1972, 10, 5),
-        Gender: 'ale',
-        Address: 'ul. Przykładowa 15 m. 6, 03-946 Przykładowo',
-    };
 
     return (
         <>
             <Row>
                 <Col span={21}>
                     <h2>Schedule</h2>
-                </Col>
-                <Col className={`${style.addEventColumn} clearfix`}>
-                    <Button type="primary" icon={<i className="las la-plus" />}>
-                        Add event
-                    </Button>
                 </Col>
             </Row>
             <Row>

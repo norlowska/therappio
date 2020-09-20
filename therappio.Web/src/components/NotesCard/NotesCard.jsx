@@ -5,7 +5,7 @@ import { clientActions } from '../../_actions';
 import { FormInput } from '../index';
 import style from './NotesCard.module.scss';
 
-const NotesCard = ({ notes, patientId, updatePatient }) => {
+const NotesCard = ({ notes, patientId, updatePatient, therapyEnded }) => {
     const [noteDraft, setNoteDraft] = useState(notes);
     const [isEditing, setIsEditing] = useState(false);
 
@@ -18,6 +18,10 @@ const NotesCard = ({ notes, patientId, updatePatient }) => {
         setIsEditing(false);
         if (noteDraft !== notes)
             updatePatient({ _id: patientId, notes: noteDraft });
+    };
+
+    const handleNoteClick = e => {
+        if (!therapyEnded) setIsEditing(true);
     };
 
     return (
@@ -36,7 +40,7 @@ const NotesCard = ({ notes, patientId, updatePatient }) => {
                     />
                 ) : (
                     <div
-                        onClick={e => setIsEditing(true)}
+                        onClick={handleNoteClick}
                         className={`react-tags ${style.noteInput}`}
                     >
                         {noteDraft}

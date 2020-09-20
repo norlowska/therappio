@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import dayjs from 'dayjs';
+import { format } from 'date-fns';
 import { Card, Table, Button } from 'antd';
 import { selectClientTherapySessions } from '../../_selectors';
 import { therapySessionActions } from '../../_actions';
 import { SessionFormModal } from '../index';
 import style from './SessionsCard.module.scss';
 
-const SessionsCard = ({ therapySessions, patientId, deleteSession }) => {
+const SessionsCard = ({
+    therapySessions,
+    patientId,
+    deleteSession,
+    therapyEnded,
+}) => {
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [editedSession, setEditedSession] = useState(null);
 
@@ -31,7 +36,7 @@ const SessionsCard = ({ therapySessions, patientId, deleteSession }) => {
                 align: 'center',
                 dataIndex: 'date',
                 render: (text, record, index) => (
-                    <>{dayjs(record.date).format('D MMM YYYY  HH:mm')}</>
+                    <>{format(new Date(record.date), 'd MMM yyyy  HH:mm')}</>
                 ),
             },
             {
@@ -59,18 +64,22 @@ const SessionsCard = ({ therapySessions, patientId, deleteSession }) => {
                                 title="Read more"
                             />
                         </Button>
-                        <Button
-                            className="table-icon-btn"
-                            type="link"
-                            shape="circle"
-                            onClick={e => handleDeleteSession(e, record._id)}
-                            icon={
-                                <i
-                                    className="las la-trash icon"
-                                    title="Delete session"
-                                />
-                            }
-                        />
+                        {!therapyEnded && (
+                            <Button
+                                className="table-icon-btn"
+                                type="link"
+                                shape="circle"
+                                onClick={e =>
+                                    handleDeleteSession(e, record._id)
+                                }
+                                icon={
+                                    <i
+                                        className="las la-trash icon"
+                                        title="Delete session"
+                                    />
+                                }
+                            />
+                        )}
                     </>
                 ),
             },
@@ -83,14 +92,16 @@ const SessionsCard = ({ therapySessions, patientId, deleteSession }) => {
             <Card
                 title="SESSIONS"
                 extra={
-                    <Button
-                        onClick={e => setIsFormVisible(true)}
-                        type="primary"
-                        style={{ marginBottom: 16 }}
-                        icon={<i className="las la-plus icon"></i>}
-                    >
-                        Add session
-                    </Button>
+                    !therapyEnded && (
+                        <Button
+                            onClick={e => setIsFormVisible(true)}
+                            type="primary"
+                            style={{ marginBottom: 16 }}
+                            icon={<i className="las la-plus icon"></i>}
+                        >
+                            Add session
+                        </Button>
+                    )
                 }
             >
                 <Table

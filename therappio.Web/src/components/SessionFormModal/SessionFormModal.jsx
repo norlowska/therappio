@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import dayjs from 'dayjs';
+import { format } from 'date-fns';
 import { Modal, Button, Form } from 'antd';
 import ReactTags from 'react-tag-autocomplete';
 import { therapySessionActions } from '../../_actions';
@@ -19,8 +19,9 @@ const SessionFormModal = ({
         session ? session.session_no : props.sessionNo || ''
     );
     const [date, setDate] = useState(
-        dayjs(session && session.date ? session.date : new Date()).format(
-            'YYYY-MM-DDTHH:mm'
+        format(
+            session && session.date ? new Date(session.date) : new Date(),
+            "yyyy-MM-dd'T'HH:mm"
         )
     );
     const [notes, setNotes] = useState(
@@ -147,8 +148,8 @@ const SessionFormModal = ({
 };
 
 const mapDispatchToProps = {
-    create: therapySessionActions.createTherapySession,
-    update: therapySessionActions.updateTherapySession,
+    create: therapySessionActions.create,
+    update: therapySessionActions.update,
 };
 
 export default connect(null, mapDispatchToProps)(SessionFormModal);

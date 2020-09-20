@@ -7,3 +7,4 @@ export * from './journalRecord.service';
 export * from './moodRecord.service';
 export * from './icdCode.service';
 export * from './diagnosis.service';
+export * from './therapy.service';

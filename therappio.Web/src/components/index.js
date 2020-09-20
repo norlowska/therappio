@@ -8,6 +8,7 @@ export { default as MoodJournalRecordsCard } from './MoodJournalRecordsCard/Mood
 
 export { default as SessionFormModal } from './SessionFormModal/SessionFormModal';
 export { default as PatientFormModal } from './PatientFormModal/PatientFormModal';
+export { default as TherapyFormModal } from './TherapyFormModal/TherapyFormModal';
 
 export { default as PrivateRoute } from './shared/PrivateRoute';
 export { default as PublicRoute } from './shared/PublicRoute';

@@ -5,3 +5,4 @@ export * from './therapySession.actions';
 export * from './journalRecord.actions';
 export * from './moodRecord.actions';
 export * from './diagnosis.actions';
+export * from './therapy.actions';

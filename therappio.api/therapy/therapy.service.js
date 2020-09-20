@@ -15,21 +15,21 @@ async function getById(id) {
     .select('-__v')
     .populate('client', '_id firstName lastName phoneNumber email diagnosis')
     .populate('therapist', '_id firstName lastName phoneNumber email')
-    .populate('therapyPlan', '_id startTime interval endTime');
+    .populate('plans', '_id startTime interval endTime');
 }
 
 async function getClientsTherapy(id) {
   return await Therapy.findOne({ client: id })
     .select('-__v')
     .populate('therapist', '_id firstName lastName phoneNumber email')
-    .populate('therapyPlan', '_id startTime interval endTime');
+    .populate('plans', '_id startTime interval endTime');
 }
 
 async function getTherapistsTherapies(id) {
   return await Therapy.find({ therapist: id })
     .select('-__v')
     .populate('client', '_id firstName lastName phoneNumber email diagnosis')
-    .populate('therapyPlan', '_id startTime interval endTime');
+    .populate('plans', '_id startTime interval endTime');
 }
 
 async function create(therapyParam) {
@@ -39,7 +39,7 @@ async function create(therapyParam) {
 }
 
 async function update(id, therapyParam) {
-  const therapy = await Therapytherapy.findById(id);
+  const therapy = await Therapy.findById(id);
 
   // validate
   if (!therapy) throw 'Therapy not found';

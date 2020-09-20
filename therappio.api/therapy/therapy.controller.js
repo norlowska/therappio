@@ -1,4 +1,5 @@
 const express = require('express');
+const dateFns = require('date-fns');
 const router = express.Router();
 const userService = require('user/user.service');
 const therapyService = require('./therapy.service');
@@ -15,19 +16,59 @@ module.exports = router;
 
 function create(req, res, next) {
   const currentUser = req.user;
-  const therapy = { ...req.body, ['therapist']: currentUser.sub };
+  const { client, interval, ...therapyPlan } = req.body;
 
   userService
     .getById(req.body.client)
     .then(client => {
-      if (!client.therapist || therapy.therapist !== client.therapist.id) {
+      if (!client.therapist || currentUser.sub !== client.therapist.id) {
         return res.status(401).json({ message: 'Unauthorized' });
       }
 
-      therapyService
-        .create(therapy)
-        .then(therapy => res.json({ therapy, message: 'Therapy successfully created.' }))
-        .catch(err => next(err));
+      if (interval.type === 'days') {
+        const newInterval = dateFns.differenceInSeconds(
+          dateFns.addDays(new Date(), interval.value),
+          new Date()
+        );
+
+        therapyPlanService
+          .create({ ...therapyPlan, interval: newInterval })
+          .then(createdTherapyPlan => {
+            const therapy = {
+              client,
+              therapist: currentUser.sub,
+              plans: [createdTherapyPlan.id],
+            };
+
+            therapyService
+              .create(therapy)
+              .then(createdTherapy =>
+                res.json({ therapy: createdTherapy, message: 'Therapy successfully created.' })
+              );
+          });
+      } else {
+        let addTherapyPlans = interval.value.map(item => {
+          const newStartTime = getClosestDayOfWeek(item.id, new Date(therapyPlan.startTime));
+          const newInterval = dateFns.differenceInSeconds(
+            dateFns.addDays(new Date(), 7),
+            new Date()
+          );
+
+          return therapyPlanService
+            .create({ ...therapyPlan, startTime: newStartTime, interval: newInterval })
+            .then(createdTherapyPlan => createdTherapyPlan._id);
+        });
+
+        Promise.all(addTherapyPlans).then(plans => {
+          const therapy = { client, therapist: currentUser.sub, plans };
+          therapyService.create(therapy).then(createdTherapy => {
+            createdTherapy.plans.forEach(item =>
+              therapyPlanService.update(item._id, { therapy: createdTherapy._id })
+            );
+            res.json({ therapy: createdTherapy, message: 'Therapy successfully created.' });
+          });
+        });
+      }
     })
     .catch(err => next(err));
 }
@@ -50,7 +91,6 @@ function get(req, res, next) {
       })
       .catch(err => next(err));
   } else if (req.query.therapist) {
-    console.log(currentUser);
     if (currentUser.role !== Role.Therapist)
       return res.status(401).json({ message: 'Unauthorized' });
 
@@ -95,12 +135,29 @@ function update(req, res, next) {
   therapyService
     .update(req.params.id, therapy)
     .then(updatedTherapy => {
-      if (therapy.isInProgress === flase)
-        therapyPlanService
-          .update(updatedTherapy.therapy, { endTime: Date.now })
-          .then(therapyPlan =>
-            res.json({ therapy: updatedTherapy, message: 'Therapy successfully updated' })
-          );
+      if (therapy.isInProgress === false) {
+        let updatedPlans = updatedTherapy.plans.map(item =>
+          therapyPlanService
+            .update(updatedTherapy.therapy, { endTime: Date.now })
+            .then(therapyPlan => therapyPlan._id)
+        );
+        Promise.all(updatedPlans).then(plans =>
+          res.json({ therapy: updatedTherapy, message: 'Therapy successfully ended!' })
+        );
+      }
+
+      res.json({ therapy: updatedTherapy, message: 'Therapy successfully updated' });
     })
     .catch(err => next(err));
+}
+
+function getClosestDayOfWeek(dayOfWeek, fromDate = new Date()) {
+  const startDateDayOfWeek = dateFns.getISODay(fromDate);
+
+  if (dateFns.format(fromDate, 'dd/MM/yyyy') === dateFns.format(new Date(), 'dd/MM/yyyy'))
+    return fromDate;
+
+  const offsetDays = 7 + (dayOfWeek + startDateDayOfWeek);
+
+  return dateFns.addDays(fromDate, offsetDays);
 }

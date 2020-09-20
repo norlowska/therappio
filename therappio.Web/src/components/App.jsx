@@ -12,6 +12,7 @@ import {
     therapySessionActions,
     journalRecordActions,
     moodRecordActions,
+    therapyActions,
 } from '../_actions';
 import { Header, PrivateRoute, PublicRoute, Breadcrumbs } from './index';
 import routes from '../routes';
@@ -25,6 +26,8 @@ const App = ({
     fetchTherapySessions,
     fetchJournalRecords,
     fetchMoodRecords,
+    fetchTherapies,
+    userId,
 }) => {
     useEffect(() => {
         if (isAuthenticated) {
@@ -36,6 +39,12 @@ const App = ({
             fetchMoodRecords();
         }
     }, [isAuthenticated]);
+
+    useEffect(() => {
+        if (isAuthenticated && userId) {
+            fetchTherapies(userId);
+        }
+    }, [isAuthenticated, userId]);
 
     return (
         <Router history={history}>
@@ -105,6 +114,7 @@ App.propTypes = {
 
 const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated,
+    userId: state.auth.user._id,
 });
 
 const mapDispatchToProps = {
@@ -114,6 +124,7 @@ const mapDispatchToProps = {
     fetchTherapySessions: therapySessionActions.fetchTherapySessions,
     fetchJournalRecords: journalRecordActions.fetchJournalRecords,
     fetchMoodRecords: moodRecordActions.fetchMoodRecords,
+    fetchTherapies: therapyActions.fetchTherapies,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

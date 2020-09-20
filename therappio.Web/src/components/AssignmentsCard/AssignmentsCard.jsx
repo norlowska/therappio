@@ -1,13 +1,18 @@
 import React, { useMemo } from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import dayjs from 'dayjs';
+import { format } from 'date-fns';
 import { Card, Table, Button } from 'antd';
 import { assignmentActions } from '../../_actions';
 import { selectClientAssignments } from '../../_selectors';
 import style from './AssignmentsCard.module.scss';
 
-const AssignmentsCard = ({ assignments, deleteAssignment, patientId }) => {
+const AssignmentsCard = ({
+    assignments,
+    deleteAssignment,
+    patientId,
+    therapyEnded,
+}) => {
     const columns = useMemo(
         () => [
             {
@@ -22,7 +27,12 @@ const AssignmentsCard = ({ assignments, deleteAssignment, patientId }) => {
                 align: 'center',
                 dataIndex: 'createdAt',
                 render: (text, record, index) => (
-                    <>{dayjs(record.createdAt).format('D MMM YYYY  HH:mm')}</>
+                    <>
+                        {format(
+                            new Date(record.createdAt),
+                            'd MMM yyyy  HH:mm'
+                        )}
+                    </>
                 ),
             },
             {
@@ -31,7 +41,7 @@ const AssignmentsCard = ({ assignments, deleteAssignment, patientId }) => {
                 align: 'center',
                 dataIndex: 'dueDate',
                 render: (text, record, index) => (
-                    <>{dayjs(record.dueDate).format('D MMM YYYY  HH:mm')}</>
+                    <>{format(new Date(record.dueDate), 'd MMM yyyy  HH:mm')}</>
                 ),
             },
             {
@@ -47,6 +57,7 @@ const AssignmentsCard = ({ assignments, deleteAssignment, patientId }) => {
                 dataIndex: 'actions',
                 render: (text, record, index) => {
                     if (
+                        therapyEnded ||
                         record.status === 'On time' ||
                         record.status === 'Late'
                     ) {
@@ -109,15 +120,17 @@ const AssignmentsCard = ({ assignments, deleteAssignment, patientId }) => {
         <Card
             title="ASSIGNMENTS"
             extra={
-                <NavLink to={`/clients/${patientId}/assignments/new`}>
-                    <Button
-                        type="primary"
-                        style={{ marginBottom: 16 }}
-                        icon={<i className="las la-plus icon"></i>}
-                    >
-                        Add assignment
-                    </Button>
-                </NavLink>
+                !therapyEnded && (
+                    <NavLink to={`/clients/${patientId}/assignments/new`}>
+                        <Button
+                            type="primary"
+                            style={{ marginBottom: 16 }}
+                            icon={<i className="las la-plus icon"></i>}
+                        >
+                            Add assignment
+                        </Button>
+                    </NavLink>
+                )
             }
         >
             <Table

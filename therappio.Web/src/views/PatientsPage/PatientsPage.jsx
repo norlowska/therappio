@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import dayjs from 'dayjs';
+import { format } from 'date-fns';
 import { Table, Button } from 'antd';
 import { selectClients } from '../../_selectors';
 import { PatientFormModal } from '../../components';
@@ -33,9 +33,14 @@ const PatientsPage = ({ patients }) => {
             title: 'DOB',
             align: 'center',
             dataIndex: 'dateOfBirth',
-            render: (text, record, index) => (
-                <>{dayjs(record.dateOfBirth).format('D MMM YYYY')}</>
-            ),
+            render: (text, record, index) => {
+                return (
+                    <>
+                        {record.dateOfBirth &&
+                            format(new Date(record.dateOfBirth), 'd MMM yyyy')}
+                    </>
+                );
+            },
         },
         {
             key: 'gender',
