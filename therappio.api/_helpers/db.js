@@ -24,4 +24,6 @@ module.exports = {
   Assignment: require('assignment/assignment.model'),
   Icd10Code: require('icd10-code/icd10Code.model'),
   Diagnosis: require('diagnosis/diagnosis.model'),
+  Therapy: require('therapy/therapy.model'),
+  TherapyPlan: require('therapy-plan/therapyPlan.model'),
 };

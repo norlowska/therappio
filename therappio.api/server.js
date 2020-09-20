@@ -33,6 +33,8 @@ app.use('/moods', require('mood/moodRecord.controller'));
 app.use('/assignments', require('assignment/assignment.controller'));
 app.use('/icd10', require('icd10-code/icd10Code.controller'), icd10limiter);
 app.use('/diagnosis', require('diagnosis/diagnosis.controller'));
+app.use('/therapy', require('therapy/therapy.controller'));
+app.use('/therapy-plan', require('therapy-plan/therapyPlan.controller'));
 
 // global error handler
 app.use(errorHandler);
