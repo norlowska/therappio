@@ -2,6 +2,7 @@ const db = require('_helpers/db');
 const Therapy = db.Therapy;
 
 module.exports = {
+  getAll,
   getById,
   getClientsTherapy,
   getTherapistsTherapies,
@@ -9,6 +10,10 @@ module.exports = {
   update,
   delete: _delete,
 };
+
+async function getAll() {
+  return await Therapy.find({}).select('-__v').populate('plans', '_id startTime interval endTime');
+}
 
 async function getById(id) {
   return await Therapy.findById(id)

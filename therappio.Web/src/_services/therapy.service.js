@@ -7,6 +7,7 @@ export const therapyService = {
     update,
     createTherapyPlan,
     updateTherapyPlan,
+    getTherapiesBetween,
 };
 
 function getAll(id, type) {
@@ -38,6 +39,14 @@ function updateTherapyPlan(therapyPlan) {
         .put(
             `${config.apiUrl}/therapy-plan/${therapyPlan._id}`,
             therapyPlan._id
+        )
+        .then(res => res.data);
+}
+
+function getTherapiesBetween(from, to, therapist) {
+    return axios
+        .get(
+            `${config.apiUrl}/therapy?from=${from}&to=${to}&therapist=${therapist}`
         )
         .then(res => res.data);
 }

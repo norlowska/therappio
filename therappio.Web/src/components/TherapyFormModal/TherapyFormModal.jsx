@@ -28,7 +28,6 @@ const TherapyFormModal = ({
     useEffect(() => {
         if (therapy) {
             if (therapy.plans && therapy.plans.length) {
-                console.log(therapy.plans[0].startTime);
                 setStartTime(
                     format(
                         new Date(therapy.plans[0].startTime),
@@ -36,20 +35,12 @@ const TherapyFormModal = ({
                     )
                 );
                 if (therapy.plans.length === 1) {
-                    setDaysIntervalValue(
-                        format(
-                            addSeconds(new Date(0), therapy.plans[0].interval),
-                            'd'
-                        ) - 1
-                    );
+                    setIntervalType('days');
                 } else {
                     setIntervalType('weekdays');
                 }
                 setDaysIntervalValue(
-                    format(
-                        addSeconds(new Date(0), therapy.plans[0].interval),
-                        'd'
-                    ) - 1
+                    addSeconds(new Date(0), therapy.plans[0].interval)
                 );
             }
             setIsInProgress(therapy.isInProgress);

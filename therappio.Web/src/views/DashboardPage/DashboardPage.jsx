@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Button, Row, Col } from 'antd';
 import PropTypes from 'prop-types';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
+import { history } from '../../_utilities';
 import style from './DashboardPage.module.scss';
-import format from 'date-fns/format';
-import parse from 'date-fns/parse';
-import startOfWeek from 'date-fns/startOfWeek';
-import getDay from 'date-fns/getDay';
+import {
+    format,
+    parse,
+    startOfWeek,
+    getDay,
+    addHours,
+    startOfDay,
+    endOfDay,
+} from 'date-fns';
+import { therapyService } from '../../_services';
 
 const locales = {
     'en-US': require('date-fns/locale/en-US'),
@@ -21,27 +28,66 @@ const localizer = dateFnsLocalizer({
     locales,
 });
 
-const DashboardPage = props => {
-    const events = [
-        {
-            id: 0,
-            title: 'Session: Ruth Roberts',
-            start: new Date(2019, 11, 4, 10, 0, 0),
-            end: new Date(2019, 11, 4, 11, 0, 0),
-        },
-        {
-            id: 1,
-            title: 'Session: Anthony Heckel',
-            start: new Date(2019, 11, 4, 11, 15, 0),
-            end: new Date(2019, 11, 4, 12, 15, 0),
-        },
-        {
-            id: 2,
-            title: 'Session: Harold Daley',
-            start: new Date(2019, 11, 4, 14, 30, 0),
-            end: new Date(2019, 11, 4, 15, 30, 0),
-        },
-    ];
+const DashboardPage = ({ therapist }) => {
+    const [data, setData] = useState([]);
+    const [isFetching, setIsFetching] = useState(false);
+
+    const handleRangeChange = range => {
+        const from = range.length
+            ? startOfDay(range[0])
+            : startOfDay(range.start);
+        const to = range.length
+            ? endOfDay(range[range.length - 1])
+            : endOfDay(range.end);
+        if (!isFetching) {
+            fetchTherapies(startOfDay(from), endOfDay(to));
+        }
+    };
+
+    const handleSelectEvent = event => history.push(`/clients/${event.client}`);
+
+    const fetchTherapies = (from, to) => {
+        setIsFetching(true);
+        therapyService
+            .getTherapiesBetween(
+                format(from, "yyyy-MM-dd'T'HH:mm"),
+                format(to, "yyyy-MM-dd'T'HH:mm"),
+                therapist._id
+            )
+            .then(response => {
+                let events = [];
+
+                response.therapies.forEach(therapy => {
+                    therapy.plansDocs.forEach(plan => {
+                        plan.sessions.forEach((session, idx) => {
+                            events = [
+                                ...events,
+                                {
+                                    start: new Date(session),
+                                    end: addHours(new Date(session), 1),
+                                    id: `${plan._id}session${idx + 1}`,
+                                    title: `${therapy.clientObj.firstName} ${therapy.clientObj.lastName} ${therapy.clientObj._id}`,
+                                    client: therapy.client,
+                                },
+                            ];
+                        });
+                    });
+                });
+                setData(events);
+                setIsFetching(false);
+            })
+            .catch(err => {
+                setIsFetching(false);
+                console.log(err);
+            });
+    };
+
+    useEffect(() => {
+        if (therapist && therapist._id && !isFetching) {
+            const today = startOfDay(new Date());
+            fetchTherapies(addHours(today, 8), addHours(today, 22));
+        }
+    }, [therapist]);
 
     return (
         <>
@@ -54,13 +100,15 @@ const DashboardPage = props => {
                 <Col span={24}>
                     <Calendar
                         localizer={localizer}
-                        events={events}
+                        events={data}
                         defaultView={'day'}
                         views={['month', 'week', 'day']}
                         startAccessor="start"
                         endAccessor="end"
-                        min={new Date(2019, 11, 4, 9, 0, 0)}
-                        max={new Date(2019, 11, 4, 19, 0, 0)}
+                        onRangeChange={handleRangeChange}
+                        min={addHours(startOfDay(new Date()), 8)}
+                        max={addHours(startOfDay(new Date()), 21)}
+                        onSelectEvent={handleSelectEvent}
                     />
                 </Col>
             </Row>
@@ -68,13 +116,6 @@ const DashboardPage = props => {
     );
 };
 
-DashboardPage.propTypes = {
-    user: PropTypes.shape({
-        firstName: PropTypes.string,
-        lastName: PropTypes.string,
-    }),
-};
-
-const mapStateToProps = state => ({ user: state.auth.user });
+const mapStateToProps = state => ({ therapist: state.auth.user });
 
 export default connect(mapStateToProps)(DashboardPage);

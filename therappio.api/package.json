@@ -26,6 +26,7 @@
     "nanoid": "^2.1.10",
     "nodemon": "^2.0.1",
     "rootpath": "^0.1.2",
+    "rrule": "^2.6.6",
     "xss-clean": "^0.1.1"
   }
 }

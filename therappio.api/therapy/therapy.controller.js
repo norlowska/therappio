@@ -1,11 +1,14 @@
 const express = require('express');
 const dateFns = require('date-fns');
+const rrule = require('rrule');
 const router = express.Router();
 const userService = require('user/user.service');
 const therapyService = require('./therapy.service');
 const authorize = require('_helpers/authorize');
 const Role = require('_helpers/role');
 const therapyPlanService = require('../therapy-plan/therapyPlan.service');
+const db = require('_helpers/db');
+const Therapy = require('./therapy.model');
 
 // routes
 router.post('/', authorize([Role.Therapist]), create);
@@ -26,13 +29,8 @@ function create(req, res, next) {
       }
 
       if (interval.type === 'days') {
-        const newInterval = dateFns.differenceInSeconds(
-          dateFns.addDays(new Date(), interval.value),
-          new Date()
-        );
-
         therapyPlanService
-          .create({ ...therapyPlan, interval: newInterval })
+          .create({ ...therapyPlan, interval: interval.value })
           .then(createdTherapyPlan => {
             const therapy = {
               client,
@@ -49,13 +47,8 @@ function create(req, res, next) {
       } else {
         let addTherapyPlans = interval.value.map(item => {
           const newStartTime = getClosestDayOfWeek(item.id, new Date(therapyPlan.startTime));
-          const newInterval = dateFns.differenceInSeconds(
-            dateFns.addDays(new Date(), 7),
-            new Date()
-          );
-
           return therapyPlanService
-            .create({ ...therapyPlan, startTime: newStartTime, interval: newInterval })
+            .create({ ...therapyPlan, startTime: newStartTime, interval: 7 })
             .then(createdTherapyPlan => createdTherapyPlan._id);
         });
 
@@ -75,30 +68,53 @@ function create(req, res, next) {
 
 function get(req, res, next) {
   const currentUser = req.user;
-
+  let match = [];
+  console.log(req.query);
   if (req.query.client) {
-    therapyService
-      .getClientsTherapy(req.query.client)
-      .then(therapy => {
-        // allow fetching clients therapy to this client and his therapist
-        if (!therapy)
-          return res.status(404).json({ message: 'Client has not started any therapy' });
-
-        if (currentUser.sub !== therapy.therapist._id || currentUser.sub !== therapy.client._id)
-          return res.status(401).json({ message: 'Unauthorized' });
-
-        res.json({ therapy });
-      })
-      .catch(err => next(err));
-  } else if (req.query.therapist) {
-    if (currentUser.role !== Role.Therapist)
-      return res.status(401).json({ message: 'Unauthorized' });
-
-    therapyService
-      .getTherapistsTherapies(req.query.therapist)
-      .then(therapies => res.json({ therapies }))
-      .catch(err => next(err));
+    match.push({ client: req.query.client });
   }
+
+  if (req.query.therapist) {
+    match.push({ therapist: req.query.therapist });
+  }
+
+  return Therapy.aggregate([
+    {
+      $lookup: { from: 'therapyplans', localField: 'plans', foreignField: '_id', as: 'plansDocs' },
+    },
+    { $lookup: { from: 'users', localField: 'client', foreignField: '_id', as: 'clientObj' } },
+    { $unwind: '$clientObj' },
+    { $match: { $and: match } },
+  ])
+
+    .then(therapies => {
+      console.log(therapies);
+      if (req.query.from && req.query.to) {
+        const newTherapies = therapies
+          .map(therapy => {
+            const newPlansDocs = therapy.plansDocs
+              .map(plan => {
+                const sessions = new rrule.RRule({
+                  freq: rrule.RRule.DAILY,
+                  interval: plan.interval,
+                  dtstart: new Date(plan.startTime),
+                  until: plan.endTime ? plan.endTime : new Date(req.query.to),
+                }).between(new Date(req.query.from), new Date(req.query.to));
+                if (sessions.length) return { ...plan, sessions };
+                return plan;
+              })
+              .filter(
+                item =>
+                  item !== undefined && item.hasOwnProperty('sessions') && item.sessions.length
+              );
+            if (newPlansDocs.length) return { ...therapy, plansDocs: newPlansDocs };
+          })
+          .filter(item => item);
+        return res.json({ therapies: newTherapies });
+      }
+      res.json({ therapies });
+    })
+    .catch(err => next(err));
 }
 
 function getById(req, res, next) {
