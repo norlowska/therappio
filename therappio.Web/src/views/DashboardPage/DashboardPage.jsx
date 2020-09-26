@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
-import { Button, Row, Col } from 'antd';
-import PropTypes from 'prop-types';
+import { Card, Row, Col, Button } from 'antd';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import { history } from '../../_utilities';
 import style from './DashboardPage.module.scss';
@@ -90,10 +88,18 @@ const DashboardPage = ({ therapist }) => {
     }, [therapist]);
 
     return (
-        <>
+        <Card bodyStyle={{ padding: '35px 60px' }}>
             <Row>
-                <Col span={21}>
+                <Col className={style.header}>
                     <h2>Schedule</h2>
+                    <Button
+                        type="primary"
+                        ghost
+                        icon={<i class="las la-angle-right"></i>}
+                        title="Patients list"
+                    >
+                        Patients list
+                    </Button>
                 </Col>
             </Row>
             <Row>
@@ -112,7 +118,7 @@ const DashboardPage = ({ therapist }) => {
                     />
                 </Col>
             </Row>
-        </>
+        </Card>
     );
 };
 

@@ -26,6 +26,14 @@
     }
 
     label {
+        margin-left: 0;
         font-weight: $semibold;
     }
+}
+
+.loginForm > :global(.formGroup) {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
 }

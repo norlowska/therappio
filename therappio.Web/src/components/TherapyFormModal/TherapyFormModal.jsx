@@ -77,6 +77,7 @@ const TherapyFormModal = ({
                             ? daysIntervalValue
                             : weekdaysIntervalValue,
                 },
+                isInProgress: true,
             });
         }
 
@@ -115,9 +116,11 @@ const TherapyFormModal = ({
             title={therapy ? 'Edit therapy' : 'New therapy'}
             visible={true}
             footer={[
-                <Button key="end" type="danger" onClick={handleEndTherapy}>
-                    End therapy
-                </Button>,
+                therapy && therapy.isInProgress && (
+                    <Button key="end" type="danger" onClick={handleEndTherapy}>
+                        End therapy
+                    </Button>
+                ),
                 <Button key="back" onClick={handleCancel}>
                     Cancel
                 </Button>,

@@ -69,7 +69,9 @@ const MoodChart = ({ lastWeekRecords, lastMonthRecords }) => {
                         cy="50%"
                         outerRadius={80}
                         fill="#8884d8"
-                        label={({ percent, ...rest }) => `${percent * 100}%`}
+                        label={({ percent, ...rest }) =>
+                            `${Math.round(percent * 100)}%`
+                        }
                     >
                         {currentView === '7 days'
                             ? lastWeekMoodChartData.map((entry, index) => (

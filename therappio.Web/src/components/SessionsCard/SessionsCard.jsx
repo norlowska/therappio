@@ -11,7 +11,7 @@ const SessionsCard = ({
     therapySessions,
     patientId,
     deleteSession,
-    therapyEnded,
+    inProgress,
 }) => {
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [editedSession, setEditedSession] = useState(null);
@@ -64,7 +64,7 @@ const SessionsCard = ({
                                 title="Read more"
                             />
                         </Button>
-                        {!therapyEnded && (
+                        {inProgress && (
                             <Button
                                 className="table-icon-btn"
                                 type="link"
@@ -92,7 +92,7 @@ const SessionsCard = ({
             <Card
                 title="SESSIONS"
                 extra={
-                    !therapyEnded && (
+                    inProgress && (
                         <Button
                             onClick={e => setIsFormVisible(true)}
                             type="primary"
@@ -104,11 +104,15 @@ const SessionsCard = ({
                     )
                 }
             >
-                <Table
-                    rowKey={record => record._id}
-                    columns={columns}
-                    dataSource={therapySessions}
-                ></Table>
+                {inProgress ? (
+                    <Table
+                        rowKey={record => record._id}
+                        columns={columns}
+                        dataSource={therapySessions}
+                    ></Table>
+                ) : (
+                    <i>Therapy has not started yet.</i>
+                )}
             </Card>
             {isFormVisible && (
                 <SessionFormModal

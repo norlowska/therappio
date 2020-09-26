@@ -11,7 +11,7 @@ const AssignmentsCard = ({
     assignments,
     deleteAssignment,
     patientId,
-    therapyEnded,
+    inProgress,
 }) => {
     const columns = useMemo(
         () => [
@@ -57,7 +57,7 @@ const AssignmentsCard = ({
                 dataIndex: 'actions',
                 render: (text, record, index) => {
                     if (
-                        therapyEnded ||
+                        !inProgress ||
                         record.status === 'On time' ||
                         record.status === 'Late'
                     ) {
@@ -120,7 +120,7 @@ const AssignmentsCard = ({
         <Card
             title="ASSIGNMENTS"
             extra={
-                !therapyEnded && (
+                inProgress && (
                     <NavLink to={`/clients/${patientId}/assignments/new`}>
                         <Button
                             type="primary"
@@ -133,11 +133,15 @@ const AssignmentsCard = ({
                 )
             }
         >
-            <Table
-                rowKey={record => record._id}
-                columns={columns}
-                dataSource={assignments}
-            ></Table>
+            {inProgress ? (
+                <Table
+                    rowKey={record => record._id}
+                    columns={columns}
+                    dataSource={assignments}
+                ></Table>
+            ) : (
+                <i>Therapy has not started yet</i>
+            )}
         </Card>
     );
 };

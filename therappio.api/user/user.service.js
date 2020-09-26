@@ -24,7 +24,6 @@ async function signup(userParam) {
   // hash password
   userWithoutPassword.hash = bcrypt.hashSync(password, 10);
   const user = new User(userWithoutPassword);
-
   // save user
   await user.save();
 }

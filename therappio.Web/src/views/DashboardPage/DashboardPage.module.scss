@@ -9,3 +9,10 @@
     border: 1px solid $denim-blue;
     border-radius: 4px;
 }
+
+div.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}

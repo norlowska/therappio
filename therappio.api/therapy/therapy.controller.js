@@ -69,7 +69,6 @@ function create(req, res, next) {
 function get(req, res, next) {
   const currentUser = req.user;
   let match = [];
-  console.log(req.query);
   if (req.query.client) {
     match.push({ client: req.query.client });
   }
@@ -88,7 +87,6 @@ function get(req, res, next) {
   ])
 
     .then(therapies => {
-      console.log(therapies);
       if (req.query.from && req.query.to) {
         const newTherapies = therapies
           .map(therapy => {

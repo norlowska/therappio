@@ -1,24 +1,24 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const journalRecordService = require("./journalRecord.service");
-const authorize = require("_helpers/authorize");
-const Role = require("_helpers/role");
+const journalRecordService = require('./journalRecord.service');
+const authorize = require('_helpers/authorize');
+const Role = require('_helpers/role');
 
 // routes
-router.post("/", authorize(Role.Client), create);
-router.get("/", authorize(), getAll);
-router.get("/:id", authorize(), getById);
-router.put("/:id", authorize(Role.Client), update);
-router.delete("/:id", authorize(Role.Client), _delete);
+router.post('/', authorize(Role.Client), create);
+router.get('/', authorize(), getAll);
+router.get('/:id', authorize(), getById);
+router.put('/:id', authorize(Role.Client), update);
+router.delete('/:id', authorize(Role.Client), _delete);
 module.exports = router;
 
 function create(req, res, next) {
   const currentUser = req.user;
-  const record = { ...req.body, ["client"]: currentUser.sub };
+  const record = { ...req.body, ['client']: currentUser.sub };
 
   journalRecordService
     .create(record)
-    .then(() => res.json({ message: "Journal record successfully created." }))
+    .then(() => res.json({ message: 'Journal record successfully created.' }))
     .catch(err => next(err));
 }
 
@@ -28,9 +28,9 @@ function getAll(req, res, next) {
   journalRecordService
     .getAll()
     .then(records => {
-      if (typeof req.query.client === "string") {
+      if (typeof req.query.client === 'string') {
         records = records.filter(
-          record => record.client.id === req.query.client
+          record => record && record.client && record.client.id === req.query.client
         );
       }
 
@@ -38,8 +38,11 @@ function getAll(req, res, next) {
       // allow therapist to get mood records of his/her patients
       records = records.filter(
         record =>
-          record.client._id === currentUser.sub ||
-          record.client.therapist.toString() === currentUser.sub
+          record &&
+          record.client &&
+          record.client.therapist &&
+          (record.client._id === currentUser.sub ||
+            record.client.therapist.toString() === currentUser.sub)
       );
 
       res.json(records);
@@ -59,7 +62,7 @@ function getById(req, res, next) {
           currentUser.sub !== record.client.id &&
           currentUser.sub !== record.client.therapist.toString()
         ) {
-          return res.status(401).json({ message: "Unauthorized" });
+          return res.status(401).json({ message: 'Unauthorized' });
         }
 
         res.json(record);
@@ -76,14 +79,12 @@ function update(req, res, next) {
     .getById(req.params.id)
     .then(record => {
       if (record.client.id !== currentUser.sub) {
-        return res.status(401).json({ message: "Unauthorized" });
+        return res.status(401).json({ message: 'Unauthorized' });
       }
 
       journalRecordService
-        .update(req.params.id, { ...req.body, ["client"]: currentUser.sub })
-        .then(() =>
-          res.json({ message: "Journal record successfully updated" })
-        )
+        .update(req.params.id, { ...req.body, ['client']: currentUser.sub })
+        .then(() => res.json({ message: 'Journal record successfully updated' }))
         .catch(err => next(err));
     })
     .catch(err => next(err));
@@ -96,14 +97,12 @@ function _delete(req, res, next) {
     .getById(req.params.id)
     .then(record => {
       if (record.client.id !== currentUser.sub) {
-        return res.status(401).json({ message: "Unauthorized" });
+        return res.status(401).json({ message: 'Unauthorized' });
       }
 
       journalRecordService
         .delete(req.params.id)
-        .then(() =>
-          res.json({ message: "Journal record successfully deleted" })
-        )
+        .then(() => res.json({ message: 'Journal record successfully deleted' }))
         .catch(err => next(err));
     })
     .catch(err => next(err));

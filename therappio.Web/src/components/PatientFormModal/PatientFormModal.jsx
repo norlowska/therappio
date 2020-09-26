@@ -47,18 +47,14 @@ const PatientFormModal = ({ setVisible, create, therapistId, ...props }) => {
                 <Button key="back" onClick={handleCancel}>
                     Cancel
                 </Button>,
-                <Button
-                    key="submit"
-                    type="primary"
-                    // loading={loading}
-                    onClick={handleSave}
-                >
+                <Button key="submit" type="primary" onClick={handleSave}>
                     Submit
                 </Button>,
             ]}
+            onCancel={handleCancel}
             width={700}
         >
-            <Row gutter={(8, 8)}>
+            <Row gutter={[16, 8]}>
                 <Col span={12}>
                     <div className={'formGroup'}>
                         <label htmlFor="firstName" className="label">
@@ -88,7 +84,7 @@ const PatientFormModal = ({ setVisible, create, therapistId, ...props }) => {
                     </div>
                 </Col>
             </Row>
-            <Row gutter={(8, 8)}>
+            <Row gutter={[16, 8]}>
                 <Col span={12}>
                     <div className={'formGroup'}>
                         <label htmlFor="gender" className="label">
@@ -117,7 +113,7 @@ const PatientFormModal = ({ setVisible, create, therapistId, ...props }) => {
                     </div>
                 </Col>
             </Row>
-            <Row gutter={(8, 8)}>
+            <Row gutter={[16, 8]}>
                 <Col span={12}>
                     <div className={'formGroup'}>
                         <label htmlFor="email" className="label">

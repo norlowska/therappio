@@ -5,23 +5,27 @@ import { clientActions } from '../../_actions';
 import { FormInput } from '../index';
 import style from './NotesCard.module.scss';
 
-const NotesCard = ({ notes, patientId, updatePatient, therapyEnded }) => {
+const NotesCard = ({ notes, patientId, updatePatient, inProgress }) => {
     const [noteDraft, setNoteDraft] = useState(notes);
     const [isEditing, setIsEditing] = useState(false);
 
     const handleInputChange = e => {
-        setIsEditing(true);
-        setNoteDraft(e.target.value);
+        if (inProgress) {
+            setIsEditing(true);
+            setNoteDraft(e.target.value);
+        }
     };
 
     const handleBlur = e => {
-        setIsEditing(false);
-        if (noteDraft !== notes)
-            updatePatient({ _id: patientId, notes: noteDraft });
+        if (inProgress) {
+            setIsEditing(false);
+            if (noteDraft !== notes)
+                updatePatient({ _id: patientId, notes: noteDraft });
+        }
     };
 
     const handleNoteClick = e => {
-        if (!therapyEnded) setIsEditing(true);
+        if (inProgress) setIsEditing(true);
     };
 
     return (

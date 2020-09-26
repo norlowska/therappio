@@ -21,6 +21,11 @@ textarea.input {
     }
 }
 
+.input:invalid {
+    outline: 0;
+    box-shadow: 0 0 0.15rem 0.1rem rgba(#dc3545, 0.6);
+}
+
 .label {
     display: inline-block;
     text-transform: uppercase;
@@ -121,4 +126,17 @@ select.input::-ms-expand {
         text-decoration: underline solid $chambray-blue;
         color: $chambray-blue;
     }
+}
+
+.required-info {
+    display: none;
+    color: #dc3545;
+    text-transform: uppercase;
+    font-size: 12px;
+    margin-top: 5px;
+    font-weight: 500;
+}
+
+input:invalid.input + .required-info {
+    display: block;
 }

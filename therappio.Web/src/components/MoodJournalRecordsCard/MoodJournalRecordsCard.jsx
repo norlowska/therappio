@@ -19,6 +19,7 @@ const moodColumns = [
         render: (text, record, index) => (
             <>{format(new Date(record.createdAt), 'd MMM yyyy  HH:mm')}</>
         ),
+        defaultSortOrder: 'descend',
     },
     {
         key: 'mood_name',
@@ -48,6 +49,7 @@ const journalColumns = [
         render: (text, record, index) => (
             <>{format(new Date(record.createdAt), 'd MMM yyyy  HH:mm')}</>
         ),
+        defaultSortOrder: 'descend',
     },
     {
         key: 'type',
@@ -68,7 +70,12 @@ const tabList = [
     },
 ];
 
-const MoodJournalRecordsCard = ({ moodRecords, journalRecords, patientId }) => {
+const MoodJournalRecordsCard = ({
+    moodRecords,
+    journalRecords,
+    patientId,
+    inProgress,
+}) => {
     const [activeKey, setActiveKey] = useState('mood');
 
     const contentList = {
@@ -105,7 +112,11 @@ const MoodJournalRecordsCard = ({ moodRecords, journalRecords, patientId }) => {
                 activeTabKey={activeKey}
                 onTabChange={key => setActiveKey(key)}
             >
-                {contentList[activeKey]}
+                {inProgress ? (
+                    contentList[activeKey]
+                ) : (
+                    <i>Therapy has not started yet.</i>
+                )}
             </Card>
         </>
     );

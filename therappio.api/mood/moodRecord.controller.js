@@ -31,8 +31,10 @@ function getAll(req, res, next) {
       // allow therapist to get his/her patients' record
       records = records.filter(
         record =>
-          record.client._id === currentUser.sub ||
-          record.client.therapist.toString() === currentUser.sub
+          record &&
+          record.client &&
+          (record.client._id === currentUser.sub ||
+            record.client.therapist.toString() === currentUser.sub)
       );
 
       res.json(records);

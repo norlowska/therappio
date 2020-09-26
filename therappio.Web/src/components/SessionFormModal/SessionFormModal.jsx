@@ -65,7 +65,7 @@ const SessionFormModal = ({
     };
 
     const handleTagAdd = tag => {
-        if (tags.findIndex(item => item.id === tag.id) === -1) {
+        if (tags.findIndex(item => item.name === tag.name) === -1) {
             const newTags = [...tags, tag];
             setTags(newTags);
         }

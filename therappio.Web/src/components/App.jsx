@@ -114,7 +114,7 @@ App.propTypes = {
 
 const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated,
-    userId: state.auth.user._id,
+    userId: state.auth.user ? state.auth.user._id : null,
 });
 
 const mapDispatchToProps = {

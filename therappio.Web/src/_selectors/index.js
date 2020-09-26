@@ -37,7 +37,12 @@ export const selectClientTherapySessions = (state, clientId) => {
 export const selectTherapy = (state, therapyId) => state.therapies.items[id];
 export const selectClientsTherapy = (state, clientId) =>
     Object.values(state.therapies.byId).find(
-        item => item.client._id === clientId
+        item =>
+            item &&
+            item.client &&
+            ((typeof item.client === 'string' && item.client === clientId) ||
+                (typeof item.client === 'object' &&
+                    item.client._id === clientId))
     );
 
 // state.moodRecords

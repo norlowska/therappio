@@ -2,7 +2,26 @@ i.goToPatientDetailsBtn {
     font-size: 22px;
 }
 
+.patientsTable {
+    width: 100%;
+}
+
 .patientsTable th {
     text-transform: uppercase;
     color: #166ec5 !important;
+}
+
+.patientsListContainer {
+    display: flex;
+    align-items: flex-end;
+
+    span.searchInput {
+        margin-bottom: 10px;
+        width: 50%;
+    }
+
+    :global(.buttons-group) {
+        // margin-left: auto;
+        margin: 10px 0 10px auto;
+    }
 }

@@ -6,66 +6,76 @@ const { Schema } = mongoose;
 
 const genders = ['male', 'female'];
 
-const UserSchema = new Schema({
-  _id: {
-    type: String,
-    default: generate(idAlphabet, 14),
+const UserSchema = new Schema(
+  {
+    _id: {
+      type: String,
+      default: () => generate(idAlphabet, 10),
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      minlength: 5,
+      maxlength: 255,
+    },
+    hash: {
+      type: String,
+    },
+    firstName: {
+      type: String,
+      required: true,
+      minlength: 2,
+      maxlength: 35,
+    },
+    lastName: {
+      type: String,
+      required: true,
+      minlength: 2,
+      maxlength: 35,
+    },
+    phoneNumber: {
+      type: String,
+      required: true,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+    address: String,
+    therapist: {
+      type: String,
+      ref: 'User',
+    },
+    dateOfBirth: Date,
+    gender: {
+      type: String,
+      enum: genders,
+    },
+    emergencyContact: {
+      name: String,
+      phoneNumber: String,
+    },
+    diagnosis: {
+      ref: 'Diagnosis',
+      type: String,
+    },
+    role: {
+      type: String,
+      enum: Object.values(Role),
+      required: true,
+    },
+    notes: String,
   },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    minlength: 5,
-    maxlength: 255,
-  },
-  hash: {
-    type: String,
-  },
-  firstName: {
-    type: String,
-    required: true,
-    minlength: 2,
-    maxlength: 35,
-  },
-  lastName: {
-    type: String,
-    required: true,
-    minlength: 2,
-    maxlength: 35,
-  },
-  phoneNumber: {
-    type: String,
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  address: String,
-  therapist: {
-    type: String,
-    ref: 'User',
-  },
-  dateOfBirth: Date,
-  gender: {
-    type: String,
-    enum: genders,
-  },
-  emergencyContact: {
-    name: String,
-    phoneNumber: String,
-  },
-  diagnosis: {
-    ref: 'Diagnosis',
-    type: String,
-  },
-  role: {
-    type: String,
-    enum: Object.values(Role),
-    required: true,
-  },
-  notes: String,
-});
+  {
+    toObject: {
+      virtuals: true,
+    },
+    toJSON: {
+      virtuals: true,
+    },
+  }
+);
 
 UserSchema.virtual('fullName').get(function () {
   return this.firstName + ' ' + this.lastName;

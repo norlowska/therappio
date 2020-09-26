@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Button, Tag } from 'antd';
 import { selectClient, selectClientsTherapy } from '../../_selectors';
@@ -15,14 +15,21 @@ import style from './PatientDetailsPage.module.scss';
 const PatientDetailsPage = ({ patient, therapy }) => {
     const [isTherapyFormVisible, setIsTherapyFormVisible] = useState(false);
 
+    useEffect(() => {
+        console.log(therapy);
+    }, [therapy]);
+
     return patient ? (
         <>
             <div className={style.patientDetailsContent}>
                 <Row gutter={[8, 8]}>
                     <Col span={16}>
-                        {therapy && !therapy.isInProgress && (
-                            <Tag color="#cd201f">Therapy has ended</Tag>
-                        )}
+                        {therapy &&
+                            therapy.plans &&
+                            therapy.plans.length &&
+                            !therapy.isInProgress && (
+                                <Tag color="#cd201f">Therapy has ended</Tag>
+                            )}
                         <h2 className="page-heading">
                             {patient &&
                                 `${patient.firstName} ${patient.lastName}`}
@@ -57,13 +64,13 @@ const PatientDetailsPage = ({ patient, therapy }) => {
                             patientId={
                                 patient && patient._id ? patient._id : null
                             }
-                            therapyEnded={therapy && !therapy.isInProgress}
+                            inProgress={therapy && therapy.isInProgress}
                         />
                         <AssignmentsCard
                             patientId={
                                 patient && patient._id ? patient._id : null
                             }
-                            therapyEnded={therapy && !therapy.isInProgress}
+                            inProgress={therapy && therapy.isInProgress}
                         />
                     </Col>
                     <Col xs={{ span: 24 }} lg={{ span: 8 }}>
@@ -72,12 +79,13 @@ const PatientDetailsPage = ({ patient, therapy }) => {
                                 patient && patient._id ? patient._id : null
                             }
                             notes={patient.notes}
-                            therapyEnded={therapy && !therapy.isInProgress}
+                            inProgress={therapy && therapy.isInProgress}
                         />
                         <MoodJournalRecordsCard
                             patientId={
                                 patient && patient._id ? patient._id : null
                             }
+                            inProgress={therapy && therapy.isInProgress}
                         />
                     </Col>
                 </Row>

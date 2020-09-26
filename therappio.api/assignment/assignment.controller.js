@@ -28,15 +28,18 @@ function getAll(req, res, next) {
     .getAll()
     .then(assignments => {
       if (typeof req.query.client === 'string') {
-        assignments = assignments.filter(assignment => assignment.client.id === req.query.client);
+        assignments = assignments.filter(
+          assignment => assignment && assignment.client && assignment.client.id === req.query.client
+        );
       }
       // allow client to get assignments created for him/her
       // allow therapist to get assignments of his/her patients
-      assignments = assignments.filter(assignment =>
-        assignment
-          ? assignment.client._id === currentUser.sub ||
-            assignment.client.therapist.toString() === currentUser.sub
-          : {}
+      assignments = assignments.filter(
+        assignment =>
+          assignment &&
+          assignment.client &&
+          (assignment.client._id === currentUser.sub ||
+            assignment.client.therapist.toString() === currentUser.sub)
       );
 
       res.json(assignments);

@@ -41,7 +41,12 @@ const FormInput = props => {
             break;
     }
 
-    return <React.Fragment>{inputElement}</React.Fragment>;
+    return (
+        <React.Fragment>
+            {inputElement}
+            <div className="required-info">Required</div>
+        </React.Fragment>
+    );
 };
 
 FormInput.propTypes = {
