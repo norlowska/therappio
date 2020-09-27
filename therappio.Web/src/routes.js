@@ -7,6 +7,7 @@ import {
     PatientsPage,
     PatientDetailsPage,
     LoginPage,
+    RegisterPage,
     NotFoundPage,
 } from './views';
 import {
@@ -78,6 +79,11 @@ const routes = [
         path: '/login',
         type: RESTRICTED_ROUTE,
         component: props => <LoginPage {...props} />,
+    },
+    {
+        path: '/register',
+        type: RESTRICTED_ROUTE,
+        component: props => <RegisterPage {...props} />,
     },
     {
         path: '/404',

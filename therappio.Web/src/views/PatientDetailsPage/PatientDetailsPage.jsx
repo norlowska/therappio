@@ -15,10 +15,6 @@ import style from './PatientDetailsPage.module.scss';
 const PatientDetailsPage = ({ patient, therapy }) => {
     const [isTherapyFormVisible, setIsTherapyFormVisible] = useState(false);
 
-    useEffect(() => {
-        console.log(therapy);
-    }, [therapy]);
-
     return patient ? (
         <>
             <div className={style.patientDetailsContent}>

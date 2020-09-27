@@ -95,7 +95,7 @@ const DashboardPage = ({ therapist }) => {
                     <Button
                         type="primary"
                         ghost
-                        icon={<i class="las la-angle-right"></i>}
+                        icon={<i className="las la-angle-right"></i>}
                         title="Patients list"
                     >
                         Patients list

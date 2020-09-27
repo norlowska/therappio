@@ -5,6 +5,7 @@ import AssignmentPage from './AssignmentPage/AssignmentPage';
 import AssignmentFormPage from './AssignmentFormPage/AssignmentFormPage';
 import NotFoundPage from './NotFoundPage/NotFoundPage';
 import LoginPage from './LoginPage/LoginPage';
+import RegisterPage from './RegisterPage/RegisterPage';
 
 export {
     DashboardPage,
@@ -14,4 +15,5 @@ export {
     AssignmentFormPage,
     NotFoundPage,
     LoginPage,
+    RegisterPage,
 };

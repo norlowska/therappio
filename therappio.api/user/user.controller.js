@@ -18,7 +18,7 @@ module.exports = router;
 
 function login(req, res, next) {
   userService.login(req.body).then(user => {
-    user ? res.json(user) : res.status(400).json({ message: 'Login failed' });
+    user ? res.json(user) : res.status(400).send("E-mail or password doesn't match");
   });
 }
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Card, Col, Row } from 'antd';
+import { Card, Col, Alert } from 'antd';
 import { userActions } from '../../_actions';
 import { FormInput } from '../../components';
 import styles from './LoginPage.module.scss';
@@ -32,8 +32,11 @@ class LoginPage extends Component {
             this.props.login(email, password);
         }
     }
-
     render() {
+        const queryParamsArr = this.props.location.search
+            .replace('?', '')
+            .split('=');
+        const queryParams = { [queryParamsArr[0]]: queryParamsArr[1] };
         return (
             <Col align="center">
                 <Card className={styles.loginCard}>
@@ -42,6 +45,15 @@ class LoginPage extends Component {
                         onSubmit={this.handleSubmit}
                         className={styles.loginForm}
                     >
+                        {queryParams['registration'] === 'true' && (
+                            <Alert
+                                message="Registration successful. You can login now."
+                                type="success"
+                            />
+                        )}
+                        {this.props.error && (
+                            <Alert message={this.props.error} type="error" />
+                        )}
                         <div className="formGroup">
                             <label htmlFor="email">E-mail address</label>
                             <FormInput
@@ -66,7 +78,7 @@ class LoginPage extends Component {
                             Sign in
                         </button>
                         <div className="formFooter">
-                            <Link to="#">Forgot password?</Link>
+                            New user? <Link to="/register">Sign up</Link>
                         </div>
                     </form>
                 </Card>
@@ -79,8 +91,12 @@ LoginPage.propTypes = {
     login: PropTypes.func.isRequired,
 };
 
+const mapStateToProps = (state, props) => ({
+    error: state.auth.errorMessage,
+});
+
 const mapDispatchToProps = {
     login: userActions.login,
 };
 
-export default connect(null, mapDispatchToProps)(LoginPage);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

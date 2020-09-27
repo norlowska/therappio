@@ -31,18 +31,18 @@ const App = ({
 }) => {
     useEffect(() => {
         if (isAuthenticated) {
-            getDetails();
-            fetchClients();
-            fetchAssignments();
-            fetchTherapySessions();
-            fetchJournalRecords();
-            fetchMoodRecords();
+            // getDetails();
+            // fetchClients();
+            // fetchAssignments();
+            // fetchTherapySessions();
+            // fetchJournalRecords();
+            // fetchMoodRecords();
         }
     }, [isAuthenticated]);
 
     useEffect(() => {
         if (isAuthenticated && userId) {
-            fetchTherapies(userId);
+            // fetchTherapies(userId);
         }
     }, [isAuthenticated, userId]);
 
@@ -51,7 +51,11 @@ const App = ({
             <Layout style={{ height: '100%' }}>
                 {isAuthenticated ? <Header /> : null}
                 <Layout.Content className="content-container">
-                    <Row>{isAuthenticated ? <Breadcrumbs /> : null}</Row>
+                    {isAuthenticated ? (
+                        <Row>
+                            <Breadcrumbs />
+                        </Row>
+                    ) : null}
                     <Switch>
                         {routes.map(route => {
                             switch (route.type) {

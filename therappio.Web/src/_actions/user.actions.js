@@ -16,11 +16,12 @@ function login(email, password) {
         userService
             .login(email, password)
             .then(user => {
+                console.log(user.status, user.statusCode);
                 dispatch(success(user));
-                history.push('/');
+                // history.push('/');
             })
             .catch(error => {
-                dispatch(failure(error.message));
+                dispatch(failure(error.response.data));
                 // dispatch(alertActions.error(error.toString()));
             });
     };
@@ -41,7 +42,32 @@ function logout() {
     return { type: userConstants.LOGOUT };
 }
 
-function register(email, password) {}
+function register(user) {
+    return dispatch => {
+        dispatch(request({ email }));
+
+        userService
+            .register(user)
+            .then(registeredUser => {
+                dispatch(success(registeredUser));
+                history.push('/login?registration=true');
+            })
+            .catch(error => {
+                dispatch(failure(error.response.data));
+                // dispatch(alertActions.error(error.toString()));
+            });
+    };
+
+    function request(registeredUser) {
+        return { type: userConstants.REGISTER_REQUEST, registeredUser };
+    }
+    function success(registeredUser) {
+        return { type: userConstants.REGISTER_SUCCESS, registeredUser };
+    }
+    function failure(error) {
+        return { type: userConstants.REGISTER_FAILURE, error };
+    }
+}
 
 function getDetails() {
     return dispatch => {
