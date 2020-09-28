@@ -1,25 +1,25 @@
-const db = require("_helpers/db");
+const db = require('_helpers/db');
 const TherapySession = db.TherapySession;
 
 module.exports = {
   getAll,
   getById,
-  getClientsSessions,
+  getPatientsSessions,
   create,
   update,
-  delete: _delete
+  delete: _delete,
 };
 
 async function getAll() {
-  return await TherapySession.find().select("-__v");
+  return await TherapySession.find().select('-__v');
 }
 
 async function getById(id) {
-  return await TherapySession.findById(id).select("-__v");
+  return await TherapySession.findById(id).select('-__v');
 }
 
-async function getClientsSessions(id) {
-  return await TherapySession.find({ client: id }).select("-__v");
+async function getPatientsSessions(id) {
+  return await TherapySession.find({ patient: id }).select('-__v');
 }
 
 async function create(sessionParam) {
@@ -32,7 +32,7 @@ async function update(id, sessionParam) {
   const session = await TherapySession.findById(id);
 
   // validate
-  if (!session) throw "Therapy session not found";
+  if (!session) throw 'Therapy session not found';
 
   Object.assign(session, sessionParam);
   await session.save();

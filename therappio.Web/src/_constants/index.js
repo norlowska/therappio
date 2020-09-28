@@ -1,5 +1,5 @@
 export * from './alert.constants';
-export * from './client.constants';
+export * from './patient.constants';
 export * from './assignment.constants';
 export * from './therapySession.constants';
 export * from './moodRecord.constants';

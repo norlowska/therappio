@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { format } from 'date-fns';
 import { Card, Table, Button } from 'antd';
-import { selectClientTherapySessions } from '../../_selectors';
+import { selectPatientTherapySessions } from '../../_selectors';
 import { therapySessionActions } from '../../_actions';
 import { SessionFormModal } from '../index';
 import style from './SessionsCard.module.scss';
@@ -133,7 +133,7 @@ const SessionsCard = ({
 };
 
 const mapStateToProps = (state, props) => ({
-    therapySessions: selectClientTherapySessions(state, props.patientId),
+    therapySessions: selectPatientTherapySessions(state, props.patientId),
 });
 
 const mapDispatchToProps = {

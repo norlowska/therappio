@@ -19,12 +19,12 @@ module.exports = router;
 
 function create(req, res, next) {
   const currentUser = req.user;
-  const { client, interval, ...therapyPlan } = req.body;
+  const { patient, interval, ...therapyPlan } = req.body;
 
   userService
-    .getById(req.body.client)
-    .then(client => {
-      if (!client.therapist || currentUser.sub !== client.therapist.id) {
+    .getById(req.body.patient)
+    .then(patient => {
+      if (!patient.therapist || currentUser.sub !== patient.therapist.id) {
         return res.status(401).json({ message: 'Unauthorized' });
       }
 
@@ -33,7 +33,7 @@ function create(req, res, next) {
           .create({ ...therapyPlan, interval: interval.value })
           .then(createdTherapyPlan => {
             const therapy = {
-              client,
+              patient,
               therapist: currentUser.sub,
               plans: [createdTherapyPlan.id],
             };
@@ -53,7 +53,7 @@ function create(req, res, next) {
         });
 
         Promise.all(addTherapyPlans).then(plans => {
-          const therapy = { client, therapist: currentUser.sub, plans };
+          const therapy = { patient, therapist: currentUser.sub, plans };
           therapyService.create(therapy).then(createdTherapy => {
             createdTherapy.plans.forEach(item =>
               therapyPlanService.update(item._id, { therapy: createdTherapy._id })
@@ -69,8 +69,8 @@ function create(req, res, next) {
 function get(req, res, next) {
   const currentUser = req.user;
   let match = [];
-  if (req.query.client) {
-    match.push({ client: req.query.client });
+  if (req.query.patient) {
+    match.push({ patient: req.query.patient });
   }
 
   if (req.query.therapist) {
@@ -81,8 +81,8 @@ function get(req, res, next) {
     {
       $lookup: { from: 'therapyplans', localField: 'plans', foreignField: '_id', as: 'plansDocs' },
     },
-    { $lookup: { from: 'users', localField: 'client', foreignField: '_id', as: 'clientObj' } },
-    { $unwind: '$clientObj' },
+    { $lookup: { from: 'users', localField: 'patient', foreignField: '_id', as: 'patientObj' } },
+    { $unwind: '$patientObj' },
     { $match: { $and: match } },
   ])
 
@@ -124,7 +124,7 @@ function getById(req, res, next) {
     .then(therapy => {
       if (therapy) {
         if (
-          currentUser.sub !== therapy.client.toString() &&
+          currentUser.sub !== therapy.patient.toString() &&
           currentUser.sub !== therapy.therapist.toString()
         ) {
           return res.status(401).json({ message: 'Unauthorized' });

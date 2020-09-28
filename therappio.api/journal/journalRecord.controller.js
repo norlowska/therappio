@@ -5,16 +5,16 @@ const authorize = require('_helpers/authorize');
 const Role = require('_helpers/role');
 
 // routes
-router.post('/', authorize(Role.Client), create);
+router.post('/', authorize(Role.Patient), create);
 router.get('/', authorize(), getAll);
 router.get('/:id', authorize(), getById);
-router.put('/:id', authorize(Role.Client), update);
-router.delete('/:id', authorize(Role.Client), _delete);
+router.put('/:id', authorize(Role.Patient), update);
+router.delete('/:id', authorize(Role.Patient), _delete);
 module.exports = router;
 
 function create(req, res, next) {
   const currentUser = req.user;
-  const record = { ...req.body, ['client']: currentUser.sub };
+  const record = { ...req.body, ['patient']: currentUser.sub };
 
   journalRecordService
     .create(record)
@@ -28,21 +28,21 @@ function getAll(req, res, next) {
   journalRecordService
     .getAll()
     .then(records => {
-      if (typeof req.query.client === 'string') {
+      if (typeof req.query.patient === 'string') {
         records = records.filter(
-          record => record && record.client && record.client.id === req.query.client
+          record => record && record.patient && record.patient.id === req.query.patient
         );
       }
 
-      // allow client to get his/her mood records
+      // allow patient to get his/her mood records
       // allow therapist to get mood records of his/her patients
       records = records.filter(
         record =>
           record &&
-          record.client &&
-          record.client.therapist &&
-          (record.client._id === currentUser.sub ||
-            record.client.therapist.toString() === currentUser.sub)
+          record.patient &&
+          record.patient.therapist &&
+          (record.patient._id === currentUser.sub ||
+            record.patient.therapist.toString() === currentUser.sub)
       );
 
       res.json(records);
@@ -59,8 +59,8 @@ function getById(req, res, next) {
     .then(record => {
       if (record) {
         if (
-          currentUser.sub !== record.client.id &&
-          currentUser.sub !== record.client.therapist.toString()
+          currentUser.sub !== record.patient.id &&
+          currentUser.sub !== record.patient.therapist.toString()
         ) {
           return res.status(401).json({ message: 'Unauthorized' });
         }
@@ -78,12 +78,12 @@ function update(req, res, next) {
   journalRecordService
     .getById(req.params.id)
     .then(record => {
-      if (record.client.id !== currentUser.sub) {
+      if (record.patient.id !== currentUser.sub) {
         return res.status(401).json({ message: 'Unauthorized' });
       }
 
       journalRecordService
-        .update(req.params.id, { ...req.body, ['client']: currentUser.sub })
+        .update(req.params.id, { ...req.body, ['patient']: currentUser.sub })
         .then(() => res.json({ message: 'Journal record successfully updated' }))
         .catch(err => next(err));
     })
@@ -96,7 +96,7 @@ function _delete(req, res, next) {
   journalRecordService
     .getById(req.params.id)
     .then(record => {
-      if (record.client.id !== currentUser.sub) {
+      if (record.patient.id !== currentUser.sub) {
         return res.status(401).json({ message: 'Unauthorized' });
       }
 

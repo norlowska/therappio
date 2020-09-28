@@ -36,11 +36,11 @@ function fetchDiagnosis(id) {
     }
 }
 
-function createDiagnosis(clientId) {
+function createDiagnosis(patientId) {
     return dispatch => {
         dispatch(request());
         diagnosisService
-            .create(clientId)
+            .create(patientId)
             .then(res => {
                 dispatch(success(res.data, res.message));
             })
@@ -72,7 +72,7 @@ function updateDiagnosis(diagnosis) {
             .update(diagnosis)
             .then(res => {
                 dispatch(
-                    success(res.diagnosis, res.diagnosis.client, res.message)
+                    success(res.diagnosis, res.diagnosis.patient, res.message)
                 );
             })
             .catch(error => {

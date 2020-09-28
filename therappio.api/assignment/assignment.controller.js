@@ -27,19 +27,20 @@ function getAll(req, res, next) {
   assignmentService
     .getAll()
     .then(assignments => {
-      if (typeof req.query.client === 'string') {
+      if (typeof req.query.patient === 'string') {
         assignments = assignments.filter(
-          assignment => assignment && assignment.client && assignment.client.id === req.query.client
+          assignment =>
+            assignment && assignment.patient && assignment.patient.id === req.query.patient
         );
       }
-      // allow client to get assignments created for him/her
+      // allow patient to get assignments created for him/her
       // allow therapist to get assignments of his/her patients
       assignments = assignments.filter(
         assignment =>
           assignment &&
-          assignment.client &&
-          (assignment.client._id === currentUser.sub ||
-            assignment.client.therapist.toString() === currentUser.sub)
+          assignment.patient &&
+          (assignment.patient._id === currentUser.sub ||
+            assignment.patient.therapist.toString() === currentUser.sub)
       );
 
       res.json(assignments);
@@ -56,8 +57,8 @@ function getById(req, res, next) {
     .then(assignment => {
       if (assignment) {
         if (
-          assignment.client.therapist.toString() !== currentUser.sub &&
-          assignment.client.id !== currentUser.sub
+          assignment.patient.therapist.toString() !== currentUser.sub &&
+          assignment.patient.id !== currentUser.sub
         ) {
           return res.status(401).json({ message: 'Unauthorized' });
         }
@@ -70,7 +71,6 @@ function getById(req, res, next) {
     .catch(err => next(err));
 }
 
-// TODO: restrict
 function update(req, res, next) {
   const currentUser = req.user;
   const newAssignment = req.body;
@@ -79,8 +79,8 @@ function update(req, res, next) {
     .getById(req.params.id)
     .then(assignment => {
       if (
-        assignment.client.therapist.toString() !== currentUser.sub &&
-        assignment.client.id !== currentUser.sub
+        assignment.patient.therapist.toString() !== currentUser.sub &&
+        assignment.patient.id !== currentUser.sub
       ) {
         return res.status(401).json({ message: 'Unauthorized' });
       }
@@ -97,8 +97,8 @@ function _delete(req, res, next) {
     .getById(req.params.id)
     .then(assignment => {
       if (
-        assignment.client.therapist.toString() !== currentUser.sub &&
-        assignment.client.id !== currentUser.sub
+        assignment.patient.therapist.toString() !== currentUser.sub &&
+        assignment.patient.id !== currentUser.sub
       ) {
         return res.status(401).json({ message: 'Unauthorized' });
       }

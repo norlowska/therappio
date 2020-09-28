@@ -8,7 +8,7 @@ const DiagnosisSchema = new Schema(
       type: String,
       default: () => nanoid(),
     },
-    client: { type: String, ref: 'User', required: true },
+    patient: { type: String, ref: 'User', required: true },
     fullCodes: [String],
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }

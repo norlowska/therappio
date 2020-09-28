@@ -1,4 +1,4 @@
-import { clientConstants, diagnosisConstants } from '../_constants';
+import { patientConstants, diagnosisConstants } from '../_constants';
 
 const initialState = {
     isFetching: false,
@@ -6,69 +6,69 @@ const initialState = {
     errorMessage: '',
 };
 
-export function clients(state = initialState, action) {
+export function patients(state = initialState, action) {
     switch (action.type) {
-        case clientConstants.FETCH_CLIENTS_REQUEST:
+        case patientConstants.FETCH_CLIENTS_REQUEST:
             return {
                 ...state,
                 isFetching: true,
             };
-        case clientConstants.FETCH_CLIENTS_SUCCESS: {
-            const reduce = action.clients.reduce(
-                (map, client) => ((map[client._id] = client), map),
+        case patientConstants.FETCH_CLIENTS_SUCCESS: {
+            const reduce = action.patients.reduce(
+                (map, patient) => ((map[patient._id] = patient), map),
                 {}
             );
             return {
                 ...state,
                 isFetching: false,
-                byId: action.clients.reduce(
-                    (map, client) => ((map[client._id] = client), map),
+                byId: action.patients.reduce(
+                    (map, patient) => ((map[patient._id] = patient), map),
                     {}
                 ),
             };
         }
 
-        case clientConstants.FETCH_CLIENTS_FAILURE:
+        case patientConstants.FETCH_CLIENTS_FAILURE:
             return {
                 ...state,
                 isFetching: false,
                 errorMessage: action.error,
             };
 
-        case clientConstants.CREATE_CLIENT_REQUEST:
+        case patientConstants.CREATE_CLIENT_REQUEST:
             return {
                 ...state,
                 isFetching: true,
             };
-        case clientConstants.CREATE_CLIENT_SUCCESS: {
+        case patientConstants.CREATE_CLIENT_SUCCESS: {
             return {
                 ...state,
                 isFetching: false,
-                byId: { ...state.byId, [action.client._id]: action.client },
+                byId: { ...state.byId, [action.patient._id]: action.patient },
             };
         }
 
-        case clientConstants.CREATE_CLIENT_FAILURE:
+        case patientConstants.CREATE_CLIENT_FAILURE:
             return {
                 ...state,
                 isFetching: false,
                 errorMessage: action.error,
             };
 
-        case clientConstants.UPDATE_CLIENT_REQUEST:
+        case patientConstants.UPDATE_CLIENT_REQUEST:
             return {
                 ...state,
                 isFetching: true,
             };
-        case clientConstants.UPDATE_CLIENT_SUCCESS: {
+        case patientConstants.UPDATE_CLIENT_SUCCESS: {
             return {
                 ...state,
                 isFetching: false,
-                byId: { ...state.byId, [action.client._id]: action.client },
+                byId: { ...state.byId, [action.patient._id]: action.patient },
             };
         }
 
-        case clientConstants.UPDATE_CLIENT_FAILURE:
+        case patientConstants.UPDATE_CLIENT_FAILURE:
             return {
                 ...state,
                 isFetching: false,
@@ -77,7 +77,7 @@ export function clients(state = initialState, action) {
 
         case diagnosisConstants.CREATE_DIAGNOSIS_SUCCESS: {
             const newPatient = {
-                ...state.byId[action.diagnosis.client],
+                ...state.byId[action.diagnosis.patient],
             };
             newPatient.diagnosis = action.diagnosis._id;
 
@@ -86,7 +86,7 @@ export function clients(state = initialState, action) {
                 isFetching: false,
                 byId: {
                     ...state.byId,
-                    [action.diagnosis.client]: newPatient,
+                    [action.diagnosis.patient]: newPatient,
                 },
             };
         }

@@ -30,8 +30,8 @@ const Header = ({ logout }) => {
                 <Menu.Item key="dashboard" onClick={handleMenuItemClick}>
                     <NavLink to="/">Dashboard</NavLink>
                 </Menu.Item>
-                <Menu.Item key="clients" onClick={handleMenuItemClick}>
-                    <NavLink to="/clients">Patients</NavLink>
+                <Menu.Item key="patients" onClick={handleMenuItemClick}>
+                    <NavLink to="/patients">Patients</NavLink>
                 </Menu.Item>
                 {/* <Menu.Item key="settings" onClick={handleMenuItemClick}>
                     <i className={'la la-cog'} title="Settings" />

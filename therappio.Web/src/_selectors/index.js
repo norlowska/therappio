@@ -4,18 +4,18 @@ import { compareValues } from '../_utilities';
 // state.auth
 export const selectCurrentUser = state => state.auth.user;
 
-// state.clients
-export const selectClients = state => Object.values(state.clients.byId);
-export const selectClient = (state, id) => state.clients.byId[id];
+// state.patients
+export const selectPatients = state => Object.values(state.patients.byId);
+export const selectPatient = (state, id) => state.patients.byId[id];
 
 // state.assignments
 export const selectAssignments = state => Object.values(state.assignments.byId);
 export const selectAssignment = (state, id) => state.assignments.byId[id];
 
-export const selectClientAssignments = (state, clientId) => {
+export const selectPatientAssignments = (state, patientId) => {
     if (!state.assignments) return null;
     const assignments = selectAssignments(state);
-    return assignments.filter(item => item.client._id === clientId);
+    return assignments.filter(item => item.patient._id === patientId);
 };
 
 // state.therapySessions
@@ -24,47 +24,47 @@ export const selectTherapySessions = state =>
 export const selectTherapySession = (state, id) =>
     state.therapySessions.byId[id];
 
-export const selectClientTherapySessions = (state, clientId) => {
+export const selectPatientTherapySessions = (state, patientId) => {
     if (!state.therapySessions) return null;
 
     const therapySessions = selectTherapySessions(state);
     return therapySessions
-        .filter(item => item.client === clientId)
+        .filter(item => item.patient === patientId)
         .sort(compareValues('session_no', 'desc'));
 };
 
 // state.therapy
 export const selectTherapy = (state, therapyId) => state.therapies.items[id];
-export const selectClientsTherapy = (state, clientId) =>
+export const selectPatientsTherapy = (state, patientId) =>
     Object.values(state.therapies.byId).find(
         item =>
             item &&
-            item.client &&
-            ((typeof item.client === 'string' && item.client === clientId) ||
-                (typeof item.client === 'object' &&
-                    item.client._id === clientId))
+            item.patient &&
+            ((typeof item.patient === 'string' && item.patient === patientId) ||
+                (typeof item.patient === 'object' &&
+                    item.patient._id === patientId))
     );
 
 // state.moodRecords
 export const selectMoodRecords = state => Object.values(state.moodRecords.byId);
 export const selectMoodRecord = (state, id) => state.moodRecords.byId[id];
 
-export const selectClientMoodRecords = (state, clientId) => {
+export const selectPatientMoodRecords = (state, patientId) => {
     if (!state.moodRecords) return null;
 
     const moodRecords = selectMoodRecords(state);
-    return moodRecords.filter(item => item.client._id === clientId);
+    return moodRecords.filter(item => item.patient._id === patientId);
 };
 
-export const selectLastWeekMoodRecords = (state, clientId) =>
-    selectClientMoodRecords(state, clientId).filter(
+export const selectLastWeekMoodRecords = (state, patientId) =>
+    selectPatientMoodRecords(state, patientId).filter(
         item =>
             differenceInDays(subDays(new Date(), 7), new Date(item.createdAt)) <
             7
     );
 
-export const selectLastMonthMoodRecords = (state, clientId) =>
-    selectClientMoodRecords(state, clientId).filter(
+export const selectLastMonthMoodRecords = (state, patientId) =>
+    selectPatientMoodRecords(state, patientId).filter(
         item =>
             differenceInDays(
                 subDays(new Date(), 30),
@@ -77,11 +77,11 @@ export const selectJournalRecords = state =>
     Object.values(state.journalRecords.byId);
 export const selectJournalRecord = (state, id) => state.journalRecords.byId[id];
 
-export const selectClientJournalRecords = (state, clientId) => {
+export const selectPatientJournalRecords = (state, patientId) => {
     if (!state.journalRecords) return null;
 
     const journalRecords = selectJournalRecords(state);
-    return journalRecords.filter(item => item.client._id === clientId);
+    return journalRecords.filter(item => item.patient._id === patientId);
 };
 
 // state.diagnosis

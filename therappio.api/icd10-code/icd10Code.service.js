@@ -31,5 +31,5 @@ async function getCodes(codes) {
     fullCode: { $in: codes },
   })
     .select('-__v')
-    .populate('client', '_id therapist');
+    .populate('patient', '_id therapist');
 }

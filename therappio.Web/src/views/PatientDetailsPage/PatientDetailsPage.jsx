@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Button, Tag } from 'antd';
-import { selectClient, selectClientsTherapy } from '../../_selectors';
+import { selectPatient, selectPatientsTherapy } from '../../_selectors';
 import {
     PersonalInfoCard,
     NotesCard,
@@ -98,8 +98,8 @@ const PatientDetailsPage = ({ patient, therapy }) => {
 };
 
 const mapStateToProps = (state, props) => ({
-    patient: selectClient(state, props.match.params.clientId),
-    therapy: selectClientsTherapy(state, props.match.params.clientId),
+    patient: selectPatient(state, props.match.params.patientId),
+    therapy: selectPatientsTherapy(state, props.match.params.patientId),
 });
 
 export default connect(mapStateToProps, null)(PatientDetailsPage);

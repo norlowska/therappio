@@ -73,14 +73,14 @@ function createJournalRecord(journalRecord) {
     }
 }
 
-function updateJournalRecord(journalRecord, clientId) {
+function updateJournalRecord(journalRecord, patientId) {
     return dispatch => {
         dispatch(request(journalRecord));
         journalRecordService
             .update(journalRecord)
             .then(res => {
                 toast.success('Journal record updated successfully');
-                dispatch(success(journalRecord, clientId, res.message));
+                dispatch(success(journalRecord, patientId, res.message));
             })
             .catch(error => {
                 dispatch(failure(error.message));
@@ -93,10 +93,10 @@ function updateJournalRecord(journalRecord, clientId) {
             journalRecord,
         };
     }
-    function success(journalRecord, clientId, message) {
+    function success(journalRecord, patientId, message) {
         return {
             type: journalRecordConstants.UPDATE_JOURNAL_RECORD_SUCCESS,
-            payload: { journalRecord, clientId, message },
+            payload: { journalRecord, patientId, message },
         };
     }
     function failure(error) {

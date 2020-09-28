@@ -7,7 +7,7 @@ import { history } from '../_utilities';
 import { PRIVATE_ROUTE, PUBLIC_ROUTE, RESTRICTED_ROUTE } from '../_constants';
 import {
     userActions,
-    clientActions,
+    patientActions,
     assignmentActions,
     therapySessionActions,
     journalRecordActions,
@@ -21,7 +21,7 @@ import '../styles/main.scss';
 const App = ({
     isAuthenticated,
     getDetails,
-    fetchClients,
+    fetchPatients,
     fetchAssignments,
     fetchTherapySessions,
     fetchJournalRecords,
@@ -31,18 +31,18 @@ const App = ({
 }) => {
     useEffect(() => {
         if (isAuthenticated) {
-            // getDetails();
-            // fetchClients();
-            // fetchAssignments();
-            // fetchTherapySessions();
-            // fetchJournalRecords();
-            // fetchMoodRecords();
+            getDetails();
+            fetchPatients();
+            fetchAssignments();
+            fetchTherapySessions();
+            fetchJournalRecords();
+            fetchMoodRecords();
         }
     }, [isAuthenticated]);
 
     useEffect(() => {
         if (isAuthenticated && userId) {
-            // fetchTherapies(userId);
+            fetchTherapies(userId);
         }
     }, [isAuthenticated, userId]);
 
@@ -113,7 +113,7 @@ const App = ({
 App.propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
     getDetails: PropTypes.func.isRequired,
-    fetchClients: PropTypes.func.isRequired,
+    fetchPatients: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -123,7 +123,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     getDetails: userActions.getDetails,
-    fetchClients: clientActions.fetchClients,
+    fetchPatients: patientActions.fetchPatients,
     fetchAssignments: assignmentActions.fetchAssignments,
     fetchTherapySessions: therapySessionActions.fetchTherapySessions,
     fetchJournalRecords: journalRecordActions.fetchJournalRecords,

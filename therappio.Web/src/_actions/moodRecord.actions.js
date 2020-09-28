@@ -73,14 +73,14 @@ function createMoodRecord(moodRecord) {
     }
 }
 
-function updateMoodRecord(moodRecord, clientId) {
+function updateMoodRecord(moodRecord, patientId) {
     return dispatch => {
         dispatch(request(moodRecord));
         moodRecordService
             .update(moodRecord)
             .then(res => {
                 toast.success('Mood record updated successfully');
-                dispatch(success(moodRecord, clientId, res.message));
+                dispatch(success(moodRecord, patientId, res.message));
             })
             .catch(error => {
                 dispatch(failure(error.message));
@@ -93,10 +93,10 @@ function updateMoodRecord(moodRecord, clientId) {
             moodRecord,
         };
     }
-    function success(moodRecord, clientId, message) {
+    function success(moodRecord, patientId, message) {
         return {
             type: moodRecordConstants.UPDATE_MOOD_RECORD_SUCCESS,
-            payload: { moodRecord, clientId, message },
+            payload: { moodRecord, patientId, message },
         };
     }
     function failure(error) {

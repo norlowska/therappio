@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Modal, Button, Row, Col } from 'antd';
-import { clientActions } from '../../_actions';
+import { patientActions } from '../../_actions';
 import { selectCurrentUser } from '../../_selectors';
 import { FormInput } from '../index';
 import { genderOptions } from '../../_constants';
@@ -212,7 +212,7 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = {
-    create: clientActions.create,
+    create: patientActions.create,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PatientFormModal);

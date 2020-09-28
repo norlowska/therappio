@@ -48,7 +48,7 @@ const DiagnosisAutocompleteInput = ({ diagnosis, updateDiagnosis }) => {
         updateDiagnosis({
             id: diagnosis.id,
             fullCodes: newDiagnosisTags.map(item => item.id),
-            client: diagnosis.client._id,
+            patient: diagnosis.patient._id,
         });
     };
 
@@ -59,7 +59,7 @@ const DiagnosisAutocompleteInput = ({ diagnosis, updateDiagnosis }) => {
             updateDiagnosis({
                 id: diagnosis.id,
                 fullCodes: newDiagnosisTags.map(item => item.id),
-                client: diagnosis.client,
+                patient: diagnosis.patient,
             });
         }
     };

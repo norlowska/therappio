@@ -65,13 +65,13 @@ const AssignmentFormPage = ({
         if (editMode) {
             updateAssignment(
                 { ...assignment, ...newAssignment },
-                match.params.clientId
+                match.params.patientId
             );
         } else {
             createAssignment({
                 ...newAssignment,
                 createdAt: new Date(),
-                client: match.params.clientId,
+                patient: match.params.patientId,
             });
         }
     };
@@ -214,7 +214,7 @@ const AssignmentFormPage = ({
                             />
                         </label>
                         <div className={'buttons-group'}>
-                            <NavLink to={`/clients/${match.params.clientId}`}>
+                            <NavLink to={`/patients/${match.params.patientId}`}>
                                 <Button>Cancel</Button>
                             </NavLink>
                             <Button onClick={saveAssignment} type="primary">
@@ -231,7 +231,7 @@ const AssignmentFormPage = ({
 AssignmentFormPage.propTypes = {
     match: PropTypes.shape({
         params: PropTypes.shape({
-            // clientId: PropTypes.string.isRequired,
+            // patientId: PropTypes.string.isRequired,
             assignmentId: PropTypes.string,
         }),
     }),

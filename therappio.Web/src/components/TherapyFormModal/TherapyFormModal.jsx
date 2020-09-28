@@ -30,7 +30,7 @@ const TherapyFormModal = ({
             if (therapy.plans && therapy.plans.length) {
                 setStartTime(
                     format(
-                        new Date(therapy.plans[0].startTime),
+                        new Date(therapy.plansDocs[0].startTime),
                         "yyyy-MM-dd'T'HH:mm"
                     )
                 );
@@ -40,7 +40,7 @@ const TherapyFormModal = ({
                     setIntervalType('weekdays');
                 }
                 setDaysIntervalValue(
-                    addSeconds(new Date(0), therapy.plans[0].interval)
+                    addSeconds(new Date(0), therapy.plansDocs[0].interval)
                 );
             }
             setIsInProgress(therapy.isInProgress);
@@ -53,7 +53,7 @@ const TherapyFormModal = ({
             update(
                 {
                     ...therapy,
-                    client: patientId,
+                    patient: patientId,
                     startTime,
                     interval: {
                         type: intervalType,
@@ -68,7 +68,7 @@ const TherapyFormModal = ({
             );
         } else {
             create({
-                client: patientId,
+                patient: patientId,
                 startTime,
                 interval: {
                     type: intervalType,

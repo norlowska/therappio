@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Card } from 'antd';
-import { clientActions } from '../../_actions';
+import { patientActions } from '../../_actions';
 import { FormInput } from '../index';
 import style from './NotesCard.module.scss';
 
@@ -56,7 +56,7 @@ const NotesCard = ({ notes, patientId, updatePatient, inProgress }) => {
 };
 
 const mapDispatchToProps = {
-    updatePatient: clientActions.update,
+    updatePatient: patientActions.update,
 };
 
 export default connect(null, mapDispatchToProps)(NotesCard);

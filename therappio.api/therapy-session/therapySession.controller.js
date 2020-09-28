@@ -1,33 +1,33 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const userService = require("user/user.service");
-const therapySessionService = require("./therapySession.service");
-const authorize = require("_helpers/authorize");
-const Role = require("_helpers/role");
+const userService = require('user/user.service');
+const therapySessionService = require('./therapySession.service');
+const authorize = require('_helpers/authorize');
+const Role = require('_helpers/role');
 
 // routes
-router.post("/", authorize([Role.Therapist]), create);
-router.get("/", authorize(), getAll);
-router.get("/:id", authorize(), getById);
-router.put("/:id", authorize(Role.Therapist), update);
-router.delete("/:id", authorize(Role.Therapist), _delete);
+router.post('/', authorize([Role.Therapist]), create);
+router.get('/', authorize(), getAll);
+router.get('/:id', authorize(), getById);
+router.put('/:id', authorize(Role.Therapist), update);
+router.delete('/:id', authorize(Role.Therapist), _delete);
 module.exports = router;
 
 function create(req, res, next) {
   const currentUser = req.user;
-  const session = { ...req.body, ["therapist"]: currentUser.sub };
+  const session = { ...req.body, ['therapist']: currentUser.sub };
 
   userService
-    .getById(req.body.client)
-    .then(client => {
-      if (!client.therapist || session.therapist !== client.therapist.id) {
-        return res.status(401).json({ message: "Unauthorized" });
+    .getById(req.body.patient)
+    .then(patient => {
+      if (!patient.therapist || session.therapist !== patient.therapist.id) {
+        return res.status(401).json({ message: 'Unauthorized' });
       }
 
       therapySessionService
         .create(session)
         .then(newSession =>
-          res.json({ session: newSession, message: "Therapy session successfully created." })
+          res.json({ session: newSession, message: 'Therapy session successfully created.' })
         )
         .catch(err => next(err));
     })
@@ -40,23 +40,19 @@ function getAll(req, res, next) {
   therapySessionService
     .getAll()
     .then(sessions => {
-      if (typeof req.query.client === "string") {
-        sessions = sessions.filter(
-          session => session.client.id === req.query.client
-        );
+      if (typeof req.query.patient === 'string') {
+        sessions = sessions.filter(session => session.patient.id === req.query.patient);
       }
 
-      if (typeof req.query.therapist === "string") {
-        sessions = sessions.filter(
-          session => session.therapist.id === req.query.therapist
-        );
+      if (typeof req.query.therapist === 'string') {
+        sessions = sessions.filter(session => session.therapist.id === req.query.therapist);
       }
       // allow therapist to get session lead by him/her
-      // allow client to get session he/she attended to
+      // allow patient to get session he/she attended to
       sessions = sessions.filter(
         session =>
           session.therapist.toString() === currentUser.sub ||
-          session.client.toString() === currentUser.sub
+          session.patient.toString() === currentUser.sub
       );
 
       res.json(sessions);
@@ -73,10 +69,10 @@ function getById(req, res, next) {
     .then(session => {
       if (session) {
         if (
-          currentUser.sub !== session.client.toString() &&
+          currentUser.sub !== session.patient.toString() &&
           currentUser.sub !== session.therapist.toString()
         ) {
-          return res.status(401).json({ message: "Unauthorized" });
+          return res.status(401).json({ message: 'Unauthorized' });
         }
 
         res.json(session);
@@ -91,12 +87,12 @@ function update(req, res, next) {
   const session = req.body;
 
   if (session.therapist.toString() !== currentUser.sub) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(401).json({ message: 'Unauthorized' });
   }
 
   therapySessionService
     .update(req.params.id, session)
-    .then(session => res.json({ session, message: "Therapy session successfully updated" }))
+    .then(session => res.json({ session, message: 'Therapy session successfully updated' }))
     .catch(err => next(err));
 }
 
@@ -107,13 +103,13 @@ function _delete(req, res, next) {
     .getById(req.params.id)
     .then(session => {
       if (session.therapist.toString() !== currentUser.sub) {
-        return res.status(401).json({ message: "Unauthorized" });
+        return res.status(401).json({ message: 'Unauthorized' });
       }
 
       therapySessionService
         .delete(req.params.id)
         .then(() =>
-          res.json({ id: req.params.id, message: "Therapy session successfully deleted" })
+          res.json({ id: req.params.id, message: 'Therapy session successfully deleted' })
         )
         .catch(err => next(err));
     })

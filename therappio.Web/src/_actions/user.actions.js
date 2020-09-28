@@ -16,7 +16,6 @@ function login(email, password) {
         userService
             .login(email, password)
             .then(user => {
-                console.log(user.status, user.statusCode);
                 dispatch(success(user));
                 // history.push('/');
             })

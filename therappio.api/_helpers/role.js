@@ -1,5 +1,5 @@
 module.exports = {
-  Admin: "Admin",
-  Therapist: "Therapist",
-  Client: "Client"
+  Admin: 'Admin',
+  Therapist: 'Therapist',
+  Patient: 'Patient',
 };

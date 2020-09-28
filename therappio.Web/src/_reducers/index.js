@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { auth } from './auth.reducer';
-import { clients } from './client.reducer';
+import { patients } from './patient.reducer';
 import { assignments } from './assignment.reducer';
 import { therapySessions } from './therapySession.reducer';
 import { journalRecords } from './journalRecord.reducer';
@@ -10,7 +10,7 @@ import { therapies } from './therapy.reducer';
 
 const rootReducer = combineReducers({
     auth,
-    clients,
+    patients,
     assignments,
     therapySessions,
     journalRecords,

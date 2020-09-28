@@ -4,7 +4,7 @@ const Therapy = db.Therapy;
 module.exports = {
   getAll,
   getById,
-  getClientsTherapy,
+  getPatientsTherapy,
   getTherapistsTherapies,
   create,
   update,
@@ -18,13 +18,13 @@ async function getAll() {
 async function getById(id) {
   return await Therapy.findById(id)
     .select('-__v')
-    .populate('client', '_id firstName lastName phoneNumber email diagnosis')
+    .populate('patient', '_id firstName lastName phoneNumber email diagnosis')
     .populate('therapist', '_id firstName lastName phoneNumber email')
     .populate('plans', '_id startTime interval endTime');
 }
 
-async function getClientsTherapy(id) {
-  return await Therapy.findOne({ client: id })
+async function getPatientsTherapy(id) {
+  return await Therapy.findOne({ patient: id })
     .select('-__v')
     .populate('therapist', '_id firstName lastName phoneNumber email')
     .populate('plans', '_id startTime interval endTime');
@@ -33,7 +33,7 @@ async function getClientsTherapy(id) {
 async function getTherapistsTherapies(id) {
   return await Therapy.find({ therapist: id })
     .select('-__v')
-    .populate('client', '_id firstName lastName phoneNumber email diagnosis')
+    .populate('patient', '_id firstName lastName phoneNumber email diagnosis')
     .populate('plans', '_id startTime interval endTime');
 }
 

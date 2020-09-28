@@ -52,7 +52,7 @@ const SessionFormModal = ({
                 date,
                 notes,
                 tags: tags.map(item => item.name),
-                client: patient,
+                patient: patient,
             });
         }
 

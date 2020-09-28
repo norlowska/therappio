@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { format } from 'date-fns';
 import { Table, Button, Input } from 'antd';
-import { selectClients } from '../../_selectors';
+import { selectPatients } from '../../_selectors';
 import { PatientFormModal } from '../../components';
-import { clientActions } from '../../_actions';
+import { patientActions } from '../../_actions';
 import style from './PatientsPage.module.scss';
 
 const PatientsPage = ({ patients, fetchPatients, loading }) => {
@@ -66,7 +66,7 @@ const PatientsPage = ({ patients, fetchPatients, loading }) => {
             dataIndex: '_id',
             render: (text, record, index) => (
                 <div className="buttons-group">
-                    <NavLink to={`/clients/${record._id}`}>
+                    <NavLink to={`/patients/${record._id}`}>
                         <Button
                             className="table-icon-btn"
                             type="link"
@@ -131,12 +131,12 @@ const PatientsPage = ({ patients, fetchPatients, loading }) => {
 };
 
 const mapStateToProps = state => ({
-    patients: selectClients(state),
-    loading: state.clients.isFetching,
+    patients: selectPatients(state),
+    loading: state.patients.isFetching,
 });
 
 const mapDispatchToProps = {
-    fetchPatients: clientActions.fetchClients,
+    fetchPatients: patientActions.fetchPatients,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PatientsPage);

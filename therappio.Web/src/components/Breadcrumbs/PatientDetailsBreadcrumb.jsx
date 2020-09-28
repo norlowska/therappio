@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { selectClient } from '../../_selectors';
+import { selectPatient } from '../../_selectors';
 
 const PatientDetailsBreadcrumb = ({ patient, match }) => {
-    if (!match.params.clientId) return <span>Patients list</span>;
+    if (!match.params.patientId) return <span>Patients list</span>;
     return patient ? (
         <span>
             {patient.firstName} {patient.lastName}
@@ -14,7 +14,7 @@ const PatientDetailsBreadcrumb = ({ patient, match }) => {
 };
 
 const mapStateToProps = (state, props) => ({
-    patient: selectClient(state, props.match.params.clientId),
+    patient: selectPatient(state, props.match.params.patientId),
 });
 
 export default connect(mapStateToProps)(PatientDetailsBreadcrumb);

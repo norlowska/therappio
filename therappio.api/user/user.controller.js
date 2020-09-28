@@ -47,8 +47,8 @@ function getById(req, res, next) {
   const currentUser = req.user;
   const id = req.params.id;
 
-  // allow client to get only his/her own record
-  if (currentUser.role === Role.Client && id !== currentUser.sub) {
+  // allow patient to get only his/her own record
+  if (currentUser.role === Role.Patient && id !== currentUser.sub) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
 
@@ -84,8 +84,8 @@ function update(req, res, next) {
   const currentUser = req.user;
   const id = req.params.id;
 
-  // allow client to get only his/her own record
-  if (currentUser.role === Role.Client && id !== currentUser.sub) {
+  // allow patient to get only his/her own record
+  if (currentUser.role === Role.Patient && id !== currentUser.sub) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
 

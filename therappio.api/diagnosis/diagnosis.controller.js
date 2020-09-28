@@ -15,8 +15,8 @@ router.get('/:id', authorize(), function get(req, res, next) {
     .then(diagnosis => {
       if (diagnosis) {
         if (
-          diagnosis.client.therapist.toString() !== currentUser.sub &&
-          diagnosis.client.id !== currentUser.sub
+          diagnosis.patient.therapist.toString() !== currentUser.sub &&
+          diagnosis.patient.id !== currentUser.sub
         ) {
           return res.status(401).json({ message: 'Unauthorized' });
         }
@@ -30,13 +30,13 @@ router.get('/:id', authorize(), function get(req, res, next) {
 });
 
 router.post('/', authorize(Role.Therapist), function create(req, res, next) {
-  const clientId = req.body.client;
+  const patientId = req.body.patient;
 
   diagnosisService
     .create(req.body)
     .then(diagnosis =>
       userService
-        .update(clientId, { diagnosis: diagnosis.id })
+        .update(patientId, { diagnosis: diagnosis.id })
         .then(user =>
           res.status(201).json({ message: 'Diagnosis successfully created.', data: diagnosis })
         )
@@ -52,8 +52,8 @@ router.put('/:id', authorize(Role.Therapist), function update(req, res, next) {
     .getById(req.params.id)
     .then(diagnosis => {
       if (
-        diagnosis.client.therapist.toString() !== currentUser.sub &&
-        diagnosis.client._id !== currentUser.sub
+        diagnosis.patient.therapist.toString() !== currentUser.sub &&
+        diagnosis.patient._id !== currentUser.sub
       ) {
         return res.status(401).json({ message: 'Unauthorized' });
       }

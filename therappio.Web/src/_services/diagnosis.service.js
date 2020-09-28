@@ -11,9 +11,9 @@ function getById(id) {
     return axios.get(`${config.apiUrl}/diagnosis/${id}`).then(res => res.data);
 }
 
-function create(clientId) {
+function create(patientId) {
     return axios
-        .post(`${config.apiUrl}/diagnosis`, { client: clientId })
+        .post(`${config.apiUrl}/diagnosis`, { patient: patientId })
         .then(res => res.data);
 }
 

@@ -16,9 +16,9 @@ function create(req, res, next) {
   const therapyPlan = { ...req.body, ['therapist']: currentUser.sub };
 
   userService
-    .getById(req.body.client)
-    .then(client => {
-      if (!client.therapist || therapyPlan.therapist !== client.therapist.id) {
+    .getById(req.body.patient)
+    .then(patient => {
+      if (!patient.therapist || therapyPlan.therapist !== patient.therapist.id) {
         return res.status(401).json({ message: 'Unauthorized' });
       }
 

@@ -10,7 +10,7 @@ module.exports = {
 async function getById(id) {
   return await Diagnosis.findById(id)
     .select('-__v')
-    .populate('client', '_id therapist')
+    .populate('patient', '_id therapist')
     .populate('content');
 }
 

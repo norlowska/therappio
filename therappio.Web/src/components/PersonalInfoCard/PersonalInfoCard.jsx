@@ -4,7 +4,7 @@ import { format, differenceInYears } from 'date-fns';
 import { Row, Col, Card, Button } from 'antd';
 import { FormInput } from '../index';
 import DiagnosisAutocompleteInput from './DiagnosisAutocompleteInput';
-import { clientActions, diagnosisActions } from '../../_actions';
+import { patientActions, diagnosisActions } from '../../_actions';
 import { genderOptions } from '../../_constants';
 import style from './PersonalInfoCard.module.scss';
 import { selectDiagnosis } from '../../_selectors';
@@ -290,7 +290,7 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = {
-    updatePatient: clientActions.update,
+    updatePatient: patientActions.update,
     fetchDiagnosis: diagnosisActions.fetchDiagnosis,
     createDiagnosis: diagnosisActions.createDiagnosis,
 };

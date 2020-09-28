@@ -74,14 +74,14 @@ function createTherapySession(therapySession) {
     }
 }
 
-function updateTherapySession(therapySession, clientId) {
+function updateTherapySession(therapySession, patientId) {
     return dispatch => {
         dispatch(request(therapySession));
         therapySessionService
             .update(therapySession)
             .then(res => {
                 toast.success('Therapy session updated successfully');
-                dispatch(success(res.session, clientId, res.message));
+                dispatch(success(res.session, patientId, res.message));
             })
             .catch(error => {
                 dispatch(failure(error.message));
@@ -94,11 +94,11 @@ function updateTherapySession(therapySession, clientId) {
             therapySession,
         };
     }
-    function success(therapySession, clientId, message) {
+    function success(therapySession, patientId, message) {
         return {
             type: therapySessionConstants.UPDATE_THERAPY_SESSION_SUCCESS,
             therapySession,
-            clientId,
+            patientId,
             message,
         };
     }

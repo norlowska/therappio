@@ -23,7 +23,7 @@ app.use(cors({ origin: 'http://localhost:8080' }));
 // api routes
 // app.use("/auth", require("auth/auth.controller"));
 app.use('/users', require('user/user.controller'));
-app.use('/clients', require('client/client.controller'));
+app.use('/patients', require('patient/patient.controller'));
 app.use('/sessions', require('therapy-session/therapySession.controller'));
 app.use('/journal', require('journal/journalRecord.controller'));
 app.use('/moods', require('mood/moodRecord.controller'));

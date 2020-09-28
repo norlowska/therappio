@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { format } from 'date-fns';
 import { Card, Table, Button } from 'antd';
 import {
-    selectClientJournalRecords,
-    selectClientMoodRecords,
+    selectPatientJournalRecords,
+    selectPatientMoodRecords,
 } from '../../_selectors';
 import { moodchartKeys } from '../../_constants';
 import MoodChart from './MoodChart';
@@ -123,8 +123,8 @@ const MoodJournalRecordsCard = ({
 };
 
 const mapStateToProps = (state, props) => ({
-    journalRecords: selectClientJournalRecords(state, props.patientId),
-    moodRecords: selectClientMoodRecords(state, props.patientId),
+    journalRecords: selectPatientJournalRecords(state, props.patientId),
+    moodRecords: selectPatientMoodRecords(state, props.patientId),
 });
 
 export default connect(mapStateToProps)(MoodJournalRecordsCard);

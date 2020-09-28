@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import { Card, Row, Col, Button } from 'antd';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import { history } from '../../_utilities';
@@ -42,7 +43,8 @@ const DashboardPage = ({ therapist }) => {
         }
     };
 
-    const handleSelectEvent = event => history.push(`/clients/${event.client}`);
+    const handleSelectEvent = event =>
+        history.push(`/patients/${event.patient}`);
 
     const fetchTherapies = (from, to) => {
         setIsFetching(true);
@@ -64,8 +66,8 @@ const DashboardPage = ({ therapist }) => {
                                     start: new Date(session),
                                     end: addHours(new Date(session), 1),
                                     id: `${plan._id}session${idx + 1}`,
-                                    title: `${therapy.clientObj.firstName} ${therapy.clientObj.lastName} ${therapy.clientObj._id}`,
-                                    client: therapy.client,
+                                    title: `${therapy.patientObj.firstName} ${therapy.patientObj.lastName} ${therapy.patientObj._id}`,
+                                    patient: therapy.patient,
                                 },
                             ];
                         });
@@ -92,14 +94,16 @@ const DashboardPage = ({ therapist }) => {
             <Row>
                 <Col className={style.header}>
                     <h2>Schedule</h2>
-                    <Button
-                        type="primary"
-                        ghost
-                        icon={<i className="las la-angle-right"></i>}
-                        title="Patients list"
-                    >
-                        Patients list
-                    </Button>
+                    <NavLink to="/patients">
+                        <Button
+                            type="primary"
+                            ghost
+                            icon={<i className="las la-angle-right"></i>}
+                            title="Patients list"
+                        >
+                            Patients list
+                        </Button>
+                    </NavLink>
                 </Col>
             </Row>
             <Row>

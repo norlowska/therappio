@@ -45,7 +45,7 @@ function createAssignment(assignment) {
             .then(res => {
                 dispatch(success(res.data, res.message));
                 toast.success('New assignment created successfully');
-                history.push(`/clients/${res.data.client._id}`);
+                history.push(`/patients/${res.data.patient._id}`);
             })
             .catch(error => {
                 dispatch(failure(error.message));
@@ -69,15 +69,15 @@ function createAssignment(assignment) {
     }
 }
 
-function updateAssignment(assignment, clientId) {
+function updateAssignment(assignment, patientId) {
     return dispatch => {
         dispatch(request(assignment));
         assignmentService
             .update(assignment)
             .then(res => {
-                dispatch(success(assignment, clientId, res.message));
+                dispatch(success(assignment, patientId, res.message));
                 // toast.success('Assignment updated successfully');
-                history.push(`/clients/${clientId}`);
+                history.push(`/patients/${patientId}`);
             })
             .catch(error => {
                 dispatch(failure(error.message));
@@ -90,10 +90,10 @@ function updateAssignment(assignment, clientId) {
             assignment,
         };
     }
-    function success(assignment, clientId, message) {
+    function success(assignment, patientId, message) {
         return {
             type: assignmentConstants.UPDATE_ASSIGNMENT_SUCCESS,
-            payload: { assignment, clientId, message },
+            payload: { assignment, patientId, message },
         };
     }
     function failure(error) {

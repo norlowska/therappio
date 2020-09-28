@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { format } from 'date-fns';
 import { Card, Table, Button } from 'antd';
 import { assignmentActions } from '../../_actions';
-import { selectClientAssignments } from '../../_selectors';
+import { selectPatientAssignments } from '../../_selectors';
 import style from './AssignmentsCard.module.scss';
 
 const AssignmentsCard = ({
@@ -63,7 +63,7 @@ const AssignmentsCard = ({
                     ) {
                         return (
                             <NavLink
-                                to={`/clients/${patientId}/assignments/${record._id}`}
+                                to={`/patients/${patientId}/assignments/${record._id}`}
                             >
                                 <Button
                                     className="table-icon-btn"
@@ -82,7 +82,7 @@ const AssignmentsCard = ({
                         return (
                             <>
                                 <NavLink
-                                    to={`/clients/${patientId}/assignments/${record._id}/edit`}
+                                    to={`/patients/${patientId}/assignments/${record._id}/edit`}
                                 >
                                     <Button
                                         className="table-icon-btn"
@@ -121,7 +121,7 @@ const AssignmentsCard = ({
             title="ASSIGNMENTS"
             extra={
                 inProgress && (
-                    <NavLink to={`/clients/${patientId}/assignments/new`}>
+                    <NavLink to={`/patients/${patientId}/assignments/new`}>
                         <Button
                             type="primary"
                             style={{ marginBottom: 16 }}
@@ -147,7 +147,7 @@ const AssignmentsCard = ({
 };
 
 const mapStateToProps = (state, props) => ({
-    assignments: selectClientAssignments(state, props.patientId),
+    assignments: selectPatientAssignments(state, props.patientId),
 });
 
 const mapDispatchToProps = {

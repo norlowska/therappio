@@ -1,4 +1,4 @@
-export const clientConstants = {
+export const patientConstants = {
     FETCH_CLIENTS_REQUEST: 'FETCH_CLIENTS_REQUEST',
     FETCH_CLIENTS_SUCCESS: 'FETCH_CLIENTS_SUCCESS',
     FETCH_CLIENTS_FAILURE: 'FETCH_CLIENTS_FAILURE',
