@@ -13,13 +13,13 @@ export const assignmentActions = {
 function fetchAssignments() {
     return dispatch => {
         dispatch(request());
-        assignmentService
+        return assignmentService
             .getAll()
             .then(assignments => {
                 dispatch(success(assignments));
             })
             .catch(error => {
-                dispatch(failure(error.message));
+                dispatch(failure(error.response.data.message));
                 // dispatch(alertActions.error(error.toString()));
             });
     };
@@ -40,7 +40,7 @@ function fetchAssignments() {
 function createAssignment(assignment) {
     return dispatch => {
         dispatch(request(assignment));
-        assignmentService
+        return assignmentService
             .create(assignment)
             .then(res => {
                 dispatch(success(res.data, res.message));
@@ -48,7 +48,7 @@ function createAssignment(assignment) {
                 history.push(`/patients/${res.data.patient._id}`);
             })
             .catch(error => {
-                dispatch(failure(error.message));
+                dispatch(failure(error.response.data.message));
                 // dispatch(alertActions.error(error.toString()));
             });
     };
@@ -72,7 +72,7 @@ function createAssignment(assignment) {
 function updateAssignment(assignment, patientId) {
     return dispatch => {
         dispatch(request(assignment));
-        assignmentService
+        return assignmentService
             .update(assignment)
             .then(res => {
                 dispatch(success(assignment, patientId, res.message));
@@ -80,7 +80,7 @@ function updateAssignment(assignment, patientId) {
                 history.push(`/patients/${patientId}`);
             })
             .catch(error => {
-                dispatch(failure(error.message));
+                dispatch(failure(error.response.data.message));
                 // dispatch(alertActions.error(error.toString()));
             });
     };
@@ -104,14 +104,14 @@ function updateAssignment(assignment, patientId) {
 function deleteAssignment(id) {
     return dispatch => {
         dispatch(request(id));
-        assignmentService
+        return assignmentService
             .delete(id)
             .then(res => {
                 toast.success('Assignment deleted successfully');
                 dispatch(success(id));
             })
             .catch(error => {
-                dispatch(failure(error.message));
+                dispatch(failure(error.response.data.message));
                 // dispatch(alertActions.error(error.toString()));
             });
     };

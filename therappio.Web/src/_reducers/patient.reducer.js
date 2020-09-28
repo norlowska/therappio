@@ -8,12 +8,12 @@ const initialState = {
 
 export function patients(state = initialState, action) {
     switch (action.type) {
-        case patientConstants.FETCH_CLIENTS_REQUEST:
+        case patientConstants.FETCH_PATIENTS_REQUEST:
             return {
                 ...state,
                 isFetching: true,
             };
-        case patientConstants.FETCH_CLIENTS_SUCCESS: {
+        case patientConstants.FETCH_PATIENTS_SUCCESS: {
             const reduce = action.patients.reduce(
                 (map, patient) => ((map[patient._id] = patient), map),
                 {}
@@ -28,19 +28,19 @@ export function patients(state = initialState, action) {
             };
         }
 
-        case patientConstants.FETCH_CLIENTS_FAILURE:
+        case patientConstants.FETCH_PATIENTS_FAILURE:
             return {
                 ...state,
                 isFetching: false,
                 errorMessage: action.error,
             };
 
-        case patientConstants.CREATE_CLIENT_REQUEST:
+        case patientConstants.CREATE_PATIENT_REQUEST:
             return {
                 ...state,
                 isFetching: true,
             };
-        case patientConstants.CREATE_CLIENT_SUCCESS: {
+        case patientConstants.CREATE_PATIENT_SUCCESS: {
             return {
                 ...state,
                 isFetching: false,
@@ -48,19 +48,19 @@ export function patients(state = initialState, action) {
             };
         }
 
-        case patientConstants.CREATE_CLIENT_FAILURE:
+        case patientConstants.CREATE_PATIENT_FAILURE:
             return {
                 ...state,
                 isFetching: false,
                 errorMessage: action.error,
             };
 
-        case patientConstants.UPDATE_CLIENT_REQUEST:
+        case patientConstants.UPDATE_PATIENT_REQUEST:
             return {
                 ...state,
                 isFetching: true,
             };
-        case patientConstants.UPDATE_CLIENT_SUCCESS: {
+        case patientConstants.UPDATE_PATIENT_SUCCESS: {
             return {
                 ...state,
                 isFetching: false,
@@ -68,7 +68,7 @@ export function patients(state = initialState, action) {
             };
         }
 
-        case patientConstants.UPDATE_CLIENT_FAILURE:
+        case patientConstants.UPDATE_PATIENT_FAILURE:
             return {
                 ...state,
                 isFetching: false,

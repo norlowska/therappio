@@ -78,7 +78,6 @@ const DashboardPage = ({ therapist }) => {
             })
             .catch(err => {
                 setIsFetching(false);
-                console.log(err);
             });
     };
 

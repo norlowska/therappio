@@ -51,6 +51,12 @@ class LoginPage extends Component {
                                 type="success"
                             />
                         )}
+                        {queryParams['unauthorized'] === 'true' && (
+                            <Alert
+                                message="You are not authorized to access the resource."
+                                type="danger"
+                            />
+                        )}
                         {this.props.error && (
                             <Alert message={this.props.error} type="error" />
                         )}

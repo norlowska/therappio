@@ -23,13 +23,13 @@ function fetchPatients() {
             });
     };
     function request() {
-        return { type: patientConstants.FETCH_CLIENTS_REQUEST };
+        return { type: patientConstants.FETCH_PATIENTS_REQUEST };
     }
     function success(patients) {
-        return { type: patientConstants.FETCH_CLIENTS_SUCCESS, patients };
+        return { type: patientConstants.FETCH_PATIENTS_SUCCESS, patients };
     }
     function failure(error) {
-        return { type: patientConstants.FETCH_CLIENTS_FAILURE, error };
+        return { type: patientConstants.FETCH_PATIENTS_FAILURE, error };
     }
 }
 
@@ -46,13 +46,13 @@ function create(patient) {
             });
     };
     function request() {
-        return { type: patientConstants.CREATE_CLIENT_REQUEST };
+        return { type: patientConstants.CREATE_PATIENT_REQUEST };
     }
     function success(patient) {
-        return { type: patientConstants.CREATE_CLIENT_SUCCESS, patient };
+        return { type: patientConstants.CREATE_PATIENT_SUCCESS, patient };
     }
     function failure(error) {
-        return { type: patientConstants.CREATE_CLIENT_FAILURE, error };
+        return { type: patientConstants.CREATE_PATIENT_FAILURE, error };
     }
 }
 
@@ -69,12 +69,12 @@ function update(patient) {
             });
     };
     function request() {
-        return { type: patientConstants.UPDATE_CLIENT_REQUEST };
+        return { type: patientConstants.UPDATE_PATIENT_REQUEST };
     }
     function success(patient) {
-        return { type: patientConstants.UPDATE_CLIENT_SUCCESS, patient };
+        return { type: patientConstants.UPDATE_PATIENT_SUCCESS, patient };
     }
     function failure(error) {
-        return { type: patientConstants.UPDATE_CLIENT_FAILURE, error };
+        return { type: patientConstants.UPDATE_PATIENT_FAILURE, error };
     }
 }

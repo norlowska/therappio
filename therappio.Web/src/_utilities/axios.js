@@ -1,6 +1,8 @@
+import { history } from './history';
 import axios from 'axios';
 import { Promise } from 'es6-promise';
 import { localStorageService } from '../_services/localStorage.service';
+import { userActions } from '../_actions';
 
 // Add a request interceptor
 // Add Authorization & Content-Type HTTP headers
@@ -25,9 +27,8 @@ axios.interceptors.response.use(
     },
     function(error) {
         if (error.response.status === 401) {
-            // TODO: dispatch LOGOUT
-            // logout();
-            location.reload(true);
+            userActions.logout();
+            history.push('/login?unauthorized=true');
         }
         return Promise.reject(error);
     }

@@ -20,7 +20,7 @@ function login(email, password) {
                 // history.push('/');
             })
             .catch(error => {
-                dispatch(failure(error.response.data));
+                dispatch(failure(error.message));
                 // dispatch(alertActions.error(error.toString()));
             });
     };
@@ -52,7 +52,7 @@ function register(user) {
                 history.push('/login?registration=true');
             })
             .catch(error => {
-                dispatch(failure(error.response.data));
+                dispatch(failure(error.message));
                 // dispatch(alertActions.error(error.toString()));
             });
     };
