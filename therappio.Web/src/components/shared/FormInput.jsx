@@ -3,17 +3,27 @@ import PropTypes from 'prop-types';
 
 const FormInput = props => {
     let inputElement = null;
-    const { type, options, className, ...attributes } = props;
-    const inputStyle = className ? className + ' input' : 'input';
-
+    const {
+        type,
+        options,
+        className,
+        error,
+        errorMessages,
+        ...attributes
+    } = props;
+    const inputStyle = ['input', className];
+    if (errorMessages && errorMessages.length > 0)
+        inputStyle.push('invalid-input');
     switch (type) {
         case 'textarea':
-            inputElement = <textarea className={inputStyle} {...attributes} />;
+            inputElement = (
+                <textarea className={inputStyle.join(' ')} {...attributes} />
+            );
             break;
         case 'select':
             inputElement = (
                 <div className="select-wrapper">
-                    <select className={inputStyle} {...attributes}>
+                    <select className={inputStyle.join(' ')} {...attributes}>
                         {options.map((option, index) => (
                             <option
                                 key={`option${index}`}
@@ -30,13 +40,17 @@ const FormInput = props => {
         case 'radio':
             inputElement = (
                 <>
-                    <input className={inputStyle} type={type} />
+                    <input className={inputStyle.join(' ')} type={type} />
                     <label />
                 </>
             );
         default:
             inputElement = (
-                <input className={inputStyle} type={type} {...attributes} />
+                <input
+                    className={inputStyle.join(' ')}
+                    type={type}
+                    {...attributes}
+                />
             );
             break;
     }
@@ -44,7 +58,13 @@ const FormInput = props => {
     return (
         <React.Fragment>
             {inputElement}
-            <div className="required-info">Required</div>
+            {errorMessages &&
+                errorMessages.length > 0 &&
+                errorMessages.map((item, index) => (
+                    <div key={`error${index}`} className="error-info">
+                        {item}
+                    </div>
+                ))}
         </React.Fragment>
     );
 };

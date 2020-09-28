@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import validator from 'validator';
 import { Card, Col, Row, Alert } from 'antd';
 import { userActions } from '../../_actions';
 import { FormInput } from '../../components';
-import { history } from '../../_utilities';
 import styles from './RegisterPage.module.scss';
 
 class RegisterPage extends Component {
@@ -18,16 +18,85 @@ class RegisterPage extends Component {
             firstName: '',
             lastName: '',
             phoneNumber: '',
-            passwordsDontMatch: false,
+            errorMessages: {
+                email: [],
+                password: [],
+                repeatPassword: [],
+                firstName: [],
+                lastName: [],
+                phoneNumber: [],
+            },
+            validForm: false,
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleBlur = this.handleBlur.bind(this);
     }
 
     handleChange(event) {
         const { name, value } = event.target;
+
         this.setState({ [name]: value });
+    }
+
+    handleBlur(event) {
+        const { value, name } = event.target;
+        const newErrorMessages = { ...this.state.errorMessages, [name]: [] };
+        if (value) {
+            switch (name) {
+                case 'email':
+                    if (!validator.isEmail(value))
+                        newErrorMessages[name].push(
+                            'E-mail address is invalid'
+                        );
+                    break;
+                case 'phoneNumber':
+                    if (!validator.isMobilePhone(value))
+                        newErrorMessages[name].push('Phone number is invalid');
+                    break;
+                case 'repeatPassword':
+                    const { password, repeatPassword } = this.state;
+                    if (
+                        !password ||
+                        !repeatPassword ||
+                        !validator.equals(password, repeatPassword)
+                    ) {
+                        newErrorMessages.password.push(
+                            "Passwords don't match. Try again."
+                        );
+                    }
+                    break;
+                case 'firstName':
+                    if (!validator.isAlpha(value))
+                        newErrorMessages[name].push(
+                            'First name should contain only letters'
+                        );
+                    break;
+                case 'lastName':
+                    if (!validator.matches(value, /^[a-z-]+$/i))
+                        newErrorMessages[name].push(
+                            "Last name should contain only letters and '-'"
+                        );
+                    break;
+            }
+        }
+
+        let newValidForm = true;
+
+        Object.keys(newErrorMessages).forEach(item => {
+            if (
+                (item === name && !value) ||
+                !this.state[item] ||
+                newErrorMessages[item].length > 0
+            )
+                newValidForm = false;
+        });
+
+        this.setState({
+            errorMessages: newErrorMessages,
+            validForm: newValidForm,
+        });
     }
 
     handleSubmit(event) {
@@ -39,29 +108,49 @@ class RegisterPage extends Component {
             phoneNumber,
             firstName,
             lastName,
+            errorMessages,
         } = this.state;
-        if (password && repeatPassword && password !== repeatPassword) {
-            this.setState({ passwordsDontMatch: true });
+        if (
+            !email ||
+            !password ||
+            !repeatPassword ||
+            !phoneNumber ||
+            !firstName ||
+            !lastName
+        ) {
+            const newErrorMessages = { ...errorMessages };
+            Object.keys(this.state).map(item => {
+                if (
+                    item !== 'errorMessages' &&
+                    item !== 'validForm' &&
+                    !this.state[item]
+                ) {
+                    let propertyName = item.replace(
+                        /([a-z\d])([A-Z])/g,
+                        `${1} ${2}`
+                    );
+                    propertyName =
+                        propertyName.charAt(0).toUpperCase() +
+                        propertyName.slice(1);
+                    newErrorMessages[item].push(`${propertyName} is required`);
+
+                    this.setState({ errorMessages: newErrorMessages });
+                }
+            });
         } else {
-            if (
-                email &&
-                password &&
-                repeatPassword &&
-                password === repeatPassword
-            ) {
-                this.props.register({
-                    email,
-                    password,
-                    phoneNumber,
-                    firstName,
-                    lastName,
-                    role: 'Therapist',
-                });
-            }
+            this.props.register({
+                email,
+                password,
+                phoneNumber,
+                firstName,
+                lastName,
+                role: 'Therapist',
+            });
         }
     }
 
     render() {
+        const { errorMessages, validForm } = this.state;
         return (
             <Card className={styles.registerCard}>
                 <h2>Sign up</h2>
@@ -69,29 +158,27 @@ class RegisterPage extends Component {
                     onSubmit={this.handleSubmit}
                     className={styles.registerForm}
                 >
-                    {this.state.passwordsDontMatch && (
-                        <Row>
-                            <Col
-                                span={24}
-                                className={styles.passwordsDontMatch}
-                            >
-                                <Alert
-                                    message="Passwords don't match. Try again"
-                                    type="error"
-                                />
-                            </Col>
-                        </Row>
-                    )}
                     <Row gutter={[16, 4]}>
                         <Col span={12}>
                             <div className="formGroup">
-                                <label htmlFor="email">E-mail address</label>
+                                <label htmlFor="email">
+                                    E-mail address
+                                    <span
+                                        className="required-icon"
+                                        title="Field required"
+                                    >
+                                        {' '}
+                                        *
+                                    </span>
+                                </label>
                                 <FormInput
                                     type="email"
                                     name="email"
                                     id="email"
                                     placeholder="Enter your email address"
                                     onChange={this.handleChange}
+                                    onBlur={this.handleBlur}
+                                    errorMessages={errorMessages['email']}
                                     required
                                 />
                             </div>
@@ -100,6 +187,13 @@ class RegisterPage extends Component {
                             <div className="formGroup">
                                 <label htmlFor="phoneNumber">
                                     Phone number
+                                    <span
+                                        className="required-icon"
+                                        title="Field required"
+                                    >
+                                        {' '}
+                                        *
+                                    </span>
                                 </label>
                                 <FormInput
                                     type="phone"
@@ -107,6 +201,8 @@ class RegisterPage extends Component {
                                     id="phoneNumber"
                                     placeholder="Enter your phone number"
                                     onChange={this.handleChange}
+                                    onBlur={this.handleBlur}
+                                    errorMessages={errorMessages['phoneNumber']}
                                     required
                                 />
                             </div>
@@ -115,13 +211,24 @@ class RegisterPage extends Component {
                     <Row gutter={[16, 4]}>
                         <Col span={12}>
                             <div className="formGroup">
-                                <label htmlFor="password">Password</label>
+                                <label htmlFor="password">
+                                    Password{' '}
+                                    <span
+                                        className="required-icon"
+                                        title="Field required"
+                                    >
+                                        {' '}
+                                        *
+                                    </span>
+                                </label>
                                 <FormInput
                                     type="password"
                                     name="password"
                                     id="password"
                                     placeholder="Enter your password"
+                                    onBlur={this.handleBlur}
                                     onChange={this.handleChange}
+                                    errorMessages={errorMessages['password']}
                                     required
                                 />
                             </div>
@@ -129,13 +236,21 @@ class RegisterPage extends Component {
                         <Col span={12}>
                             <div className="formGroup">
                                 <label htmlFor="repeatPassword">
-                                    Repeat password
+                                    Repeat password{' '}
+                                    <span
+                                        className="required-icon"
+                                        title="Field required"
+                                    >
+                                        {' '}
+                                        *
+                                    </span>
                                 </label>
                                 <FormInput
                                     type="password"
                                     name="repeatPassword"
                                     id="repeatPassword"
                                     placeholder="Repeat your password"
+                                    onBlur={this.handleBlur}
                                     onChange={this.handleChange}
                                     required
                                 />
@@ -145,26 +260,48 @@ class RegisterPage extends Component {
                     <Row gutter={[16, 4]}>
                         <Col span={12}>
                             <div className="formGroup">
-                                <label htmlFor="firstName">First name</label>
+                                <label htmlFor="firstName">
+                                    First name{' '}
+                                    <span
+                                        className="required-icon"
+                                        title="Field required"
+                                    >
+                                        {' '}
+                                        *
+                                    </span>
+                                </label>
                                 <FormInput
                                     type="short"
                                     name="firstName"
                                     id="firstName"
                                     placeholder="Enter your first name"
                                     onChange={this.handleChange}
+                                    errorMessages={errorMessages['firstName']}
+                                    onBlur={this.handleBlur}
                                     required
                                 />
                             </div>
                         </Col>
                         <Col span={12}>
                             <div className="formGroup">
-                                <label htmlFor="lastName">Last name</label>
+                                <label htmlFor="lastName">
+                                    Last name{' '}
+                                    <span
+                                        className="required-icon"
+                                        title="Field required"
+                                    >
+                                        {' '}
+                                        *
+                                    </span>
+                                </label>
                                 <FormInput
                                     type="short"
                                     name="lastName"
                                     id="lastName"
                                     placeholder="Enter your last name"
                                     onChange={this.handleChange}
+                                    onBlur={this.handleBlur}
+                                    errorMessages={errorMessages['lastName']}
                                     required
                                 />
                             </div>
@@ -172,7 +309,10 @@ class RegisterPage extends Component {
                     </Row>
                     <button
                         type="submit"
-                        className={`${styles.registerBtn} primary-btn`}
+                        className={`primary-btn${
+                            !validForm ? ' primary-btn-disabled' : ''
+                        }`}
+                        disabled={!this.state.validForm}
                     >
                         Sign up
                     </button>

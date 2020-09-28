@@ -4,15 +4,12 @@ const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
-const xss = require('xss-clean');
 const mongoSanitize = require('express-mongo-sanitize');
 const errorHandler = require('_helpers/error-handler');
 const { apiLimiter, icd10limiter } = require('_helpers/limiter');
 
 // Setting HTTP response header
 app.use(helmet());
-// Data Sanitization against XSS
-app.use(xss());
 // Data Sanitization against SQLi
 app.use(mongoSanitize());
 // Limiting number of requests

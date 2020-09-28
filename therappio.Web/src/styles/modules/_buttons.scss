@@ -12,6 +12,15 @@
     }
 }
 
+.primary-btn-disabled {
+    background-color: #c0c0c0;
+
+    &:hover {
+        background-color: #c0c0c0;
+        cursor: not-allowed;
+    }
+}
+
 .primary-btn-invert {
     @include button-base;
     border-radius: $border-radius;
