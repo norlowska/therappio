@@ -1,8 +1,8 @@
-import React from "react";
-import { Card, Container, Content, Text, View } from "native-base";
-import ActivityCard from "../activities/ActivityCard";
-import styles from "../theme/styles";
-import * as articles from "../activities/readings/articles";
+import React from 'react';
+import { Card, Container, Content, Text, View } from 'native-base';
+import ActivityCard from '../activities/ActivityCard';
+import styles from '../theme/styles';
+import * as articles from '../activities/readings/articles';
 
 export default function HomeScreen() {
   return (
@@ -23,15 +23,14 @@ export default function HomeScreen() {
         <Text style={styles.title}>Recommended activities</Text>
         <ActivityCard
           content={{
-            title: "Gratitude Journal",
-            description:
-              "Focus on the positive and list 3 things you are grateful for"
+            title: 'Gratitude Journal',
+            description: 'Focus on the positive and list 3 things you are grateful for',
           }}
-          onPress={() => console.log("coś działa na home")}
+          onPress={() => console.log('coś działa na home')}
         />
         <ActivityCard
           content={articles.allOrNothing}
-          onPress={() => console.log("coś działa na home")}
+          onPress={() => console.log('coś działa na home')}
         />
       </Content>
     </Container>
@@ -39,5 +38,5 @@ export default function HomeScreen() {
 }
 
 HomeScreen.navigationOptions = {
-  header: null
+  headerShown: false,
 };

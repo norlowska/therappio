@@ -1,25 +1,25 @@
-import React from "react";
+import React from 'react';
 import {
   Container,
   Tabs,
   Tab,
   TabHeading,
-  Text
+  Text,
   // ScrollableTab
-} from "native-base";
+} from 'native-base';
 import {
   AssessmentsTab,
   JournalingTab,
   // TherapyTab,
-  ResourcesTab
-} from "./index";
-import styles from "../theme/styles";
+  ResourcesTab,
+} from './index';
+import styles from '../theme/styles';
 
 export default function ActivitiesListsScreen() {
   return (
     <Container>
       <Tabs
-        style={[styles.screenPadding, { backgroundColor: "#438edb" }]}
+        style={[styles.screenPadding, { backgroundColor: '#438edb' }]}
         // renderTabBar={() => <ScrollableTab />}
       >
         {/* <Tab
@@ -64,5 +64,5 @@ export default function ActivitiesListsScreen() {
 }
 
 ActivitiesListsScreen.navigationOptions = {
-  header: null
+  headerShown: false,
 };
