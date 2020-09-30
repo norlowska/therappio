@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const generate = require('nanoid/generate');
 const Role = require('_helpers/role');
-const { idAlphabet } = require('config.json');
 const { Schema } = mongoose;
 
 const genders = ['male', 'female'];
@@ -10,7 +9,7 @@ const UserSchema = new Schema(
   {
     _id: {
       type: String,
-      default: () => generate(idAlphabet, 10),
+      default: () => generate(process.env.ID_ALPHABET, 10),
     },
     email: {
       type: String,
