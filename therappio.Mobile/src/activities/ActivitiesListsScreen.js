@@ -14,6 +14,7 @@ import {
   ResourcesTab,
 } from './index';
 import styles from '../theme/styles';
+import ModalSetup from '../components/ModalSetup';
 
 export default function ActivitiesListsScreen() {
   return (
@@ -59,6 +60,7 @@ export default function ActivitiesListsScreen() {
           <AssessmentsTab />
         </Tab>
       </Tabs>
+      <ModalSetup />
     </Container>
   );
 }

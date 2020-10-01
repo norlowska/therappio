@@ -1,40 +1,51 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Modal, TouchableOpacity } from "react-native";
-import { Icon, View, Container, Content, Button } from "native-base";
-import styles from "../theme/styles";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Modal, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
+import { Icon, View, Container, Content, Button } from 'native-base';
+import styles from '../theme/styles';
+import { DiaryModal, GratitudeJournalModal, MoodMeterModal } from '../activities/journaling';
+import { modalConstants } from '../_constants';
+import MarkdownModal from './MarkdownModal';
+import { modalActions } from '../_actions';
 
-const ModalSetup = ({ visible, children, onClose }) => {
+const MODAL_COMPONENTS = {
+  [modalConstants.DIARY_MODAL]: DiaryModal,
+  [modalConstants.GRATITUDE_JOURNAL_MODAL]: GratitudeJournalModal,
+  [modalConstants.MOOD_METER_MODAL]: MoodMeterModal,
+  [modalConstants.MARKDOWN_MODAL]: MarkdownModal,
+};
+
+const ModalSetup = ({ modalType, modalProps, hideModal }) => {
+  if (!modalType) return null;
+
+  const SpecificModal = MODAL_COMPONENTS[modalType];
   return (
-    <Modal visible={visible} transparent={false} animationType="slide">
+    <Modal visible={true} transparent={false} animationType='slide'>
       <Container style={styles.modal}>
-        {/* <TouchableOpacity onPress={onClose} style={styles.closeModal}> */}
         <View style={styles.closeModal}>
-          <Button onPress={onClose} transparent>
+          <Button onPress={hideModal} transparent>
             <Icon
-              name="close"
-              type="MaterialCommunityIcons"
+              name='close'
+              type='MaterialCommunityIcons'
               style={{
                 fontSize: 34,
-                color: "#222"
+                color: '#222',
               }}
             />
           </Button>
         </View>
         {/* </TouchableOpacity> */}
-        <View style={styles.modalContent}>{children}</View>
+        <View style={styles.modalContent}>
+          <SpecificModal {...modalProps} />
+        </View>
       </Container>
     </Modal>
   );
 };
 
 ModalSetup.propTypes = {
-  visible: PropTypes.bool.isRequired,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]),
-  onClose: PropTypes.func.isRequired
+  modal: PropTypes.shape({ modalType: PropTypes.string, modalProps: PropTypes.object }),
 };
 
-export default ModalSetup;
+export default connect(state => state.modal, { hideModal: modalActions.hideModal })(ModalSetup);

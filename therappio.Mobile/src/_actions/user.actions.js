@@ -18,7 +18,10 @@ function login(email, password) {
         navigationService.navigate('Main');
       })
       .catch(error => {
-        dispatch(failure(error.message));
+        console.log(error.response.data);
+        let errorMsg = error.message;
+        if (error.response && error.response.data) errorMsg = error.response.data;
+        dispatch(failure(errorMsg));
         // dispatch(alertActions.error(error.toString()));
       });
   };
@@ -30,6 +33,7 @@ function login(email, password) {
     return { type: userConstants.LOGIN_SUCCESS, user };
   }
   function failure(error) {
+    console.log(error);
     return { type: userConstants.LOGIN_FAILURE, error };
   }
 }
@@ -98,7 +102,7 @@ function getAuthToken() {
           dispatch(success(token));
           navigationService.navigate('Main');
         } else {
-          dispatch(failure('Token retrieve error'));
+          dispatch(failure(''));
           navigationService.navigate('Auth');
         }
       })

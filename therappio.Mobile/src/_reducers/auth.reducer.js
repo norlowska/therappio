@@ -10,7 +10,7 @@ const initialState = {
 };
 
 export function auth(state = initialState, action) {
-  console.log('reducer', action.type, action);
+  // console.log('reducer', action.type, action);
   switch (action.type) {
     case userConstants.LOGIN_REQUEST:
       return {

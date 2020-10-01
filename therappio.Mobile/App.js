@@ -10,8 +10,8 @@ import rootReducer from './src/_reducers';
 import getTheme from './src/theme/components';
 import { commonColor } from './src/theme/variables';
 import AppNavigator from './src/navigation/AppNavigator';
-// import './src/_utilities/axios';
-import { navigationService, userService } from './src/_services';
+import './src/_utilities/axios';
+import { navigationService } from './src/_services';
 
 const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 

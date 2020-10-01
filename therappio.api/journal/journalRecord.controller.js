@@ -18,7 +18,7 @@ function create(req, res, next) {
 
   journalRecordService
     .create(record)
-    .then(() => res.json({ message: 'Journal record successfully created.' }))
+    .then(data => res.json({ data, message: 'Journal record successfully created.' }))
     .catch(err => next(err));
 }
 

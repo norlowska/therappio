@@ -7,7 +7,6 @@ import HighlySensitivePersonTest from './HighlySensitivePersonTest';
 import PatientHealthQuestionnaire from './PatientHealthQuestionnaire';
 import AnxietyTest from './AnxietyTest';
 import DepressionTest from './DepressionTest';
-import ModalSetup from '../../components/ModalSetup';
 import styles from '../../theme/styles';
 
 const BIG_FIVE_TEST = <BigFiveTest />;
@@ -20,35 +19,16 @@ export default class AssessmentsTab extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      isModalVisible: false,
-      modalContent: <></>,
-    };
-
-    this._onCardPress = this._onCardPress.bind(this);
-    this._onModalClose = this._onModalClose.bind(this);
     this._openWebsite = this._openWebsite.bind(this);
   }
 
   _openWebsite(URL) {
     Linking.openURL(URL);
   }
-
-  _onCardPress(content) {
-    this.setState({ isModalVisible: true, modalContent: content });
-  }
-
-  _onModalClose() {
-    this.setState({ isModalVisible: false });
-  }
-
   render() {
     return (
       <Container>
         <Content style={styles.cardList}>
-          <ModalSetup visible={this.state.isModalVisible} onClose={this._onModalClose}>
-            {this.state.modalContent}
-          </ModalSetup>
           <ActivityCard
             content={{
               title: '16 Personalities Test',

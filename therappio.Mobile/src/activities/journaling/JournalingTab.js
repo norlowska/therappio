@@ -1,68 +1,38 @@
-import React, { Component } from "react";
-import { Container, Content } from "native-base";
-import ActivityCard from "../ActivityCard";
-import MoodMeterModal from "./MoodMeterModal";
-import DiaryModal from "./DiaryModal";
-import GratitudeJournalModal from "./GratitudeJournalModal";
-import styles from "../../theme/styles";
-import ModalSetup from "../../components/ModalSetup";
-
-export const MOOD_METER = <MoodMeterModal />;
-export const DIARY = <DiaryModal />;
-export const GRATITUDE_JOURNAL = <GratitudeJournalModal />;
+import React, { Component } from 'react';
+import { Container, Content } from 'native-base';
+import ActivityCard from '../ActivityCard';
+import styles from '../../theme/styles';
+import { modalConstants } from '../../_constants';
 
 export default class JournalingTab extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      isModalVisible: false,
-      modalContent: <></>
-    };
-
-    this._onCardPress = this._onCardPress.bind(this);
-    this._onModalClose = this._onModalClose.bind(this);
-  }
-  _onCardPress(content) {
-    this.setState({ isModalVisible: true, modalContent: content });
-  }
-
-  _onModalClose() {
-    this.setState({ isModalVisible: false });
   }
 
   render() {
     return (
       <Container>
         <Content style={styles.cardList}>
-          <ModalSetup
-            visible={this.state.isModalVisible}
-            onClose={this._onModalClose}
-          >
-            {this.state.modalContent}
-          </ModalSetup>
-
           <ActivityCard
             content={{
-              title: "Mood Meter",
-              description: "Identify your emotions and what caused them"
+              title: 'Mood Meter',
+              description: 'Identify your emotions and what caused them',
             }}
-            onPress={() => this._onCardPress(MOOD_METER)}
+            modal={modalConstants.MOOD_METER_MODAL}
           />
           <ActivityCard
             content={{
-              title: "Diary",
-              description: "Record your thoughts and memories"
+              title: 'Diary',
+              description: 'Record your thoughts and memories',
             }}
-            onPress={() => this._onCardPress(DIARY)}
+            modal={modalConstants.DIARY_MODAL}
           />
           <ActivityCard
             content={{
-              title: "Gratitude Journal",
-              description:
-                "Focus on the positive and list 3 things you are grateful for"
+              title: 'Gratitude Journal',
+              description: 'Focus on the positive and list 3 things you are grateful for',
             }}
-            onPress={() => this._onCardPress(GRATITUDE_JOURNAL)}
+            modal={modalConstants.GRATITUDE_JOURNAL_MODAL}
           />
         </Content>
       </Container>

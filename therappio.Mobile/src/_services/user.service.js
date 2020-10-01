@@ -1,6 +1,5 @@
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
-import AsyncStorage from '@react-native-community/async-storage';
 import config from '../../config';
 
 export const userService = {

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import config from '../../config';
 
 export const journalRecordService = {
   getAll,
@@ -8,23 +9,25 @@ export const journalRecordService = {
 };
 
 function getAll() {
-  return axios.get(`${global.apiUrl}/journal`).then(res => res.data);
+  return axios.get(`${config.apiUrl}/journal`).then(res => res.data);
 }
 
 function create(journalRecord) {
-  return axios.post(`${global.apiUrl}/journal`, journalRecord).then(res => {
+  console.log('create');
+  return axios.post(`${config.apiUrl}/journal`, journalRecord).then(res => {
+    console.log('service resolved', res);
     return res.data;
   });
 }
 
 function update(journalRecord) {
-  return axios.put(`${global.apiUrl}/journal/${journalRecord._id}`, journalRecord).then(res => {
+  return axios.put(`${config.apiUrl}/journal/${journalRecord._id}`, journalRecord).then(res => {
     return res.data;
   });
 }
 
 function deleteJournalRecord(id) {
-  return axios.delete(`${global.apiUrl}/journal/${id}`).then(res => {
+  return axios.delete(`${config.apiUrl}/journal/${id}`).then(res => {
     return res.data;
   });
 }

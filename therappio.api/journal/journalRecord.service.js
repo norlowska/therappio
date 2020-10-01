@@ -27,6 +27,8 @@ async function getPatientsRecords(id) {
 async function create(recordParam) {
   const newRecord = new JournalRecord(recordParam);
   await newRecord.save();
+
+  return getById(newRecord._id);
 }
 
 async function update(id, recordParam) {

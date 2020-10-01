@@ -3,6 +3,7 @@ export * from './moodRecord.constants';
 export * from './journalRecord.constants';
 export * from './user.constants';
 export * from './therapy.constants';
+export * from './modal.constants';
 
 export const genderOptions = [
   {
