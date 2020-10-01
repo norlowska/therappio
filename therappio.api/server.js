@@ -38,8 +38,7 @@ app.use('/therapy-plan', require('therapy-plan/therapyPlan.controller'));
 app.use(errorHandler);
 
 // start server
-// const port = process.env.NODE_ENV === 'production' ? 3000 : 4000;
-const port = 3000;
+const port = process.env.NODE_ENV === 'production' ? 3000 : 4000;
 const server = app.listen(port, function () {
   console.log('Server listening on port ' + port);
 });

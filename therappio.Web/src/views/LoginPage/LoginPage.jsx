@@ -57,9 +57,6 @@ class LoginPage extends Component {
                                 type="danger"
                             />
                         )}
-                        {this.props.error && (
-                            <Alert message={this.props.error} type="error" />
-                        )}
                         <div className="formGroup">
                             <label htmlFor="email">E-mail address</label>
                             <FormInput

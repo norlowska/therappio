@@ -139,8 +139,9 @@ web-report/
 *.njsproj
 /.vs
 
-# API config gile
-therappio.api/config.json
+# config files
+theraappio.Mobile/config.json
 
 out/
 codes.csv
+db/

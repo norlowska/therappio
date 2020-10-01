@@ -124,7 +124,7 @@ const SessionFormModal = ({
                     title="Notes"
                     type="textarea"
                     className={style.notesInput}
-                    rows={10}
+                    rows={7}
                 />
             </div>
             <div className={'formGroup'}>

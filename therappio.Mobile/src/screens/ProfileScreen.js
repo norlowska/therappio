@@ -15,6 +15,8 @@ import {
 import { PieChart } from 'react-native-chart-kit';
 import Options from '../components/Options';
 import styles from '../theme/styles';
+import { connect } from 'react-redux';
+import { userActions } from '../_actions';
 
 const renderEntryHeader = item => {
   return (
@@ -68,7 +70,7 @@ const renderEntryContent = item => {
   );
 };
 
-export default function ProfileScreen() {
+function ProfileScreen({ logout }) {
   const chartData = [
     {
       name: `High energy, unpleasant`,
@@ -124,9 +126,9 @@ export default function ProfileScreen() {
     <Container>
       <Header>
         <Right>
-          <Button transparent>
+          <Button transparent onPress={() => logout()}>
             <Icon
-              name='settings'
+              name='logout'
               type='MaterialCommunityIcons'
               style={{
                 fontSize: 29,
@@ -273,3 +275,9 @@ export default function ProfileScreen() {
 ProfileScreen.navigationOptions = {
   headerShown: false,
 };
+
+const mapDispatchToProps = {
+  logout: userActions.logout,
+};
+
+export default connect(null, mapDispatchToProps)(ProfileScreen);

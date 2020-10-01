@@ -1,22 +1,21 @@
 import { userConstants } from '../_constants';
-import { userService } from '../_services';
+import { navigationService, userService } from '../_services';
 
 export const userActions = {
   login,
   logout,
   getDetails,
+  getAuthToken,
 };
 
 function login(email, password) {
-  console.log(email, password);
   return dispatch => {
     dispatch(request({ email }));
-
     userService
       .login(email, password)
       .then(user => {
         dispatch(success(user));
-        // history.push('/');
+        navigationService.navigate('Main');
       })
       .catch(error => {
         dispatch(failure(error.message));
@@ -36,8 +35,29 @@ function login(email, password) {
 }
 
 function logout() {
-  userService.logout();
-  return { type: userConstants.LOGOUT };
+  return dispatch => {
+    dispatch(request());
+    userService
+      .logout()
+      .then(() => {
+        dispatch(success());
+        navigationService.navigate('Auth');
+      })
+      .catch(error => {
+        dispatch(failure(error.message));
+        // dispatch(alertActions.error(error.toString()));
+      });
+  };
+
+  function request(user) {
+    return { type: userConstants.LOGOUT_REQUEST };
+  }
+  function success(user) {
+    return { type: userConstants.LOGOUT_SUCCESS };
+  }
+  function failure(error) {
+    return { type: userConstants.LOGOUT_FAILURE };
+  }
 }
 
 function getDetails() {
@@ -63,5 +83,38 @@ function getDetails() {
   }
   function failure(error) {
     return { type: userConstants.GETDETAILS_FAILURE, error };
+  }
+}
+
+function getAuthToken() {
+  return dispatch => {
+    dispatch(request());
+    console.log('dispatch get auth token');
+    userService
+      .getAuthToken()
+      .then(token => {
+        console.log('get auth token resolved ', token);
+        if (token) {
+          dispatch(success(token));
+          navigationService.navigate('Main');
+        } else {
+          dispatch(failure('Token retrieve error'));
+          navigationService.navigate('Auth');
+        }
+      })
+      .catch(error => {
+        dispatch(failure(error.message));
+        // dispatch(alertActions.error(error.toString()));
+      });
+  };
+
+  function request() {
+    return { type: userConstants.GET_AUTH_TOKEN_REQUEST };
+  }
+  function success(token) {
+    return { type: userConstants.GET_AUTH_TOKEN_SUCCESS, token };
+  }
+  function failure(error) {
+    return { type: userConstants.GET_AUTH_TOKEN_FAILURE, error };
   }
 }

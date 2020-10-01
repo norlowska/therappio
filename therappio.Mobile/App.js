@@ -10,6 +10,8 @@ import rootReducer from './src/_reducers';
 import getTheme from './src/theme/components';
 import { commonColor } from './src/theme/variables';
 import AppNavigator from './src/navigation/AppNavigator';
+// import './src/_utilities/axios';
+import { navigationService, userService } from './src/_services';
 
 const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 
@@ -19,8 +21,6 @@ export default class App extends React.Component {
     this.state = {
       isReady: false,
     };
-
-    global.apiUrl = 'http://localhost:4000';
   }
 
   async componentDidMount() {
@@ -45,7 +45,11 @@ export default class App extends React.Component {
         <Provider store={store}>
           <Container>
             {Platform.OS === 'ios' && <StatusBar barStyle='default' />}
-            <AppNavigator />
+            <AppNavigator
+              ref={navigatorRef => {
+                navigationService.setTopLevelNavigator(navigatorRef);
+              }}
+            />
           </Container>
         </Provider>
       </StyleProvider>

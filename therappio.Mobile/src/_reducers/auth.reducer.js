@@ -1,14 +1,16 @@
 import { userConstants } from '../_constants';
-import { localStorageService, userService } from '../_services';
+import { userService } from '../_services';
 
 const initialState = {
-  isFetching: false,
-  isAuthenticated: !!userService.getToken(),
+  isFetching: true,
+  isAuthenticated: false,
   user: {},
+  token: '',
   errorMessage: '',
 };
 
 export function auth(state = initialState, action) {
+  console.log('reducer', action.type, action);
   switch (action.type) {
     case userConstants.LOGIN_REQUEST:
       return {
@@ -50,6 +52,24 @@ export function auth(state = initialState, action) {
         user: action.user,
       };
     case userConstants.GETDETAILS_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        errorMessage: action.error,
+      };
+    case userConstants.GET_AUTH_TOKEN_REQUEST:
+      return {
+        ...state,
+        isFetching: true,
+      };
+    case userConstants.GET_AUTH_TOKEN_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        token: action.token,
+        isAuthenticated: true,
+      };
+    case userConstants.GET_AUTH_TOKEN_FAILURE:
       return {
         ...state,
         isFetching: false,

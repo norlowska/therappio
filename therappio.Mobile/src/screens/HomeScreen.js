@@ -3,8 +3,11 @@ import { Card, Container, Content, Text, View } from 'native-base';
 import ActivityCard from '../activities/ActivityCard';
 import styles from '../theme/styles';
 import * as articles from '../activities/readings/articles';
+import { connect } from 'react-redux';
+import { userService } from '../_services';
 
-export default function HomeScreen() {
+function HomeScreen() {
+  console.log('home');
   return (
     <Container>
       <View style={styles.welcomeContainer}>
@@ -40,3 +43,8 @@ export default function HomeScreen() {
 HomeScreen.navigationOptions = {
   headerShown: false,
 };
+
+const mapStateToProps = (state, props) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+export default connect(mapStateToProps)(HomeScreen);

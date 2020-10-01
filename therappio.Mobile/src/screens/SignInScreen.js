@@ -9,14 +9,6 @@ import styles from '../theme/styles';
 const SignInScreen = ({ login, isAuthenticated, navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // const_onLinkPress = linkName => {
-  //   this.props.navigation.navigate(linkName);
-  // };
-
-  useEffect(() => {
-    console.log(isAuthenticated);
-    if (isAuthenticated) navigation.navigate('Main');
-  }, [isAuthenticated]);
 
   return (
     <Container>
@@ -27,6 +19,7 @@ const SignInScreen = ({ login, isAuthenticated, navigation }) => {
             <Input
               placeholder='Enter your email address'
               placeholderTextColor='#b8b8b8'
+              value={email}
               onChangeText={text => setEmail(text)}
             />
           </Item>
@@ -35,6 +28,8 @@ const SignInScreen = ({ login, isAuthenticated, navigation }) => {
             <Input
               placeholder='Enter your password'
               placeholderTextColor='#b8b8b8'
+              secureTextEntry={true}
+              value={password}
               onChangeText={text => setPassword(text)}
             />
           </Item>

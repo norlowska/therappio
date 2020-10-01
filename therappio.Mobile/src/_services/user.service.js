@@ -1,44 +1,55 @@
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
-import { localStorageService } from './localStorage.service';
+import AsyncStorage from '@react-native-community/async-storage';
+import config from '../../config';
 
 export const userService = {
   login,
   logout,
   getDetails,
-  saveToken,
-  getToken,
+  saveAuthToken,
+  getAuthToken,
 };
 
-async function saveToken(name, token) {
-  await SecureStore.setItemAsync(name, token);
+async function saveAuthToken(name, token) {
+  try {
+    await SecureStore.setItemAsync(name, token);
+  } catch (error) {
+    console.log('Error while saving token ', error);
+  }
 }
 
-async function getToken() {
-  return await SecureStore.getItemAsync('token');
+async function getAuthToken() {
+  try {
+    return await SecureStore.getItemAsync('token');
+  } catch (error) {
+    console.log('Error while retrieving token ', error);
+  }
 }
 
-function login(email, password) {
+async function login(email, password) {
   const options = {
     headers: { 'Content-Type': 'application/json' },
   };
 
-  return axios.post(`${global.apiUrl}/users/login`, { email, password }, options).then(res => {
-    // store jwt token in local storage to keep user logged in between page refreshes
-    saveToken('token', res.data.token);
-    return res.data.user;
-  });
+  return axios
+    .post(`${config.apiUrl}/users/login`, { email, password }, options)
+    .then(async res => {
+      // TODO: save token
+      await saveAuthToken('token', res.data.token);
+      return res.data.token;
+    });
 }
 
 async function logout() {
-  await SecureStore.deleteItemAsync('token');
+  return SecureStore.deleteItemAsync('token');
 }
 function getDetails() {
   const options = {
     headers: { 'Content-Type': 'application/json' },
   };
 
-  return axios.get(`${global.apiUrl}/users/profile`, options).then(res => {
+  return axios.get(`${config.apiUrl}/users/profile`, options).then(res => {
     return res.data;
   });
 }
