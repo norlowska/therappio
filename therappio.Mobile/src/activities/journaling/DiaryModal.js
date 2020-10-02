@@ -9,7 +9,7 @@ const DiaryModal = ({ createJournalRecord }) => {
 
   const handleSavePress = e => {
     const newRecord = {
-      createdAt: Date.now,
+      createdAt: Date.now(),
       type: 'diary',
       content,
     };

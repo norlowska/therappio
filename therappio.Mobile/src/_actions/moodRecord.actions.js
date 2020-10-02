@@ -1,5 +1,6 @@
 import { moodRecordConstants } from '../_constants';
 import { moodRecordService } from '../_services';
+import { modalActions } from './modal.actions';
 
 export const moodRecordActions = {
   fetchMoodRecords,
@@ -39,16 +40,21 @@ function fetchMoodRecords() {
 }
 
 function createMoodRecord(moodRecord) {
+  console.log('create mood record');
   return dispatch => {
     dispatch(request(moodRecord));
     moodRecordService
       .create(moodRecord)
       .then(res => {
         dispatch(success(res.data, res.message));
+        dispatch(modalActions.hideModal());
       })
       .catch(error => {
-        dispatch(failure(error.message));
-        // dispatch(alertActions.error(error.toString()));
+        console.log(error.toString());
+        let errorMsg = error.message;
+        if (error.response && error.response.data) errorMsg = error.response.data;
+        console.log(errorMsg);
+        dispatch(failure(errorMsg));
       });
   };
   function request(moodRecord) {

@@ -140,7 +140,7 @@ web-report/
 /.vs
 
 # config files
-theraappio.Mobile/config.json
+*/config.json
 
 out/
 codes.csv

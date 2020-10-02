@@ -11,14 +11,21 @@ import {
   Label,
   View,
   Spinner,
+  Toast,
 } from 'native-base';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { ToastAndroid } from 'react-native';
 import { userActions } from '../_actions';
 import styles from '../theme/styles';
 
 const SignInScreen = ({ login, isFetching, errorMessage, navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    if (errorMessage) {
+      ToastAndroid.show(errorMessage, ToastAndroid.SHORT);
+    }
+  }, [errorMessage]);
 
   return (
     <Container>
@@ -44,7 +51,7 @@ const SignInScreen = ({ login, isFetching, errorMessage, navigation }) => {
             />
           </Item>
         </Form>
-        {errorMessage !== '' ? <Text style={style.errorMessage}>{errorMessage}</Text> : null}
+        {/* {errorMessage !== '' ? <Text style={style.errorMessage}>{errorMessage}</Text> : null} */}
         <Button
           style={{ marginTop: 40, justifyContent: 'center' }}
           onPress={() => login(email, password)}

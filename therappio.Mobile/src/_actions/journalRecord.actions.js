@@ -1,5 +1,6 @@
 import { journalRecordConstants } from '../_constants';
 import { journalRecordService } from '../_services';
+import { modalActions } from './index';
 
 export const journalRecordActions = {
   fetchJournalRecords,
@@ -45,6 +46,7 @@ function createJournalRecord(journalRecord) {
       .create(journalRecord)
       .then(res => {
         dispatch(success(res.data, res.message));
+        dispatch(modalActions.hideModal());
       })
       .catch(error => {
         dispatch(failure(error.message));

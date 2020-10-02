@@ -10,13 +10,13 @@ const initialState = {
 };
 
 export function auth(state = initialState, action) {
-  // console.log('reducer', action.type, action);
   switch (action.type) {
     case userConstants.LOGIN_REQUEST:
       return {
         ...state,
         isFetching: true,
         isAuthenticated: false,
+        errorMessage: '',
         user: action.user,
       };
     case userConstants.LOGIN_SUCCESS:
@@ -33,17 +33,11 @@ export function auth(state = initialState, action) {
         isAuthenticated: false,
         errorMessage: action.error,
       };
-    case userConstants.LOGOUT:
-      return {
-        ...state,
-        isFetching: false,
-        isAuthenticated: false,
-        user: {},
-      };
     case userConstants.GETDETAILS_REQUEST:
       return {
         ...state,
         isFetching: true,
+        errorMessage: '',
       };
     case userConstants.GETDETAILS_SUCCESS:
       return {
@@ -61,6 +55,7 @@ export function auth(state = initialState, action) {
       return {
         ...state,
         isFetching: true,
+        errorMessage: '',
       };
     case userConstants.GET_AUTH_TOKEN_SUCCESS:
       return {
@@ -70,6 +65,27 @@ export function auth(state = initialState, action) {
         isAuthenticated: true,
       };
     case userConstants.GET_AUTH_TOKEN_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        errorMessage: action.error,
+      };
+
+    case userConstants.LOGOUT_REQUEST:
+      return {
+        ...state,
+        isFetching: true,
+        errorMessage: '',
+        user: {},
+        token: '',
+      };
+    case userConstants.LOGOUT_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        isAuthenticated: false,
+      };
+    case userConstants.LOGOUT_FAILURE:
       return {
         ...state,
         isFetching: false,

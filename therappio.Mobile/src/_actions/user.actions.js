@@ -10,6 +10,7 @@ export const userActions = {
 
 function login(email, password) {
   return dispatch => {
+    console.log('dispatch login');
     dispatch(request({ email }));
     userService
       .login(email, password)
@@ -18,9 +19,9 @@ function login(email, password) {
         navigationService.navigate('Main');
       })
       .catch(error => {
-        console.log(error.response.data);
         let errorMsg = error.message;
         if (error.response && error.response.data) errorMsg = error.response.data;
+        console.log(errorMsg);
         dispatch(failure(errorMsg));
         // dispatch(alertActions.error(error.toString()));
       });
@@ -53,14 +54,14 @@ function logout() {
       });
   };
 
-  function request(user) {
+  function request() {
     return { type: userConstants.LOGOUT_REQUEST };
   }
-  function success(user) {
+  function success() {
     return { type: userConstants.LOGOUT_SUCCESS };
   }
   function failure(error) {
-    return { type: userConstants.LOGOUT_FAILURE };
+    return { type: userConstants.LOGOUT_FAILURE, error };
   }
 }
 

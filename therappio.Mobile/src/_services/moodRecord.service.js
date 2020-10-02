@@ -1,4 +1,5 @@
 import axios from 'axios';
+import config from '../../config';
 
 export const moodRecordService = {
   getAll,
@@ -8,23 +9,23 @@ export const moodRecordService = {
 };
 
 function getAll() {
-  return axios.get(`${global.apiUrl}/moods`).then(res => res.data);
+  return axios.get(`${config.apiUrl}/moods`).then(res => res.data);
 }
 
 function create(moodRecord) {
-  return axios.post(`${global.apiUrl}/moods`, moodRecord).then(res => {
+  return axios.post(`${config.apiUrl}/moods`, moodRecord).then(res => {
     return res.data;
   });
 }
 
 function update(moodRecord) {
-  return axios.put(`${global.apiUrl}/mood/${moodRecord._id}`, moodRecord).then(res => {
+  return axios.put(`${config.apiUrl}/mood/${moodRecord._id}`, moodRecord).then(res => {
     return res.data;
   });
 }
 
 function deleteMoodRecord(id) {
-  return axios.delete(`${global.apiUrl}/moods/${id}`).then(res => {
+  return axios.delete(`${config.apiUrl}/moods/${id}`).then(res => {
     return res.data;
   });
 }

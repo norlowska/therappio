@@ -18,7 +18,7 @@ function create(req, res, next) {
 
   moodRecordService
     .create(record)
-    .then(() => res.json({ message: 'Mood record successfully created.' }))
+    .then(data => res.json({ data, message: 'Mood record successfully created.' }))
     .catch(err => next(err));
 }
 

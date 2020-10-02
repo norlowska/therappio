@@ -10,7 +10,7 @@ const rootReducer = combineReducers({
   auth,
   // assignments,
   journalRecords,
-  // moodRecords,
+  moodRecords,
   // therapies,
   modal,
 });

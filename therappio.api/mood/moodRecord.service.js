@@ -25,6 +25,8 @@ async function getPatientsMoods(id) {
 async function create(recordParam) {
   const newRecord = new MoodRecord(recordParam);
   await newRecord.save();
+
+  return getById(newRecord._id);
 }
 
 async function update(id, recordParam) {

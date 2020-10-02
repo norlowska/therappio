@@ -1,4 +1,4 @@
-export * from './JournalingTab';
-export * from './DiaryModal';
-export * from './GratitudeJournalModal';
-export * from './MoodMeterModal';
+export { default as JournalingTab } from './JournalingTab';
+export { default as DiaryModal } from './DiaryModal';
+export { default as GratitudeJournalModal } from './GratitudeJournalModal';
+export { default as MoodMeterModal } from './MoodMeterModal';

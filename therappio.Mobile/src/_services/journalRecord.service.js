@@ -15,7 +15,6 @@ function getAll() {
 function create(journalRecord) {
   console.log('create');
   return axios.post(`${config.apiUrl}/journal`, journalRecord).then(res => {
-    console.log('service resolved', res);
     return res.data;
   });
 }
