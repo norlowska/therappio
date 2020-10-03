@@ -2,21 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import { Icon, View, Container, Content, Button } from 'native-base';
+import { Icon, View, Container, Content, Button, Text } from 'native-base';
 import styles from '../theme/styles';
 import { DiaryModal, GratitudeJournalModal, MoodMeterModal } from '../activities/journaling';
 import { modalConstants } from '../_constants';
 import MarkdownModal from './MarkdownModal';
 import { modalActions } from '../_actions';
+import EditProfileModal from './EditProfileModal';
 
 const MODAL_COMPONENTS = {
   [modalConstants.DIARY_MODAL]: DiaryModal,
   [modalConstants.GRATITUDE_JOURNAL_MODAL]: GratitudeJournalModal,
   [modalConstants.MOOD_METER_MODAL]: MoodMeterModal,
   [modalConstants.MARKDOWN_MODAL]: MarkdownModal,
+  [modalConstants.EDIT_PROFILE_MODAL]: EditProfileModal,
 };
 
-const ModalSetup = ({ modalType, modalProps, hideModal }) => {
+const ModalSetup = ({ modalType, modalProps, hideModal, modalTitle }) => {
   if (!modalType) return null;
 
   const SpecificModal = MODAL_COMPONENTS[modalType];
@@ -24,8 +26,11 @@ const ModalSetup = ({ modalType, modalProps, hideModal }) => {
   return (
     <Modal visible={true} transparent={false} animationType='slide'>
       <Container style={styles.modal}>
-        <View style={styles.closeModal}>
-          <Button onPress={hideModal} transparent>
+        <View style={styles.modalHeader}>
+          <View>
+            <Text style={styles.modalTitle}>{modalTitle}</Text>
+          </View>
+          <Button style={styles.closeModal} onPress={hideModal} transparent>
             <Icon
               name='close'
               type='MaterialCommunityIcons'

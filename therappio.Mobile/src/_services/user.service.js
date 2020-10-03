@@ -8,6 +8,7 @@ export const userService = {
   getDetails,
   saveAuthToken,
   getAuthToken,
+  updateDetails,
 };
 
 async function saveAuthToken(name, token) {
@@ -44,11 +45,13 @@ async function logout() {
   return SecureStore.deleteItemAsync('token');
 }
 function getDetails() {
-  const options = {
-    headers: { 'Content-Type': 'application/json' },
-  };
+  return axios.get(`${config.apiUrl}/users/profile`).then(res => {
+    return res.data;
+  });
+}
 
-  return axios.get(`${config.apiUrl}/users/profile`, options).then(res => {
+function updateDetails(user) {
+  return axios.put(`${config.apiUrl}/users/${user._id}`, user).then(res => {
     return res.data;
   });
 }

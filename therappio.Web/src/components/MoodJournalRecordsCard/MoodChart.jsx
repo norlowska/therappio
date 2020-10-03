@@ -7,7 +7,6 @@ import {
     selectLastMonthMoodRecords,
 } from '../../_selectors';
 import { moodchartKeys } from '../../_constants';
-import style from './MoodJournalRecordsCard.module.scss';
 
 const MoodChart = ({ lastWeekRecords, lastMonthRecords }) => {
     const [currentView, setCurrentView] = useState('7 days');

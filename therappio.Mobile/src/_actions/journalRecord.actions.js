@@ -1,6 +1,6 @@
 import { journalRecordConstants } from '../_constants';
 import { journalRecordService } from '../_services';
-import { modalActions } from './index';
+import { modalActions } from './modal.actions';
 
 export const journalRecordActions = {
   fetchJournalRecords,

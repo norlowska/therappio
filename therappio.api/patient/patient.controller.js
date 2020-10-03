@@ -64,6 +64,7 @@ function create(req, res, next) {
 }
 
 function update(req, res, next) {
+  console.log('patient update request', req.body);
   const id = req.body._id;
   const currentUser = req.user;
 
@@ -75,6 +76,7 @@ function update(req, res, next) {
   patientService
     .getById(id)
     .then(patient => {
+      console.log('patient update resolved');
       // allow therapist to update only his/her patient's record
       if (
         currentUser.role === Role.Therapist &&

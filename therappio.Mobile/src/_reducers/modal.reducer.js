@@ -3,6 +3,7 @@ import { modalConstants } from '../_constants';
 const initialState = {
   modalType: null,
   modalProps: {},
+  modalTitle: '',
 };
 
 export function modal(state = initialState, action) {
@@ -11,6 +12,7 @@ export function modal(state = initialState, action) {
       return {
         modalType: action.modalType,
         modalProps: action.modalProps,
+        modalTitle: action.modalTitle || '',
       };
     case modalConstants.HIDE_MODAL:
       return initialState;

@@ -5,8 +5,9 @@ export const modalActions = {
   hideModal,
 };
 
-function showModal(type, props = null) {
-  return { type: modalConstants.SHOW_MODAL, modalType: type, modalProps: props };
+function showModal(type, props = null, title = '') {
+  console.log('show modal action', type, props, title);
+  return { type: modalConstants.SHOW_MODAL, modalType: type, modalProps: props, modalTitle: title };
 }
 
 function hideModal() {

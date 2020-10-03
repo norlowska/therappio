@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Accordion,
   Card,
@@ -10,13 +10,15 @@ import {
   View,
   Content,
   Text,
-  Thumbnail,
+  Spinner,
 } from 'native-base';
-import { PieChart } from 'react-native-chart-kit';
-import Options from '../components/Options';
+
 import styles from '../theme/styles';
 import { connect } from 'react-redux';
-import { userActions } from '../_actions';
+import { journalRecordActions, modalActions, moodRecordActions, userActions } from '../_actions';
+import Colors from '../theme/Colors';
+import ModalSetup from '../components/ModalSetup';
+import { modalConstants } from '../_constants';
 
 const renderEntryHeader = item => {
   return (
@@ -70,7 +72,26 @@ const renderEntryContent = item => {
   );
 };
 
-function ProfileScreen({ logout }) {
+function ProfileScreen({
+  isFetching,
+  fetchJournalRecords,
+  fetchMoodRecords,
+  getUserDetails,
+  user,
+  moodRecords,
+  journalRecords,
+  showModal,
+  logout,
+}) {
+  useEffect(() => {
+    console.log('use effect', user);
+    if (!user || Object.keys(user).length === 0) getUserDetails();
+  }, []);
+
+  useEffect(() => {
+    console.log('user in profile screen', user);
+  }, [user]);
+
   const chartData = [
     {
       name: `High energy, unpleasant`,
@@ -138,136 +159,88 @@ function ProfileScreen({ logout }) {
           </Button>
         </Right>
       </Header>
-      <View style={styles.profileContainer}>
-        <Thumbnail
-          style={{ height: 140, width: 140, borderRadius: 70, marginRight: 15 }}
-          source={{ uri: 'https://i.pravatar.cc/500' }}
-        ></Thumbnail>
-        <View>
-          <Text
-            style={{
-              fontSize: 22,
-              fontFamily: 'Raleway-SemiBold',
-              color: '#fff',
-            }}
-          >
-            Sharon Robbins
-          </Text>
-          <Text style={{ color: '#fff' }}>srobbins@yahoo.com</Text>
-          <Button
-            rounded
-            light
-            bordered
-            small
-            style={{ marginTop: 10, width: 105, textAlign: 'center' }}
-          >
-            <Text uppercase={false}>Edit profile</Text>
-          </Button>
-        </View>
-      </View>
-      <Content contentContainerStyle={styles.profileEntriesContainer}>
-        <View>
-          <Text style={[styles.primaryTitle, { fontFamily: 'Raleway-Regular' }]}>Mood Stats</Text>
-          <Card style={styles.card}>
+      {isFetching ? (
+        <Spinner color={Colors.primaryColor} />
+      ) : (
+        <>
+          <View style={styles.profileContainer}>
             <View>
-              <Options
-                options={['Month View', 'Week View']}
-                color='#438edb'
-                onChange={() => console.log('A DUPA Z TYM')}
-              ></Options>
-            </View>
-            <View style={{ flexDirection: 'row' }}>
-              <PieChart
-                data={chartData}
-                chartConfig={{
-                  backgroundColor: '#e26a00',
-                  backgroundGradientFrom: '#fb8c00',
-                  backgroundGradientTo: '#ffa726',
-                  color: (opacity = 1) => `rgba(247,247,247, ${opacity})`,
-                  labelColor: (opacity = 1) => `rgba(247, 247, 247, ${opacity})`,
-                  style: {
-                    borderRadius: 16,
-                  },
-                  propsForDots: {
-                    r: '6',
-                    strokeWidth: '2',
-                    stroke: '#ffa726',
-                  },
+              <Text
+                style={{
+                  fontSize: 22,
+                  fontFamily: 'Raleway-SemiBold',
+                  color: '#fff',
+                  marginBottom: 5,
                 }}
-                width={200}
-                height={120}
-                accessor='value'
-                backgroundColor='transparent'
-                paddingLeft='4'
-                style={styles.piechart}
-                hasLegend={false}
-              ></PieChart>
-              <View style={styles.chartLegend}>
-                {chartData.map((data, index) => (
-                  <View style={styles.chartLegendElement} key={index}>
-                    <View
-                      style={{
-                        width: 10,
-                        height: 10,
-                        borderRadius: 5,
-                        backgroundColor: data.color,
-                        marginRight: 10,
-                      }}
-                    ></View>
-                    <Text>{`${data.value}% ${data.name}`}</Text>
-                  </View>
-                ))}
-              </View>
-            </View>
-          </Card>
-          <View>
-            <Text style={[styles.primaryTitle, { fontFamily: 'Raleway-Regular' }]}>
-              Journal Entries
-            </Text>
-            <View>
-              {/* {journalEntries.map((entry, index) => (
-                 <Card
-                  style={[
-                    styles.card,
-                    { flexDirection: "row", justifyContent: "space-between" }
-                  ]}
-                  key={index}
-                > */}
-              <Accordion
-                dataArray={journalEntries}
-                animation={true}
-                expanded={true}
-                renderHeader={renderEntryHeader}
-                renderContent={renderEntryContent}
-                style={{ borderRadius: 8 }}
-              />
-              {/* <Text
-                    style={{
-                      fontFamily: "Raleway-Light",
-                      fontSize: 17,
-                      marginVertical: 10
-                    }}
-                  >
-                    {entry.date}
-                  </Text>
-                  <View
-                    style={{
-                      borderColor: "#438edb",
-                      borderRadius: 15,
-                      borderWidth: 1,
-                      justifyContent: "center",
-                      paddingHorizontal: 10,
-                      paddingVertical: 5
-                    }}
-                  >
-                    <Text style={{ color: "#438edb" }}>{entry.tag}</Text>
-                  </View>
-              </Card>
-              ))} */}
+              >
+                {user ? `Hello, ${user.fullName}` : 'Hello!'}
+              </Text>
+              <Text style={{ color: '#fff' }}>srobbins@yahoo.com</Text>
+              <Button
+                rounded
+                light
+                bordered
+                small
+                style={{ marginTop: 10, width: 105, textAlign: 'center' }}
+                onPress={() => showModal(modalConstants.EDIT_PROFILE_MODAL, null, 'Edit profile')}
+              >
+                <Text uppercase={false}>Edit profile</Text>
+              </Button>
             </View>
           </View>
-        </View>
-      </Content>
+          <Content contentContainerStyle={styles.profileEntriesContainer}>
+            <View>
+              <View>
+                <Text style={[styles.primaryTitle, { fontFamily: 'Raleway-Regular' }]}>
+                  Journal Entries
+                </Text>
+                <View>
+                  {/* {journalEntries.map((entry, index) => (
+                  <Card
+                    style={[
+                      styles.card,
+                      { flexDirection: "row", justifyContent: "space-between" }
+                    ]}
+                    key={index}
+                  > */}
+                  <Accordion
+                    dataArray={journalEntries}
+                    animation={true}
+                    expanded={true}
+                    renderHeader={renderEntryHeader}
+                    renderContent={renderEntryContent}
+                    style={{ borderRadius: 8 }}
+                  />
+                  {/* <Text
+                      style={{
+                        fontFamily: "Raleway-Light",
+                        fontSize: 17,
+                        marginVertical: 10
+                      }}
+                    >
+                      {entry.date}
+                    </Text>
+                    <View
+                      style={{
+                        borderColor: "#438edb",
+                        borderRadius: 15,
+                        borderWidth: 1,
+                        justifyContent: "center",
+                        paddingHorizontal: 10,
+                        paddingVertical: 5
+                      }}
+                    >
+                      <Text style={{ color: "#438edb" }}>{entry.tag}</Text>
+                    </View>
+                </Card>
+                ))} */}
+                </View>
+              </View>
+            </View>
+          </Content>
+        </>
+      )}
+      <ModalSetup />
     </Container>
   );
 }
@@ -276,8 +249,18 @@ ProfileScreen.navigationOptions = {
   headerShown: false,
 };
 
+const mapStateToProps = (state, props) => ({
+  isFetching:
+    state.moodRecords.isFetching || state.journalRecords.isFetching || state.auth.isFetching,
+  user: state.auth.user,
+});
+
 const mapDispatchToProps = {
+  fetchJournalRecords: journalRecordActions.fetchJournalRecords,
+  fetchMoodRecords: moodRecordActions.fetchMoodRecords,
+  getUserDetails: userActions.getDetails,
   logout: userActions.logout,
+  showModal: modalActions.showModal,
 };
 
-export default connect(null, mapDispatchToProps)(ProfileScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);

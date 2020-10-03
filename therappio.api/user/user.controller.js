@@ -83,6 +83,7 @@ function create(req, res, next) {
 }
 
 function update(req, res, next) {
+  console.log('user update request', req.body);
   const currentUser = req.user;
   const id = req.params.id;
 
@@ -104,7 +105,10 @@ function update(req, res, next) {
 
       userService
         .update(req.params.id, req.body)
-        .then(() => res.json({ message: 'User successfully updated' }))
+        .then(user => {
+          console.log('user update resolved', user);
+          return res.json({ data: user, message: 'User successfully updated' });
+        })
         .catch(err => next(err));
     })
     .catch(err => next(err));

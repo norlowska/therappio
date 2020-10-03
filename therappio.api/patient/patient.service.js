@@ -1,18 +1,18 @@
-const bcrypt = require("bcryptjs");
-const db = require("_helpers/db");
+const bcrypt = require('bcryptjs');
+const db = require('_helpers/db');
 const User = db.User;
 
 module.exports = {
   create,
   getAll,
   getById,
-  update
+  update,
 };
 
 async function create(userParam) {
   // validate
   if (await User.findOne({ email: userParam.email })) {
-    throw "Email " + userParam.email + " is already in use";
+    throw 'Email ' + userParam.email + ' is already in use';
   }
 
   const { password, ...userWithoutPassword } = userParam;
@@ -25,26 +25,22 @@ async function create(userParam) {
 }
 
 async function getAll() {
-  return await User.find()
-    .select("-hash -__v")
-    .populate("therapist", "_id");
+  return await User.find().select('-hash -__v').populate('therapist', '_id');
 }
 
 async function getById(id) {
   return await User.findById(id)
-    .select("-hash  -__v")
-    .populate("therapist", "firstName lastName phoneNumber");
+    .select('-hash  -__v')
+    .populate('therapist', 'firstName lastName phoneNumber');
 }
 
 async function update(id, userParam) {
+  console.log('update patient service');
   const user = await User.findById(id);
 
   // validate
-  if (!user) throw "User not found";
-  if (
-    user.email !== userParam.email &&
-    (await User.findOne({ email: userParam.email }))
-  ) {
+  if (!user) throw 'User not found';
+  if (user.email !== userParam.email && (await User.findOne({ email: userParam.email }))) {
     throw 'Email "' + userParam.email + '" is already in use';
   }
 

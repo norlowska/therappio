@@ -10,6 +10,7 @@ const initialState = {
 };
 
 export function auth(state = initialState, action) {
+  console.log(action);
   switch (action.type) {
     case userConstants.LOGIN_REQUEST:
       return {
@@ -86,6 +87,26 @@ export function auth(state = initialState, action) {
         isAuthenticated: false,
       };
     case userConstants.LOGOUT_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        errorMessage: action.error,
+      };
+
+    case userConstants.UPDATE_DETAILS_REQUEST:
+      return {
+        ...state,
+        isFetching: true,
+        errorMessage: '',
+      };
+    case userConstants.UPDATE_DETAILS_SUCCESS:
+      console.log('update details success');
+      return {
+        ...state,
+        isFetching: false,
+        user: action.data,
+      };
+    case userConstants.UPDATE_DETAILS_FAILURE:
       return {
         ...state,
         isFetching: false,

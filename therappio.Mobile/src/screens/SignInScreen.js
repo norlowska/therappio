@@ -48,6 +48,7 @@ const SignInScreen = ({ login, isFetching, errorMessage, navigation }) => {
               secureTextEntry={true}
               value={password}
               onChangeText={text => setPassword(text)}
+              autoCorrect={false}
             />
           </Item>
         </Form>

@@ -34,9 +34,9 @@ async function login({ email, password }) {
   if (user && bcrypt.compareSync(password, user.hash)) {
     const token = jwt.sign({ sub: user._id, role: user.role }, process.env.JWT_KEY);
     const { hash, __v, ...userModified } = user;
-    console.log(userModified);
+
     return {
-      email,
+      ...userModified,
       token,
     };
   }
@@ -69,6 +69,7 @@ async function create(userParam) {
 }
 
 async function update(id, userParam) {
+  console.log('update user service');
   const user = await User.findById(id);
 
   // validate
@@ -86,7 +87,9 @@ async function update(id, userParam) {
   // copy userParam properties to user
   Object.assign(user, userParam);
 
-  return await user.save();
+  await user.save();
+
+  return getById(user._id);
 }
 
 async function _delete(id) {

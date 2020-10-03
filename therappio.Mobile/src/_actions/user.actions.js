@@ -1,11 +1,13 @@
 import { userConstants } from '../_constants';
 import { navigationService, userService } from '../_services';
+import { modalActions } from './modal.actions';
 
 export const userActions = {
   login,
   logout,
   getDetails,
   getAuthToken,
+  updateDetails,
 };
 
 function login(email, password) {
@@ -66,6 +68,7 @@ function logout() {
 }
 
 function getDetails() {
+  console.log('get details action');
   return dispatch => {
     dispatch(request());
 
@@ -76,6 +79,10 @@ function getDetails() {
       })
       .catch(error => {
         dispatch(failure(error.message));
+        let errorMsg = error.message;
+        if (error.response && error.response.data) errorMsg = error.response.data;
+        console.log(errorMsg);
+        dispatch(failure(errorMsg));
         // dispatch(alertActions.error(error.toString()));
       });
   };
@@ -121,5 +128,37 @@ function getAuthToken() {
   }
   function failure(error) {
     return { type: userConstants.GET_AUTH_TOKEN_FAILURE, error };
+  }
+}
+
+function updateDetails(user) {
+  return dispatch => {
+    dispatch(request());
+    console.log('dispatch update user request');
+    userService
+      .updateDetails(user)
+      .then(user => {
+        console.log('dispatch update user success', user);
+        dispatch(success(user));
+        dispatch(modalActions.hideModal());
+      })
+      .catch(error => {
+        console.log();
+        let errorMsg = error.message;
+        if (error.response && error.response.data) errorMsg = error.response.data;
+        console.log(errorMsg);
+        dispatch(failure(errorMsg));
+        // dispatch(alertActions.error(error.toString()));
+      });
+  };
+
+  function request() {
+    return { type: userConstants.UPDATE_DETAILS_REQUEST };
+  }
+  function success(user) {
+    return { type: userConstants.UPDATE_DETAILS_SUCCESS, user };
+  }
+  function failure(error) {
+    return { type: userConstants.UPDATE_DETAILS_FAILURE, error };
   }
 }
