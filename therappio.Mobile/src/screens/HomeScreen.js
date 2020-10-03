@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import { userService } from '../_services';
 
 function HomeScreen() {
-  console.log('home');
   return (
     <Container>
       <View style={styles.welcomeContainer}>

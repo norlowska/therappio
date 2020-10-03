@@ -100,11 +100,11 @@ export function auth(state = initialState, action) {
         errorMessage: '',
       };
     case userConstants.UPDATE_DETAILS_SUCCESS:
-      console.log('update details success');
+      console.log('update details success', action.user);
       return {
         ...state,
         isFetching: false,
-        user: action.data,
+        user: action.user,
       };
     case userConstants.UPDATE_DETAILS_FAILURE:
       return {

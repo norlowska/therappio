@@ -1,6 +1,9 @@
 import { userConstants } from '../_constants';
 import { navigationService, userService } from '../_services';
 import { modalActions } from './modal.actions';
+import { moodRecordActions } from './moodRecord.actions';
+import { journalRecordActions } from './journalRecord.actions';
+import { assignmentActions } from './assignment.actions';
 
 export const userActions = {
   login,
@@ -108,6 +111,10 @@ function getAuthToken() {
         console.log('get auth token resolved ', token);
         if (token) {
           dispatch(success(token));
+          dispatch(moodRecordActions.fetchMoodRecords());
+          dispatch(journalRecordActions.fetchJournalRecords());
+          // dispatch(assignmentActions.fetchAssignments());
+
           navigationService.navigate('Main');
         } else {
           dispatch(failure(''));
@@ -137,9 +144,9 @@ function updateDetails(user) {
     console.log('dispatch update user request');
     userService
       .updateDetails(user)
-      .then(user => {
+      .then(res => {
         console.log('dispatch update user success', user);
-        dispatch(success(user));
+        dispatch(success(res.data));
         dispatch(modalActions.hideModal());
       })
       .catch(error => {

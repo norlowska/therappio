@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { format, isSameYear } from 'date-fns';
 import {
   Accordion,
   Card,
@@ -12,13 +14,13 @@ import {
   Text,
   Spinner,
 } from 'native-base';
-
-import styles from '../theme/styles';
-import { connect } from 'react-redux';
 import { journalRecordActions, modalActions, moodRecordActions, userActions } from '../_actions';
-import Colors from '../theme/Colors';
-import ModalSetup from '../components/ModalSetup';
 import { modalConstants } from '../_constants';
+import { selectJournalRecords, selectMoodRecords } from '../_selectors';
+import ModalSetup from '../components/ModalSetup';
+import Markdown from 'react-native-markdown-display';
+import styles from '../theme/styles';
+import Colors from '../theme/Colors';
 
 const renderEntryHeader = item => {
   return (
@@ -66,6 +68,10 @@ const renderEntryContent = item => {
         borderBottomColor: '#d3d3d3',
         padding: 10,
       }}
+      onPress={modalActions.showModal(
+        item.tag === 'Diary' ? modalConstants.DIARY_MODAL : modalConstants.GRATITUDE_JOURNAL_MODAL,
+        { editMode: true, content: item.content }
+      )}
     >
       <Text>{item.content}</Text>
     </View>
@@ -84,13 +90,8 @@ function ProfileScreen({
   logout,
 }) {
   useEffect(() => {
-    console.log('use effect', user);
     if (!user || Object.keys(user).length === 0) getUserDetails();
   }, []);
-
-  useEffect(() => {
-    console.log('user in profile screen', user);
-  }, [user]);
 
   const chartData = [
     {
@@ -123,25 +124,15 @@ function ProfileScreen({
     },
   ];
 
-  const journalEntries = [
-    {
-      date: 'November 20th, 8:54',
-      tag: 'Diary',
-      content: `Last night, I slept pretty well. I don't remember my dreams, but I do remember getting up around 12 and 4 because Eloise was up.
-      When I went into her room at 4, she was very chatty and I was worried she was going to be up for the day. Fortunately after I left the room,
-      she popped her pacifier back in and was asleep.`,
-    },
-    {
-      date: 'November 19th, 21:17',
-      tag: 'Gratitude Journal',
-      content: '',
-    },
-    {
-      date: 'November 16th, 11:31',
-      tag: 'Diary',
-      content: '',
-    },
-  ];
+  const journalEntries = journalRecords.map(item => {
+    const createdAt = new Date(item.createdAt);
+    const dateFormat = isSameYear(new Date(), createdAt) ? 'MMMM do, H:mm' : 'MMMM do, YYYY, H:mm';
+    return {
+      date: format(createdAt, dateFormat),
+      tag: item.type === 'diary' ? 'Diary' : 'Gratitude Journal',
+      content: item.content,
+    };
+  });
 
   return (
     <Container>
@@ -152,8 +143,8 @@ function ProfileScreen({
               name='logout'
               type='MaterialCommunityIcons'
               style={{
-                fontSize: 29,
-                marginTop: 21,
+                fontSize: 25,
+                marginTop: 15,
               }}
             />
           </Button>
@@ -175,7 +166,7 @@ function ProfileScreen({
               >
                 {user ? `Hello, ${user.fullName}` : 'Hello!'}
               </Text>
-              <Text style={{ color: '#fff' }}>srobbins@yahoo.com</Text>
+              <Text style={{ color: '#fff' }}>{user && user.email}</Text>
               <Button
                 rounded
                 light
@@ -194,47 +185,20 @@ function ProfileScreen({
                 <Text style={[styles.primaryTitle, { fontFamily: 'Raleway-Regular' }]}>
                   Journal Entries
                 </Text>
-                <View>
-                  {/* {journalEntries.map((entry, index) => (
-                  <Card
-                    style={[
-                      styles.card,
-                      { flexDirection: "row", justifyContent: "space-between" }
-                    ]}
-                    key={index}
-                  > */}
-                  <Accordion
-                    dataArray={journalEntries}
-                    animation={true}
-                    expanded={true}
-                    renderHeader={renderEntryHeader}
-                    renderContent={renderEntryContent}
-                    style={{ borderRadius: 8 }}
-                  />
-                  {/* <Text
-                      style={{
-                        fontFamily: "Raleway-Light",
-                        fontSize: 17,
-                        marginVertical: 10
-                      }}
-                    >
-                      {entry.date}
-                    </Text>
-                    <View
-                      style={{
-                        borderColor: "#438edb",
-                        borderRadius: 15,
-                        borderWidth: 1,
-                        justifyContent: "center",
-                        paddingHorizontal: 10,
-                        paddingVertical: 5
-                      }}
-                    >
-                      <Text style={{ color: "#438edb" }}>{entry.tag}</Text>
-                    </View>
-                </Card>
-                ))} */}
-                </View>
+                {journalEntries.length ? (
+                  <View>
+                    <Accordion
+                      dataArray={journalEntries}
+                      animation={true}
+                      expanded={true}
+                      renderHeader={renderEntryHeader}
+                      renderContent={renderEntryContent}
+                      style={{ borderRadius: 8 }}
+                    />
+                  </View>
+                ) : (
+                  <Text>You have not added any journal entry yet</Text>
+                )}
               </View>
             </View>
           </Content>
@@ -253,6 +217,8 @@ const mapStateToProps = (state, props) => ({
   isFetching:
     state.moodRecords.isFetching || state.journalRecords.isFetching || state.auth.isFetching,
   user: state.auth.user,
+  journalRecords: selectJournalRecords(state),
+  moodRecords: selectMoodRecords(state),
 });
 
 const mapDispatchToProps = {

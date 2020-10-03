@@ -5,7 +5,6 @@ import { userActions } from '../_actions';
 
 const AuthLoadingScreen = ({ getAuthToken, isAuthenticated, isFetching, navigation }) => {
   useEffect(() => {
-    console.log('auth');
     getAuthToken();
   }, []);
 

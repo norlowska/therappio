@@ -9,6 +9,7 @@ export const moodRecordService = {
 };
 
 function getAll() {
+  console.log('fetch mood records action');
   return axios.get(`${config.apiUrl}/moods`).then(res => res.data);
 }
 

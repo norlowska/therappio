@@ -10,11 +10,13 @@ export const moodRecordActions = {
 };
 
 function fetchMoodRecords() {
+  console.log('fetch mood records action');
   return dispatch => {
     dispatch(request());
     moodRecordService
       .getAll()
       .then(moodRecords => {
+        console.log('fetch mood records success');
         dispatch(success(moodRecords));
       })
       .catch(error => {

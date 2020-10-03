@@ -23,6 +23,7 @@ function create(req, res, next) {
 }
 
 function getAll(req, res, next) {
+  console.log('get mood records request');
   const currentUser = req.user;
   moodRecordService
     .getAll()
