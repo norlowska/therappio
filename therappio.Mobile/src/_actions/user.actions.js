@@ -4,6 +4,7 @@ import { modalActions } from './modal.actions';
 import { moodRecordActions } from './moodRecord.actions';
 import { journalRecordActions } from './journalRecord.actions';
 import { assignmentActions } from './assignment.actions';
+import { ToastAndroid } from 'react-native';
 
 export const userActions = {
   login,
@@ -144,7 +145,7 @@ function updateDetails(user) {
     userService
       .updateDetails(user)
       .then(res => {
-        console.log('dispatch update user success', user);
+        ToastAndroid.show('Your profile was successfully updated', ToastAndroid.SHORT);
         dispatch(success(res.data));
         dispatch(modalActions.hideModal());
       })
@@ -152,7 +153,7 @@ function updateDetails(user) {
         console.log();
         let errorMsg = error.message;
         if (error.response && error.response.data) errorMsg = error.response.data;
-        console.log(errorMsg);
+        ToastAndroid.show(errorMsg, ToastAndroid.SHORT);
         dispatch(failure(errorMsg));
         // dispatch(alertActions.error(error.toString()));
       });
