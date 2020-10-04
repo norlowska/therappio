@@ -33,10 +33,10 @@ const AssignmentFormPage = ({
         () => [
             { displayValue: 'Short text', value: 'short' },
             { displayValue: 'Long text', value: 'long' },
-            { displayValue: 'Number', value: 'number' },
-            { displayValue: 'Slider', value: 'slider' },
+            // { displayValue: 'Number', value: 'number' },
+            // { displayValue: 'Slider', value: 'slider' },
             { displayValue: 'Single choice', value: 'single-choice' },
-            { displayValue: 'Multiple choice', value: 'multi-choice' },
+            // { displayValue: 'Multiple choice', value: 'multi-choice' },
             { displayValue: 'Dropdown', value: 'select' },
             { displayValue: 'Date', value: 'date' },
             { displayValue: 'Time', value: 'time' },

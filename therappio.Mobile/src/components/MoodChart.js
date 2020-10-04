@@ -19,7 +19,6 @@ const MoodChart = ({ moodRecords, lastWeekRecords, lastMonthRecords, deleteMood 
   const [lastMonthMoodChartData, setLastMonthMoodChartData] = useState([]);
 
   useEffect(() => {
-    console.log(lastWeekRecords, lastMonthRecords);
     if (lastWeekRecords && lastWeekRecords.length) {
       const newLastWeekData = moodchartKeys
         .map(item => ({
@@ -56,7 +55,6 @@ const MoodChart = ({ moodRecords, lastWeekRecords, lastMonthRecords, deleteMood 
   }, [lastWeekRecords, lastMonthRecords]);
 
   const renderContent = content => {
-    console.log('content', content);
     return content.content.map(item => {
       const createdAt = new Date(item.createdAt);
       const dateFormat = isSameYear(new Date(), createdAt)

@@ -24,7 +24,6 @@ const ModalSetup = ({ modalType, modalProps, hideModal, modalTitle }) => {
   if (!modalType) return null;
 
   const SpecificModal = MODAL_COMPONENTS[modalType];
-  console.log('title', styles.modalHedaer);
   return (
     <Modal visible={true} transparent={false} animationType='slide'>
       <Container style={styles.modal}>

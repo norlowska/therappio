@@ -1,4 +1,4 @@
-import { subDays, differenceInDays } from 'date-fns';
+import { subDays, differenceInDays, closestIndexTo } from 'date-fns';
 import { compareValues } from '../_utilities/compare';
 
 // state.auth
@@ -9,11 +9,13 @@ export const selectAssignments = state => Object.values(state.assignments.byId);
 export const selectAssignment = (state, id) => state.assignments.byId[id];
 
 export const selectLastNotSubmittedAssignment = state => {
-  console.log('select', state.assignments.byId);
-  const assignments = Object.values(state.assignments.byId).sort(
-    compareValues('createdAt', 'desc')
-  );
-  if (assignments[0] && assignments[0].status === 'Not submitted') return assignments[0];
+  let assignments = Object.values(state.assignments.byId).sort(compareValues('createdAt', 'desc'));
+  assignments = assignments.filter(item => item.status === 'Not submitted');
+  if (assignments.length > 0) {
+    const datesArray = assignments.map(item => new Date(item.dueDate));
+    const closest = closestIndexTo(new Date(), datesArray);
+    return state.assignments.byId[assignments[closest]._id];
+  }
   return null;
 };
 
@@ -43,8 +45,5 @@ export const selectLastMonthMoodRecords = state =>
   );
 
 // state.journalRecords
-export const selectJournalRecords = state => {
-  console.log('select');
-  return Object.values(state.journalRecords.byId);
-};
+export const selectJournalRecords = state => Object.values(state.journalRecords.byId);
 export const selectJournalRecord = (state, id) => state.journalRecords.byId[id];

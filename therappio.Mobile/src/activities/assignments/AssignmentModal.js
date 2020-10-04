@@ -24,7 +24,6 @@ const AssignmentModal = ({ assignment, updateAssignment, isFetching }) => {
     fields.forEach((item, index) => {
       _formData[item._id] = item;
     });
-    console.log('init form', _formData);
     setFormData(_formData);
   };
 

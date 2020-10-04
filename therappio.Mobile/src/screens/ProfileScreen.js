@@ -27,8 +27,8 @@ import MoodChart from '../components/MoodChart';
 function ProfileScreen({
   isFetching,
   getUserDetails,
+  fetchAssignments,
   user,
-  moodRecords,
   journalRecords,
   deleteJournalRecord,
   showModal,

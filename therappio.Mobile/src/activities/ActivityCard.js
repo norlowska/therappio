@@ -17,7 +17,6 @@ const markdownStyle = StyleSheet.create({
 });
 
 const ActivityCard = ({ content, onPress, modal, showModal }) => {
-  console.log('activity card', content);
   const handleClick = () => {
     if (modal) showModal(modal, { content: content.pages });
     else if (onPress) onPress();

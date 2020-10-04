@@ -66,10 +66,6 @@ const DescribeMood = ({ loading, quadrant, saveMood }) => {
   const [comment, setComment] = useState('');
   const { color, value, moods } = moodQuadrants[quadrant];
 
-  useEffect(() => {
-    console.log(mood);
-  }, [mood]);
-
   return (
     <>
       <Text style={[styles.title, { marginBottom: 15 }]}>I feel</Text>

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Modal, Button, Row, Col } from 'antd';
+import cryptoRandomString from 'crypto-random-string';
+import validator from 'validator';
 import { patientActions } from '../../_actions';
 import { selectCurrentUser } from '../../_selectors';
 import { FormInput } from '../index';
@@ -12,6 +14,9 @@ const PatientFormModal = ({ setVisible, create, therapistId, ...props }) => {
     const [gender, setGender] = useState('male');
     const [DOB, setDOB] = useState();
     const [phone, setPhone] = useState('');
+    const [password, setPassword] = useState(
+        cryptoRandomString({ length: 10, type: 'distinguishable' })
+    );
     const [email, setEmail] = useState('');
     const [address, setAddress] = useState('');
     const [emergencyContactName, setEmergencyContactName] = useState('');
@@ -35,6 +40,7 @@ const PatientFormModal = ({ setVisible, create, therapistId, ...props }) => {
                 phoneNumber: emergencyContactPhoneNumber,
             },
             therapist: therapistId,
+            password,
         });
         setVisible(false);
     };
@@ -47,7 +53,12 @@ const PatientFormModal = ({ setVisible, create, therapistId, ...props }) => {
                 <Button key="back" onClick={handleCancel}>
                     Cancel
                 </Button>,
-                <Button key="submit" type="primary" onClick={handleSave}>
+                <Button
+                    key="submit"
+                    type="primary"
+                    onClick={handleSave}
+                    disabled={!email || !validator.isEmail(email)}
+                >
                     Submit
                 </Button>,
             ]}
@@ -126,6 +137,25 @@ const PatientFormModal = ({ setVisible, create, therapistId, ...props }) => {
                             type="email"
                             required
                         />
+                    </div>
+                </Col>
+                <Col span={12}>
+                    <div className={'formGroup'}>
+                        <label htmlFor="password" className="label">
+                            Password
+                        </label>
+                        <FormInput
+                            name="password"
+                            type="text"
+                            value={password}
+                            readOnly
+                        />
+                        <div style={{ color: 'red' }}>
+                            This is your patient's password. Give it to him/her
+                            and ask him/her to change it the first time he/she
+                            logs in. WARNING! It is not possible to recover the
+                            password after you press 'Submit' button.
+                        </div>
                     </div>
                 </Col>
                 <Col span={12}>
