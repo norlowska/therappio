@@ -22,13 +22,13 @@ export const selectPatientsTherapy = (state, patientId) =>
 export const selectMoodRecords = state => Object.values(state.moodRecords.byId);
 export const selectMoodRecord = (state, id) => state.moodRecords.byId[id];
 
-export const selectLastWeekMoodRecords = (state, patientId) =>
-  selectPatientMoodRecords(state, patientId).filter(
+export const selectLastWeekMoodRecords = state =>
+  selectMoodRecords(state).filter(
     item => differenceInDays(subDays(new Date(), 7), new Date(item.createdAt)) < 7
   );
 
-export const selectLastMonthMoodRecords = (state, patientId) =>
-  selectPatientMoodRecords(state, patientId).filter(
+export const selectLastMonthMoodRecords = state =>
+  selectMoodRecords(state).filter(
     item => differenceInDays(subDays(new Date(), 30), new Date(item.createdAt)) < 30
   );
 
@@ -38,10 +38,3 @@ export const selectJournalRecords = state => {
   return Object.values(state.journalRecords.byId);
 };
 export const selectJournalRecord = (state, id) => state.journalRecords.byId[id];
-
-export const selectPatientJournalRecords = (state, patientId) => {
-  if (!state.journalRecords) return null;
-
-  const journalRecords = selectJournalRecords(state);
-  return journalRecords.filter(item => item.patient._id === patientId);
-};

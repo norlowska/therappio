@@ -98,7 +98,6 @@ function updateJournalRecord(journalRecord) {
         if (error.response && error.response.data) errorMsg = error.response.data;
         ToastAndroid.show(errorMsg, ToastAndroid.SHORT);
         dispatch(failure(errorMsg));
-        // dispatch(alertActions.error(error.toString()));
       });
   };
   function request(journalRecord) {

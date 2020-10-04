@@ -22,6 +22,7 @@ import { compareValues } from '../_utilities/compare';
 import ModalSetup from '../components/ModalSetup';
 import styles from '../theme/styles';
 import Colors from '../theme/Colors';
+import MoodChart from '../components/MoodChart';
 
 function ProfileScreen({
   isFetching,
@@ -38,37 +39,6 @@ function ProfileScreen({
   useEffect(() => {
     if (!user || Object.keys(user).length === 0) getUserDetails();
   }, []);
-
-  const chartData = [
-    {
-      name: `High energy, unpleasant`,
-      value: 30,
-      color: '#f44336',
-      legendFontColor: '#222',
-      legendFontSize: 14,
-    },
-    {
-      name: 'High energy, pleasant',
-      value: 35,
-      color: '#ffeb3b',
-      legendFontColor: '#222',
-      legendFontSize: 14,
-    },
-    {
-      name: 'Low energy, unpleasant',
-      value: 20,
-      color: '#42a5f5',
-      legendFontColor: '#222',
-      legendFontSize: 14,
-    },
-    {
-      name: 'Low energy, pleasant',
-      value: 15,
-      color: '#66bb6a',
-      legendFontColor: '#222',
-      legendFontSize: 14,
-    },
-  ];
 
   useEffect(() => {
     if (journalRecords.length > 0) {
@@ -208,6 +178,7 @@ function ProfileScreen({
           </View>
           <Content contentContainerStyle={styles.profileEntriesContainer}>
             <View>
+              <MoodChart />
               <View>
                 <Text style={[styles.primaryTitle, { fontFamily: 'Raleway-Regular' }]}>
                   Journal Entries

@@ -1,3 +1,4 @@
+import { ToastAndroid } from 'react-native';
 import { moodRecordConstants } from '../_constants';
 import { moodRecordService } from '../_services';
 import { modalActions } from './modal.actions';
@@ -20,8 +21,10 @@ function fetchMoodRecords() {
         dispatch(success(moodRecords));
       })
       .catch(error => {
-        dispatch(failure(error.message));
-        // dispatch(alertActions.error(error.toString()));
+        let errorMsg = error.message;
+        if (error.response && error.response.data) errorMsg = error.response.data;
+        ToastAndroid.show(errorMsg, ToastAndroid.SHORT);
+        dispatch(failure(errorMsg));
       });
   };
   function request() {
@@ -50,6 +53,7 @@ function createMoodRecord(moodRecord) {
       .then(res => {
         dispatch(success(res.data, res.message));
         dispatch(modalActions.hideModal());
+        ToastAndroid.show('Mood record successfully created.', ToastAndroid.SHORT);
       })
       .catch(error => {
         console.log(error.toString());
@@ -88,8 +92,10 @@ function updateMoodRecord(moodRecord, patientId) {
         dispatch(success(moodRecord, patientId, res.message));
       })
       .catch(error => {
-        dispatch(failure(error.message));
-        // dispatch(alertActions.error(error.toString()));
+        let errorMsg = error.message;
+        if (error.response && error.response.data) errorMsg = error.response.data;
+        ToastAndroid.show(errorMsg, ToastAndroid.SHORT);
+        dispatch(failure(errorMsg));
       });
   };
   function request(moodRecord) {
@@ -113,16 +119,20 @@ function updateMoodRecord(moodRecord, patientId) {
 }
 
 function deleteMoodRecord(id) {
+  console.log('delete mood record action', id);
   return dispatch => {
     dispatch(request(id));
     moodRecordService
       .delete(id)
       .then(res => {
         dispatch(success(id));
+        ToastAndroid.show('Mood record successfully deleted.', ToastAndroid.SHORT);
       })
       .catch(error => {
-        dispatch(failure(error.message));
-        // dispatch(alertActions.error(error.toString()));
+        let errorMsg = error.message;
+        if (error.response && error.response.data) errorMsg = error.response.data;
+        ToastAndroid.show(errorMsg, ToastAndroid.SHORT);
+        dispatch(failure(errorMsg));
       });
   };
   function request(id) {
