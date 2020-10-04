@@ -3,7 +3,14 @@ const content = {
   description: 'Manipulating others to change to suit my needs and expectations',
   pages: [
     // One
-    `# Fallacy of Change
+    `# Fallacy of Change ♻️
+
+This thought distortion assumes that others 
+should change to suit your own interests.
+If you often pressure others to change 
+because you feel the change will bring you happiness or
+have a conviction that your happiness is dependend on the person changing,
+ then this may apply to you.
 
 ## Example
 

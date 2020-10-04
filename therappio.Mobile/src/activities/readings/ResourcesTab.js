@@ -26,29 +26,37 @@ export default class ResourcesTab extends Component {
             onPress={() => this._openWebsite(articles.breathingExercise.resource)}
           />
           <ActivityCard content={articles.allOrNothing} modal={modalConstants.MARKDOWN_MODAL} />
-          {/* <ActivityCard content={articles.alwaysBeingRight} /> */}
-          <ActivityCard content={articles.catastrophizing} modal={modalConstants.MARKDOWN_MODAL} />
+
           <ActivityCard
             content={articles.disqualifyingThePositive}
+            modal={modalConstants.MARKDOWN_MODAL}
+          />
+          <ActivityCard content={articles.fallacyOfChange} modal={modalConstants.MARKDOWN_MODAL} />
+          <ActivityCard
+            content={articles.mindfulnessMeditation}
+            onPress={() => this._openWebsite(articles.mindfulnessMeditation.resource)}
+          />
+          <ActivityCard content={articles.catastrophizing} modal={modalConstants.MARKDOWN_MODAL} />
+          <ActivityCard
+            content={articles.magnificationAndMinimization}
             modal={modalConstants.MARKDOWN_MODAL}
           />
           <ActivityCard
             content={articles.emotionalReasoning}
             modal={modalConstants.MARKDOWN_MODAL}
           />
-          <ActivityCard content={articles.fallacyOfChange} modal={modalConstants.MARKDOWN_MODAL} />
+          <ActivityCard content={articles.labeling} modal={modalConstants.MARKDOWN_MODAL} />
+          <ActivityCard content={articles.alwaysBeingRight} modal={modalConstants.MARKDOWN_MODAL} />
           <ActivityCard
             content={articles.fallacyOfFairness}
             modal={modalConstants.MARKDOWN_MODAL}
           />
           <ActivityCard content={articles.fortuneTelling} modal={modalConstants.MARKDOWN_MODAL} />
-          <ActivityCard content={articles.labeling} modal={modalConstants.MARKDOWN_MODAL} />
-          {/* <ActivityCard content={articles.magnificationAndMinimization} /> */}
           <ActivityCard content={articles.mentalFilter} modal={modalConstants.MARKDOWN_MODAL} />
-          <ActivityCard content={articles.mindReading} modal={modalConstants.MARKDOWN_MODAL} />
-          <ActivityCard content={articles.overgeneralizing} modal={modalConstants.MARKDOWN_MODAL} />
-          <ActivityCard content={articles.personalizing} modal={modalConstants.MARKDOWN_MODAL} />
-          <ActivityCard content={articles.shouldStatements} modal={modalConstants.MARKDOWN_MODAL} />
+          {/* <ActivityCard content={articles.mindReading} modal={modalConstants.MARKDOWN_MODAL} /> */}
+          {/* <ActivityCard content={articles.overgeneralizing} modal={modalConstants.MARKDOWN_MODAL} /> */}
+          {/* <ActivityCard content={articles.personalizing} modal={modalConstants.MARKDOWN_MODAL} /> */}
+          {/* <ActivityCard content={articles.shouldStatements} modal={modalConstants.MARKDOWN_MODAL} /> */}
         </Content>
       </Container>
     );
