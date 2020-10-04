@@ -9,6 +9,7 @@ import { modalConstants } from '../_constants';
 import MarkdownModal from './MarkdownModal';
 import { modalActions } from '../_actions';
 import EditProfileModal from './EditProfileModal';
+import AssignmentModal from '../activities/assignments/AssignmentModal';
 
 const MODAL_COMPONENTS = {
   [modalConstants.DIARY_MODAL]: DiaryModal,
@@ -16,6 +17,7 @@ const MODAL_COMPONENTS = {
   [modalConstants.MOOD_METER_MODAL]: MoodMeterModal,
   [modalConstants.MARKDOWN_MODAL]: MarkdownModal,
   [modalConstants.EDIT_PROFILE_MODAL]: EditProfileModal,
+  [modalConstants.ASSIGNMENT_MODAL]: AssignmentModal,
 };
 
 const ModalSetup = ({ modalType, modalProps, hideModal, modalTitle }) => {

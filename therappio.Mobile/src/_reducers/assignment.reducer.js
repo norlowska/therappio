@@ -36,14 +36,12 @@ export function assignments(state = initialState, action) {
         isFetching: true,
       };
     case assignmentConstants.UPDATE_ASSIGNMENT_SUCCESS: {
-      const assignment = action.payload.assignment;
-
       return {
         ...state,
         isFetching: false,
         byId: {
           ...state.byId,
-          [assignment._id]: assignment,
+          [action.assignment._id]: action.assignment,
         },
       };
     }

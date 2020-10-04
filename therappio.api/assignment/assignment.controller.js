@@ -72,6 +72,7 @@ function getById(req, res, next) {
 }
 
 function update(req, res, next) {
+  console.log('update assignment request', req.body, req.params);
   const currentUser = req.user;
   const newAssignment = req.body;
 

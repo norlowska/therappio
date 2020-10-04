@@ -181,7 +181,6 @@ const EditProfileModal = ({ user, updateDetails }) => {
                     onChangeText={text => setLastName(text)}
                     onBlur={e => handleBlur(e, 'lastName')}
                     value={lastName}
-                    required
                   />
                   {errorLastName.length > 0 && <Icon name='md-alert' style={{ color: 'red' }} />}
                 </Item>

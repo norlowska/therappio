@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Card, Col, Alert } from 'antd';
+import { Card, Col, Alert, Spin } from 'antd';
 import { userActions } from '../../_actions';
 import { FormInput } from '../../components';
 import styles from './LoginPage.module.scss';
@@ -78,7 +78,7 @@ class LoginPage extends Component {
                             />
                         </div>
                         <button type="submit" className="primary-btn">
-                            Sign in
+                            {this.props.isFetching ? <Spin /> : 'Sign in'}
                         </button>
                         <div className="formFooter">
                             New user? <Link to="/register">Sign up</Link>
@@ -96,6 +96,7 @@ LoginPage.propTypes = {
 
 const mapStateToProps = (state, props) => ({
     error: state.auth.errorMessage,
+    isFetching: state.auth.isFetching,
 });
 
 const mapDispatchToProps = {

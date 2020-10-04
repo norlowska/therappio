@@ -1,5 +1,7 @@
 import { assignmentConstants } from '../_constants';
 import { assignmentService } from '../_services';
+import { ToastAndroid } from 'react-native';
+import { modalActions } from './modal.actions';
 
 export const assignmentActions = {
   fetchAssignments,
@@ -15,8 +17,10 @@ function fetchAssignments() {
         dispatch(success(assignments));
       })
       .catch(error => {
-        dispatch(failure(error.response.data.message));
-        // dispatch(alertActions.error(error.toString()));
+        let errorMsg = error.message;
+        if (error.response && error.response.data) errorMsg = error.response.data;
+        ToastAndroid.show(errorMsg, ToastAndroid.SHORT);
+        dispatch(failure(errorMsg));
       });
   };
   function request() {
@@ -33,17 +37,23 @@ function fetchAssignments() {
   }
 }
 
-function updateAssignment(assignment, patientId) {
+function updateAssignment(assignment) {
+  console.log('update assignment action');
   return dispatch => {
     dispatch(request(assignment));
     return assignmentService
       .update(assignment)
       .then(res => {
-        dispatch(success(assignment, patientId, res.message));
+        console.log('update assignment action success');
+        dispatch(success(assignment, res.message));
+        dispatch(modalActions.hideModal());
+        ToastAndroid.show('Assignment successfully submitted', ToastAndroid.SHORT);
       })
       .catch(error => {
-        dispatch(failure(error.response.data.message));
-        // dispatch(alertActions.error(error.toString()));
+        let errorMsg = error.message;
+        if (error.response && error.response.data) errorMsg = error.response.data;
+        ToastAndroid.show(errorMsg, ToastAndroid.SHORT);
+        dispatch(failure(errorMsg));
       });
   };
   function request(assignment) {
@@ -55,7 +65,7 @@ function updateAssignment(assignment, patientId) {
   function success(assignment, patientId, message) {
     return {
       type: assignmentConstants.UPDATE_ASSIGNMENT_SUCCESS,
-      payload: { assignment, patientId, message },
+      assignment,
     };
   }
   function failure(error) {

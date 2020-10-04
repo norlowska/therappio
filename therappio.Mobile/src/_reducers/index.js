@@ -8,7 +8,7 @@ import { modal } from './modal.reducer';
 
 const rootReducer = combineReducers({
   auth,
-  // assignments,
+  assignments,
   journalRecords,
   moodRecords,
   // therapies,

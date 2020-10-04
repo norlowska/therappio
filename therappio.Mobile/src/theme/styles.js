@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
    * Dimension
    */
   screenPadding: {
-    paddingTop: STATUSBAR_HEIGHT,
+    paddingTop: STATUSBAR_HEIGHT + 20,
   },
 
   /*
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   },
   tabHeading: {
     paddingVertical: 12,
-    paddingHorizontal: 10,
+    // paddingHorizontal: 5,
     fontSize: 15,
   },
   /* Modals */

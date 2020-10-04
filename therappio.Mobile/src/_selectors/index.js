@@ -4,7 +4,10 @@ import { subDays, differenceInDays } from 'date-fns';
 export const selectCurrentUser = state => state.auth.user;
 
 // state.assignments
-export const selectAssignments = state => Object.values(state.assignments.byId);
+export const selectAssignments = state => {
+  console.log(Object.values(state.assignments.byId));
+  return Object.values(state.assignments.byId);
+};
 export const selectAssignment = (state, id) => state.assignments.byId[id];
 
 // state.therapy
