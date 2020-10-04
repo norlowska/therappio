@@ -84,7 +84,9 @@ function update(req, res, next) {
 
       journalRecordService
         .update(req.params.id, { ...req.body, ['patient']: currentUser.sub })
-        .then(() => res.json({ message: 'Journal record successfully updated' }))
+        .then(newRecord =>
+          res.json({ data: newRecord, message: 'Journal record successfully updated' })
+        )
         .catch(err => next(err));
     })
     .catch(err => next(err));

@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
-import { View, Form, Text, Item, Textarea, Button } from 'native-base';
+import React, { useState, useEffect } from 'react';
+import { View, Form, Text, Item, Textarea, Button, Spinner } from 'native-base';
 import styles from '../../theme/styles';
-import { moodRecordActions } from '../../_actions';
+import { journalRecordActions } from '../../_actions';
 import { connect } from 'react-redux';
 
-const GratitudeJournalModal = ({ createJournalRecord }) => {
+const GratitudeJournalModal = ({
+  createJournalRecord,
+  updateJournalRecord,
+  isFetching,
+  editMode,
+  journalRecord,
+}) => {
   const [content, setContent] = useState('');
 
   const handleSavePress = e => {
@@ -13,15 +19,30 @@ const GratitudeJournalModal = ({ createJournalRecord }) => {
       type: 'gratitude',
       content,
     };
-    createJournalRecord(newRecord);
+
+    if (editMode) {
+      updateJournalRecord({
+        ...newRecord,
+        createdAt: journalRecord.createdAt,
+        modifiedAt: Date.now(),
+        content,
+        id: journalRecord.id,
+      });
+    } else createJournalRecord(newRecord);
   };
+
+  useEffect(() => {
+    if (editMode) {
+      setContent(journalRecord.content);
+    }
+  }, []);
 
   return (
     <View>
-      <Text style={[styles.title, { marginBottom: 20, fontSize: 17 }]}>
+      <Text style={[styles.title, { marginBottom: 20, marginHorizontal: 20, fontSize: 17 }]}>
         {`Writing gratitude will help you identify positive aspects of even the worst days.`}
       </Text>
-      <Text style={[styles.title, { marginBottom: 20, fontSize: 22 }]}>
+      <Text style={[styles.title, { marginBottom: 20, marginHorizontal: 20, fontSize: 22 }]}>
         {`Today I'm grateful for`}
       </Text>
       <Form style={{ alignSelf: 'center' }}>
@@ -47,14 +68,19 @@ const GratitudeJournalModal = ({ createJournalRecord }) => {
         }}
         onPress={handleSavePress}
       >
-        <Text>Save</Text>
+        {isFetching ? <Spinner color='#eee'></Spinner> : <Text>Save</Text>}
       </Button>
     </View>
   );
 };
 
+const mapStateToProps = (state, props) => ({
+  isFetching: state.journalRecords.isFetching,
+});
+
 const mapDispatchToProps = {
-  createJournalRecord: moodRecordActions.createJournalRecord,
+  createJournalRecord: journalRecordActions.createJournalRecord,
+  updateJournalRecord: journalRecordActions.updateJournalRecord,
 };
 
-export default connect(null, mapDispatchToProps)(GratitudeJournalModal);
+export default connect(mapStateToProps, mapDispatchToProps)(GratitudeJournalModal);

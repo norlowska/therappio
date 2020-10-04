@@ -39,6 +39,8 @@ async function update(id, recordParam) {
 
   Object.assign(record, recordParam);
   await record.save();
+
+  return getById(record._id);
 }
 
 async function _delete(id) {

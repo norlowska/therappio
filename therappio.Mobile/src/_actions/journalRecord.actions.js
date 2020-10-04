@@ -18,7 +18,10 @@ function fetchJournalRecords() {
         dispatch(success(journalRecords));
       })
       .catch(error => {
-        dispatch(failure(error.message));
+        let errorMsg = error.message;
+        if (error.response && error.response.data) errorMsg = error.response.data;
+        console.log(errorMsg);
+        dispatch(failure(errorMsg));
         // dispatch(alertActions.error(error.toString()));
       });
   };
@@ -49,7 +52,10 @@ function createJournalRecord(journalRecord) {
         dispatch(modalActions.hideModal());
       })
       .catch(error => {
-        dispatch(failure(error.message));
+        let errorMsg = error.message;
+        if (error.response && error.response.data) errorMsg = error.response.data;
+        console.log(errorMsg);
+        dispatch(failure(errorMsg));
         // dispatch(alertActions.error(error.toString()));
       });
   };
@@ -73,16 +79,22 @@ function createJournalRecord(journalRecord) {
   }
 }
 
-function updateJournalRecord(journalRecord, patientId) {
+function updateJournalRecord(journalRecord) {
+  console.log('update journal record action', journalRecord);
   return dispatch => {
     dispatch(request(journalRecord));
     journalRecordService
       .update(journalRecord)
       .then(res => {
-        dispatch(success(journalRecord, patientId, res.message));
+        console.log('update journal record action success');
+        dispatch(success(res.data, res.message));
+        dispatch(modalActions.hideModal());
       })
       .catch(error => {
-        dispatch(failure(error.message));
+        let errorMsg = error.message;
+        if (error.response && error.response.data) errorMsg = error.response.data;
+        console.log(errorMsg);
+        dispatch(failure(errorMsg));
         // dispatch(alertActions.error(error.toString()));
       });
   };
@@ -92,10 +104,10 @@ function updateJournalRecord(journalRecord, patientId) {
       journalRecord,
     };
   }
-  function success(journalRecord, patientId, message) {
+  function success(journalRecord, message) {
     return {
       type: journalRecordConstants.UPDATE_JOURNAL_RECORD_SUCCESS,
-      payload: { journalRecord, patientId, message },
+      payload: { journalRecord, message },
     };
   }
   function failure(error) {
@@ -116,7 +128,10 @@ function deleteJournalRecord(id) {
         dispatch(success(id));
       })
       .catch(error => {
-        dispatch(failure(error.message));
+        let errorMsg = error.message;
+        if (error.response && error.response.data) errorMsg = error.response.data;
+        console.log(errorMsg);
+        dispatch(failure(errorMsg));
         // dispatch(alertActions.error(error.toString()));
       });
   };

@@ -81,7 +81,6 @@ function getDetails() {
         dispatch(success(user));
       })
       .catch(error => {
-        dispatch(failure(error.message));
         let errorMsg = error.message;
         if (error.response && error.response.data) errorMsg = error.response.data;
         console.log(errorMsg);

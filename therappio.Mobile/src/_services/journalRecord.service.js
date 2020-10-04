@@ -20,7 +20,7 @@ function create(journalRecord) {
 }
 
 function update(journalRecord) {
-  return axios.put(`${config.apiUrl}/journal/${journalRecord._id}`, journalRecord).then(res => {
+  return axios.put(`${config.apiUrl}/journal/${journalRecord.id}`, journalRecord).then(res => {
     return res.data;
   });
 }

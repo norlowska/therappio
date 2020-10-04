@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { TouchableOpacity } from 'react-native';
 import { format, isSameYear } from 'date-fns';
 import {
   Accordion,
@@ -17,66 +18,10 @@ import {
 import { journalRecordActions, modalActions, moodRecordActions, userActions } from '../_actions';
 import { modalConstants } from '../_constants';
 import { selectJournalRecords, selectMoodRecords } from '../_selectors';
+import { compareValues } from '../_utilities/compare';
 import ModalSetup from '../components/ModalSetup';
-import Markdown from 'react-native-markdown-display';
 import styles from '../theme/styles';
 import Colors from '../theme/Colors';
-
-const renderEntryHeader = item => {
-  return (
-    <View
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        padding: 10,
-        marginVertical: 10,
-        marginHorizontal: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: '#d3d3d3',
-      }}
-    >
-      <Text
-        style={{
-          fontFamily: 'Raleway-Light',
-          fontSize: 17,
-          marginVertical: 10,
-        }}
-      >
-        {item.date}
-      </Text>
-      <View
-        style={{
-          borderColor: '#438edb',
-          borderRadius: 15,
-          borderWidth: 1,
-          justifyContent: 'center',
-          paddingHorizontal: 10,
-          paddingVertical: 5,
-        }}
-      >
-        <Text style={{ color: '#438edb' }}>{item.tag}</Text>
-      </View>
-    </View>
-  );
-};
-
-const renderEntryContent = item => {
-  return (
-    <View
-      style={{
-        borderBottomWidth: 1,
-        borderBottomColor: '#d3d3d3',
-        padding: 10,
-      }}
-      onPress={modalActions.showModal(
-        item.tag === 'Diary' ? modalConstants.DIARY_MODAL : modalConstants.GRATITUDE_JOURNAL_MODAL,
-        { editMode: true, content: item.content }
-      )}
-    >
-      <Text>{item.content}</Text>
-    </View>
-  );
-};
 
 function ProfileScreen({
   isFetching,
@@ -89,6 +34,8 @@ function ProfileScreen({
   showModal,
   logout,
 }) {
+  const [journalEntries, setJournalEntries] = useState([]);
+
   useEffect(() => {
     if (!user || Object.keys(user).length === 0) getUserDetails();
   }, []);
@@ -124,15 +71,85 @@ function ProfileScreen({
     },
   ];
 
-  const journalEntries = journalRecords.map(item => {
-    const createdAt = new Date(item.createdAt);
-    const dateFormat = isSameYear(new Date(), createdAt) ? 'MMMM do, H:mm' : 'MMMM do, YYYY, H:mm';
-    return {
-      date: format(createdAt, dateFormat),
-      tag: item.type === 'diary' ? 'Diary' : 'Gratitude Journal',
-      content: item.content,
-    };
-  });
+  useEffect(() => {
+    if (journalRecords.length > 0) {
+      const newJournalEntries = journalRecords
+        .map(item => {
+          const createdAt = new Date(item.createdAt);
+          const dateFormat = isSameYear(new Date(), createdAt)
+            ? 'MMMM do, H:mm'
+            : 'MMMM do, YYYY, H:mm';
+
+          return {
+            id: item._id,
+            date: format(createdAt, dateFormat),
+            tag: item.type === 'diary' ? 'Diary' : 'Gratitude Journal',
+            content: item.content,
+            createdAt: item.createdAt,
+          };
+        })
+        .sort(compareValues('createdAt', 'desc'));
+      setJournalEntries(newJournalEntries);
+    }
+  }, [journalRecords]);
+
+  const renderEntryHeader = item => {
+    return (
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          padding: 10,
+          marginVertical: 10,
+          marginHorizontal: 10,
+          borderBottomWidth: 1,
+          borderBottomColor: '#d3d3d3',
+        }}
+      >
+        <Text
+          style={{
+            fontFamily: 'Raleway-Light',
+            fontSize: 17,
+            marginVertical: 10,
+          }}
+        >
+          {item.date}
+        </Text>
+        <View
+          style={{
+            borderColor: '#438edb',
+            borderRadius: 15,
+            borderWidth: 1,
+            justifyContent: 'center',
+            paddingHorizontal: 10,
+            paddingVertical: 5,
+          }}
+        >
+          <Text style={{ color: '#438edb' }}>{item.tag}</Text>
+        </View>
+      </View>
+    );
+  };
+
+  const renderEntryContent = item => {
+    const selectedModal =
+      item.tag === 'Diary' ? modalConstants.DIARY_MODAL : modalConstants.GRATITUDE_JOURNAL_MODAL;
+    return (
+      <TouchableOpacity
+        onPress={() => showModal(selectedModal, { editMode: true, journalRecord: item })}
+      >
+        <View
+          style={{
+            borderBottomWidth: 1,
+            borderBottomColor: '#d3d3d3',
+            padding: 10,
+          }}
+        >
+          <Text>{item.content}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <Container>

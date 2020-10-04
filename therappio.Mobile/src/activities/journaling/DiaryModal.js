@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { View, Form, Text, Item, Textarea, Button } from 'native-base';
+import { View, Form, Text, Item, Textarea, Button, Spinner } from 'native-base';
 import { journalRecordActions } from '../../_actions';
 import styles from '../../theme/styles';
 
-const DiaryModal = ({ createJournalRecord }) => {
+const DiaryModal = ({
+  createJournalRecord,
+  updateJournalRecord,
+  user,
+  isFetching,
+  editMode,
+  journalRecord,
+}) => {
   const [content, setContent] = useState('');
 
   const handleSavePress = e => {
@@ -13,8 +20,20 @@ const DiaryModal = ({ createJournalRecord }) => {
       type: 'diary',
       content,
     };
-    createJournalRecord(newRecord);
+    if (editMode) {
+      updateJournalRecord({
+        ...newRecord,
+        createdAt: journalRecord.createdAt,
+        modifiedAt: Date.now(),
+        content,
+        id: journalRecord.id,
+      });
+    } else createJournalRecord(newRecord);
   };
+
+  useEffect(() => {
+    if (editMode) setContent(journalRecord.content);
+  }, []);
 
   return (
     <View>
@@ -40,14 +59,19 @@ const DiaryModal = ({ createJournalRecord }) => {
         }}
         onPress={handleSavePress}
       >
-        <Text>Save</Text>
+        {isFetching ? <Spinner color='#eee'></Spinner> : <Text>Save</Text>}
       </Button>
     </View>
   );
 };
 
+const mapStateToProps = (state, props) => ({
+  isFetching: state.journalRecords.isFetching,
+});
+
 const mapDispatchToProps = {
   createJournalRecord: journalRecordActions.createJournalRecord,
+  updateJournalRecord: journalRecordActions.updateJournalRecord,
 };
 
-export default connect(null, mapDispatchToProps)(DiaryModal);
+export default connect(mapStateToProps, mapDispatchToProps)(DiaryModal);

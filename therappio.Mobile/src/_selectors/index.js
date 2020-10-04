@@ -33,7 +33,10 @@ export const selectLastMonthMoodRecords = (state, patientId) =>
   );
 
 // state.journalRecords
-export const selectJournalRecords = state => Object.values(state.journalRecords.byId);
+export const selectJournalRecords = state => {
+  console.log('select');
+  return Object.values(state.journalRecords.byId);
+};
 export const selectJournalRecord = (state, id) => state.journalRecords.byId[id];
 
 export const selectPatientJournalRecords = (state, patientId) => {

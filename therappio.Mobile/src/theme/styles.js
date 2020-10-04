@@ -104,11 +104,13 @@ const styles = StyleSheet.create({
   modalContent: {
     paddingLeft: 10,
     paddingRight: 25,
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'center',
   },
   modalHeader: {
-    flex: 1,
+    display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
     margin: 20,
   },
   modalTitle: {

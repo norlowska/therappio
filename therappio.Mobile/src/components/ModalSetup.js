@@ -22,15 +22,22 @@ const ModalSetup = ({ modalType, modalProps, hideModal, modalTitle }) => {
   if (!modalType) return null;
 
   const SpecificModal = MODAL_COMPONENTS[modalType];
-
+  console.log('title', styles.modalHedaer);
   return (
     <Modal visible={true} transparent={false} animationType='slide'>
       <Container style={styles.modal}>
-        <View style={styles.modalHeader}>
-          <View>
-            <Text style={styles.modalTitle}>{modalTitle}</Text>
-          </View>
-          <Button style={styles.closeModal} onPress={hideModal} transparent>
+        <View
+          style={[
+            styles.modalHeader,
+            { justifyContent: modalTitle.length > 0 ? 'space-between' : 'flex-end' },
+          ]}
+        >
+          {!!modalTitle && (
+            <View>
+              <Text style={styles.modalTitle}>{modalTitle}</Text>
+            </View>
+          )}
+          <Button onPress={hideModal} transparent>
             <Icon
               name='close'
               type='MaterialCommunityIcons'
