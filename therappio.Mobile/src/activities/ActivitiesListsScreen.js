@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Container, Tabs, Tab, TabHeading, Text, ScrollableTab } from 'native-base';
-import { AssessmentsTab, JournalingTab, AssignmentsTab, ResourcesTab } from './index';
+import { JournalingTab, AssignmentsTab, ResourcesTab } from './index';
 import styles from '../theme/styles';
 import ModalSetup from '../components/ModalSetup';
 import { assignmentActions } from '../_actions';
@@ -27,9 +27,6 @@ function ActivitiesListsScreen({ fetchAssignments, assignments }) {
         </Tab>
         <Tab heading={'Resources'}>
           <ResourcesTab />
-        </Tab>
-        <Tab heading={'Assesssments'}>
-          <AssessmentsTab />
         </Tab>
       </Tabs>
       <ModalSetup />

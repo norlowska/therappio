@@ -9,6 +9,7 @@ import DateTimePicker from './DateTimePicker';
 import TimePicker from './TimePicker';
 import { connect } from 'react-redux';
 import { ScrollView } from 'react-native-gesture-handler';
+import { isBefore } from 'date-fns';
 
 const AssignmentModal = ({ assignment, updateAssignment, isFetching }) => {
   const [formData, setFormData] = useState(assignment);
@@ -70,6 +71,7 @@ const AssignmentModal = ({ assignment, updateAssignment, isFetching }) => {
     const newAssignment = {
       ...assignment,
       fields: Object.keys(formData).map(key => formData[key]),
+      state: isBefore(new Date(), new Date(assignment.dueDate)) ? 'On time' : 'Late',
     };
     console.log('new assignment', newAssignment);
     updateAssignment(newAssignment);

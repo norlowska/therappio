@@ -7,7 +7,7 @@ import { selectAssignments } from '../../_selectors';
 import { modalConstants } from '../../_constants';
 import styles from '../../theme/styles';
 import { modalActions } from '../../_actions';
-import { compareValues } from '../../_utilities';
+import { compareValues } from '../../_utilities/compare';
 
 const AssignmentCard = ({ assignment, onPress }) => {
   return (
@@ -43,7 +43,9 @@ const AssignmentsTab = ({ assignments, showModal }) => {
           <AssignmentCard
             key={item._id}
             assignment={item}
-            onPress={() => showModal(modalConstants.ASSIGNMENT_MODAL, { assignment: item })}
+            onPress={() =>
+              showModal(modalConstants.ASSIGNMENT_MODAL, { assignment: item }, item.title || '')
+            }
           />
         ))
         .sort(compareValues('createdAt', 'desc'))}

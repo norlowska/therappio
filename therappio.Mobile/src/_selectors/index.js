@@ -1,14 +1,21 @@
 import { subDays, differenceInDays } from 'date-fns';
+import { compareValues } from '../_utilities/compare';
 
 // state.auth
 export const selectCurrentUser = state => state.auth.user;
 
 // state.assignments
-export const selectAssignments = state => {
-  console.log(Object.values(state.assignments.byId));
-  return Object.values(state.assignments.byId);
-};
+export const selectAssignments = state => Object.values(state.assignments.byId);
 export const selectAssignment = (state, id) => state.assignments.byId[id];
+
+export const selectLastNotSubmittedAssignment = state => {
+  console.log('select', state.assignments.byId);
+  const assignments = Object.values(state.assignments.byId).sort(
+    compareValues('createdAt', 'desc')
+  );
+  if (assignments[0] && assignments[0].status === 'Not submitted') return assignments[0];
+  return null;
+};
 
 // state.therapy
 export const selectTherapy = (state, therapyId) => state.therapies.items[id];

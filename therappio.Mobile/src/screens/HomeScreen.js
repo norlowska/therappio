@@ -4,22 +4,29 @@ import ActivityCard from '../activities/ActivityCard';
 import styles from '../theme/styles';
 import * as articles from '../activities/readings/articles';
 import { connect } from 'react-redux';
-import { userService } from '../_services';
+import { format } from 'date-fns';
+import ModalSetup from '../components/ModalSetup';
+import { selectLastNotSubmittedAssignment } from '../_selectors';
+import { modalActions } from '../_actions';
+import { modalConstants } from '../_constants';
 
-function HomeScreen() {
+function HomeScreen({ lastAssignment, hideModal, showModal }) {
+  console.log('home screen');
   return (
     <Container>
       <View style={styles.welcomeContainer}>
         <Text H1 style={styles.welcomeText}>
           Hello!
         </Text>
-        <View>
-          <Text style={styles.paragraph}>You have assignment to do:</Text>
-          <Card style={styles.card}>
-            <Text style={styles.primaryTitle}>Assignment #4</Text>
-            <Text style={styles.paragraph}>Due date: November 25th, 11:00</Text>
-          </Card>
-        </View>
+        {lastAssignment && Object.keys(lastAssignment) > 0 && (
+          <View>
+            <Text style={styles.paragraph}>You have assignment to do:</Text>
+            <Card style={styles.card}>
+              <Text style={styles.primaryTitle}>{lastAssignment.title}</Text>
+              <Text>Due date: {format(new Date(assignment.dueDate), 'MMMM do, h:mm')}</Text>
+            </Card>
+          </View>
+        )}
       </View>
       <Content contentContainerStyle={styles.container}>
         <Text style={styles.title}>Recommended activities</Text>
@@ -28,13 +35,11 @@ function HomeScreen() {
             title: 'Gratitude Journal',
             description: 'Focus on the positive and list 3 things you are grateful for',
           }}
-          onPress={() => console.log('coś działa na home')}
+          modal={modalConstants.GRATITUDE_JOURNAL_MODAL}
         />
-        <ActivityCard
-          content={articles.allOrNothing}
-          onPress={() => console.log('coś działa na home')}
-        />
+        <ActivityCard content={articles.allOrNothing} modal={modalConstants.MARKDOWN_MODAL} />
       </Content>
+      <ModalSetup />
     </Container>
   );
 }
@@ -45,5 +50,12 @@ HomeScreen.navigationOptions = {
 
 const mapStateToProps = (state, props) => ({
   isAuthenticated: state.auth.isAuthenticated,
+  lastAssignment: selectLastNotSubmittedAssignment(state),
 });
-export default connect(mapStateToProps)(HomeScreen);
+
+const mapDispatchToProps = {
+  hideModal: modalActions.hideModal,
+  showModal: modalActions.showModal,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
