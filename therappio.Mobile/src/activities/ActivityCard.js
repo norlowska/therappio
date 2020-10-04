@@ -16,9 +16,9 @@ const markdownStyle = StyleSheet.create({
   },
 });
 
-const ActivityCard = ({ content, onPress, modal, showModal }) => {
+const ActivityCard = ({ content, onPress, modal, currentModal, showModal }) => {
   const handleClick = () => {
-    if (modal) showModal(modal, { content: content.pages });
+    if (modal && !currentModal) showModal(modal, { content: content.pages });
     else if (onPress) onPress();
   };
 
@@ -63,4 +63,6 @@ ActivityCard.propTypes = {
   onPress: PropTypes.func,
 };
 
-export default connect(null, { showModal: modalActions.showModal })(ActivityCard);
+export default connect(state => ({ currentModal: !!state.modal.modalType }), {
+  showModal: modalActions.showModal,
+})(ActivityCard);
