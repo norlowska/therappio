@@ -83,7 +83,9 @@ export function journalRecords(state = initialState, action) {
         isFetching: true,
       };
     case journalRecordConstants.DELETE_JOURNAL_RECORD_SUCCESS:
-      const { [action.payload.id]: omit, ...rest } = state.byId;
+      console.log('delete success', action);
+      const { [action.id]: omit, ...rest } = state.byId;
+      console.log(rest);
       return {
         ...state,
         isFetching: false,

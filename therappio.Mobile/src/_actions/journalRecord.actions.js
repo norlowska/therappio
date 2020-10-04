@@ -1,6 +1,7 @@
 import { journalRecordConstants } from '../_constants';
 import { journalRecordService } from '../_services';
 import { modalActions } from './modal.actions';
+import { ToastAndroid } from 'react-native';
 
 export const journalRecordActions = {
   fetchJournalRecords,
@@ -20,7 +21,7 @@ function fetchJournalRecords() {
       .catch(error => {
         let errorMsg = error.message;
         if (error.response && error.response.data) errorMsg = error.response.data;
-        console.log(errorMsg);
+        ToastAndroid.show(errorMsg, ToastAndroid.SHORT);
         dispatch(failure(errorMsg));
         // dispatch(alertActions.error(error.toString()));
       });
@@ -49,12 +50,13 @@ function createJournalRecord(journalRecord) {
       .create(journalRecord)
       .then(res => {
         dispatch(success(res.data, res.message));
+        ToastAndroid.show('Journal record created successfully', ToastAndroid.SHORT);
         dispatch(modalActions.hideModal());
       })
       .catch(error => {
         let errorMsg = error.message;
         if (error.response && error.response.data) errorMsg = error.response.data;
-        console.log(errorMsg);
+        ToastAndroid.show(errorMsg, ToastAndroid.SHORT);
         dispatch(failure(errorMsg));
         // dispatch(alertActions.error(error.toString()));
       });
@@ -87,13 +89,14 @@ function updateJournalRecord(journalRecord) {
       .update(journalRecord)
       .then(res => {
         console.log('update journal record action success');
+        ToastAndroid.show('Journal record updated successfully', ToastAndroid.SHORT);
         dispatch(success(res.data, res.message));
         dispatch(modalActions.hideModal());
       })
       .catch(error => {
         let errorMsg = error.message;
         if (error.response && error.response.data) errorMsg = error.response.data;
-        console.log(errorMsg);
+        ToastAndroid.show(errorMsg, ToastAndroid.SHORT);
         dispatch(failure(errorMsg));
         // dispatch(alertActions.error(error.toString()));
       });
@@ -119,18 +122,19 @@ function updateJournalRecord(journalRecord) {
 }
 
 function deleteJournalRecord(id) {
+  console.log('delete journal record action', id);
   return dispatch => {
     dispatch(request(id));
     journalRecordService
       .delete(id)
       .then(res => {
-        toast.success('Journal record deleted successfully');
+        ToastAndroid.show('Journal record deleted successfully', ToastAndroid.SHORT);
         dispatch(success(id));
       })
       .catch(error => {
         let errorMsg = error.message;
         if (error.response && error.response.data) errorMsg = error.response.data;
-        console.log(errorMsg);
+        ToastAndroid.show(errorMsg, ToastAndroid.SHORT);
         dispatch(failure(errorMsg));
         // dispatch(alertActions.error(error.toString()));
       });

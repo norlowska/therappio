@@ -1,9 +1,6 @@
 export const compareValues = (key, order = 'asc') => {
-  console.log('compare', key);
   return function innerSort(a, b) {
-    console.log('inner sort ', a, b);
     if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
-      console.log('nah');
       return 0;
     }
     console.log(a[key], b[key]);

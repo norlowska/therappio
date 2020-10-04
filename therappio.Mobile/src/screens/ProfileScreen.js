@@ -25,12 +25,11 @@ import Colors from '../theme/Colors';
 
 function ProfileScreen({
   isFetching,
-  fetchJournalRecords,
-  fetchMoodRecords,
   getUserDetails,
   user,
   moodRecords,
   journalRecords,
+  deleteJournalRecord,
   showModal,
   logout,
 }) {
@@ -127,6 +126,7 @@ function ProfileScreen({
         >
           <Text style={{ color: '#438edb' }}>{item.tag}</Text>
         </View>
+        <Icon name='md-arrow-dropdown' style={{ color: '#777' }} />
       </View>
     );
   };
@@ -135,9 +135,7 @@ function ProfileScreen({
     const selectedModal =
       item.tag === 'Diary' ? modalConstants.DIARY_MODAL : modalConstants.GRATITUDE_JOURNAL_MODAL;
     return (
-      <TouchableOpacity
-        onPress={() => showModal(selectedModal, { editMode: true, journalRecord: item })}
-      >
+      <>
         <View
           style={{
             borderBottomWidth: 1,
@@ -145,9 +143,21 @@ function ProfileScreen({
             padding: 10,
           }}
         >
-          <Text>{item.content}</Text>
+          <TouchableOpacity
+            onPress={() => showModal(selectedModal, { editMode: true, journalRecord: item })}
+          >
+            <Text>{item.content}</Text>
+          </TouchableOpacity>
+          <Button
+            bordered
+            danger
+            style={{ marginTop: 10, width: 'auto', alignSelf: 'flex-end' }}
+            onPress={() => deleteJournalRecord(item.id)}
+          >
+            <Icon name='md-trash' style={{ color: 'red' }} />
+          </Button>
         </View>
-      </TouchableOpacity>
+      </>
     );
   };
 
@@ -244,6 +254,7 @@ const mapDispatchToProps = {
   getUserDetails: userActions.getDetails,
   logout: userActions.logout,
   showModal: modalActions.showModal,
+  deleteJournalRecord: journalRecordActions.deleteJournalRecord,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);
