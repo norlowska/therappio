@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from 'config';
+import { history } from '../_utilities';
 import { localStorageService } from './localStorage.service';
 
 export const userService = {
@@ -17,6 +18,15 @@ function login(email, password) {
     return axios
         .post(`${config.apiUrl}/users/login`, { email, password }, options)
         .then(res => {
+            const { user } = res.data;
+            if (
+                user &&
+                user.hasOwnProperty('role') &&
+                user.role !== 'Therapist'
+            ) {
+                history.push('/login?unauthorized=true');
+                throw 'You are not authorized to access the resource.';
+            }
             // store jwt token in local storage to keep user logged in between page refreshes
             localStorageService.setToken(res.data.token);
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { Card, Row, Col, Button } from 'antd';
+import { Card, Row, Col, Button, Spin } from 'antd';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import { history } from '../../_utilities';
 import style from './DashboardPage.module.scss';
@@ -89,39 +89,41 @@ const DashboardPage = ({ therapist }) => {
     }, [therapist]);
 
     return (
-        <Card bodyStyle={{ padding: '35px 60px' }}>
-            <Row>
-                <Col className={style.header}>
-                    <h2>Schedule</h2>
-                    <NavLink to="/patients">
-                        <Button
-                            type="primary"
-                            ghost
-                            icon={<i className="las la-angle-right"></i>}
-                            title="Patients list"
-                        >
-                            Patients list
-                        </Button>
-                    </NavLink>
-                </Col>
-            </Row>
-            <Row>
-                <Col span={24}>
-                    <Calendar
-                        localizer={localizer}
-                        events={data}
-                        defaultView={'day'}
-                        views={['month', 'week', 'day']}
-                        startAccessor="start"
-                        endAccessor="end"
-                        onRangeChange={handleRangeChange}
-                        min={addHours(startOfDay(new Date()), 8)}
-                        max={addHours(startOfDay(new Date()), 21)}
-                        onSelectEvent={handleSelectEvent}
-                    />
-                </Col>
-            </Row>
-        </Card>
+        <Spin spinning={isFetching}>
+            <Card bodyStyle={{ padding: '35px 60px' }}>
+                <Row>
+                    <Col className={style.header}>
+                        <h2>Schedule</h2>
+                        <NavLink to="/patients">
+                            <Button
+                                type="primary"
+                                ghost
+                                icon={<i className="las la-angle-right"></i>}
+                                title="Patients list"
+                            >
+                                Patients list
+                            </Button>
+                        </NavLink>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={24}>
+                        <Calendar
+                            localizer={localizer}
+                            events={data}
+                            defaultView={'day'}
+                            views={['week', 'day']}
+                            startAccessor="start"
+                            endAccessor="end"
+                            onRangeChange={handleRangeChange}
+                            min={addHours(startOfDay(new Date()), 8)}
+                            max={addHours(startOfDay(new Date()), 21)}
+                            onSelectEvent={handleSelectEvent}
+                        />
+                    </Col>
+                </Row>
+            </Card>
+        </Spin>
     );
 };
 

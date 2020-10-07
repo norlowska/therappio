@@ -26,7 +26,6 @@ class LoginPage extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        // this.setState({ submitted: true });
         const { email, password } = this.state;
         if (email && password) {
             this.props.login(email, password);
@@ -54,7 +53,7 @@ class LoginPage extends Component {
                         {queryParams['unauthorized'] === 'true' && (
                             <Alert
                                 message="You are not authorized to access the resource."
-                                type="danger"
+                                type="error"
                             />
                         )}
                         <div className="formGroup">
