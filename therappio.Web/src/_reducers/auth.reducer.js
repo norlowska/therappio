@@ -3,13 +3,18 @@ import { localStorageService } from '../_services';
 
 const initialState = {
     isFetching: false,
-    isAuthenticated: !!localStorageService.getToken(),
+    isAuthenticated: false,
     user: {},
     errorMessage: '',
 };
 
 export function auth(state = initialState, action) {
     switch (action.type) {
+        case userConstants.GET_AUTH_TOKEN:
+            return {
+                ...state,
+                isAuthenticated: true,
+            };
         case userConstants.LOGIN_REQUEST:
             return {
                 ...state,

@@ -1,13 +1,19 @@
 import { history } from '../_utilities';
 import { userConstants } from '../_constants';
-import { userService } from '../_services';
+import { localStorageService, userService } from '../_services';
 
 export const userActions = {
+    getAuthToken,
     login,
     logout,
     register,
     getDetails,
 };
+
+function getAuthToken() {
+    const token = localStorageService.getToken();
+    if (token) return { type: userConstants.GET_AUTH_TOKEN, token };
+}
 
 function login(email, password) {
     return dispatch => {

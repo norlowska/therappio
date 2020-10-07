@@ -28,7 +28,12 @@ const App = ({
     fetchMoodRecords,
     fetchTherapies,
     userId,
+    getAuthToken,
 }) => {
+    useEffect(() => {
+        getAuthToken();
+    }, []);
+
     useEffect(() => {
         if (isAuthenticated) {
             getDetails();
@@ -122,6 +127,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+    getAuthToken: userActions.getAuthToken,
     getDetails: userActions.getDetails,
     fetchPatients: patientActions.fetchPatients,
     fetchAssignments: assignmentActions.fetchAssignments,
