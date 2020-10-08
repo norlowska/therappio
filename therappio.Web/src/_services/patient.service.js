@@ -1,5 +1,5 @@
 import axios from 'axios';
-import config from 'config';
+import config from '../config';
 
 export const patientService = {
     getAll,
@@ -8,6 +8,7 @@ export const patientService = {
 };
 
 function getAll() {
+    console.log(config, process.env);
     return axios.get(`${config.apiUrl}/patients`).then(res => res.data);
 }
 

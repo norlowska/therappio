@@ -10,10 +10,15 @@ const initialState = {
 
 export function auth(state = initialState, action) {
     switch (action.type) {
-        case userConstants.GET_AUTH_TOKEN:
+        case userConstants.GET_AUTH_TOKEN_SUCCESS:
             return {
                 ...state,
                 isAuthenticated: true,
+            };
+        case userConstants.GET_AUTH_TOKEN_FAILURE:
+            return {
+                ...state,
+                isAuthenticated: false,
             };
         case userConstants.LOGIN_REQUEST:
             return {

@@ -12,7 +12,8 @@ export const userActions = {
 
 function getAuthToken() {
     const token = localStorageService.getToken();
-    if (token) return { type: userConstants.GET_AUTH_TOKEN, token };
+    if (token) return { type: userConstants.GET_AUTH_TOKEN_SUCCESS, token };
+    else return { type: userConstants.GET_AUTH_TOKEN_FAILURE };
 }
 
 function login(email, password) {

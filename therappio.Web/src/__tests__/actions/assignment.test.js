@@ -1,7 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import axios from 'axios';
-import config from 'config';
+import config from '../../config';
 import MockAdapter from 'axios-mock-adapter';
 import { assignmentActions } from '../../_actions/assignment.actions';
 import { assignmentConstants } from '../../_constants/assignment.constants';
