@@ -9,6 +9,7 @@ const TherapySchema = new Schema({
   createdAt: { type: Date, default: Date.now },
   isInProgress: { type: Boolean, default: true },
   plans: [{ type: String, ref: 'TherapyPlan' }],
+  startTime: { type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model('Therapy', TherapySchema);

@@ -6,8 +6,6 @@ export const therapyActions = {
     fetchTherapies: fetchTherapistsTherapies,
     createTherapy,
     updateTherapy,
-    createTherapyPlan,
-    updateTherapyPlan,
 };
 
 function fetchTherapistsTherapies(therapistId) {
@@ -108,7 +106,3 @@ function updateTherapy(therapy, therapyId) {
         };
     }
 }
-
-function createTherapyPlan(therapyPlan) {}
-
-function updateTherapyPlan(therapyPlan) {}

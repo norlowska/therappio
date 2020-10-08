@@ -27,7 +27,6 @@ function create(req, res, next) {
       if (!patient.therapist || currentUser.sub !== patient.therapist.id) {
         return res.status(401).json({ message: 'Unauthorized' });
       }
-
       if (interval.type === 'days') {
         therapyPlanService
           .create({ ...therapyPlan, interval: interval.value })
@@ -35,7 +34,8 @@ function create(req, res, next) {
             const therapy = {
               patient,
               therapist: currentUser.sub,
-              plans: [createdTherapyPlan.id],
+              plans: [createdTherapyPlan._id],
+              plansDocs: [createdTherapyPlan],
             };
 
             therapyService
@@ -47,9 +47,10 @@ function create(req, res, next) {
       } else {
         let addTherapyPlans = interval.value.map(item => {
           const newStartTime = getClosestDayOfWeek(item.id, new Date(therapyPlan.startTime));
+          console.log(newStartTime);
           return therapyPlanService
             .create({ ...therapyPlan, startTime: newStartTime, interval: 7 })
-            .then(createdTherapyPlan => createdTherapyPlan._id);
+            .then(createdTherapyPlan => createdTherapyPlan);
         });
 
         Promise.all(addTherapyPlans).then(plans => {
@@ -58,7 +59,18 @@ function create(req, res, next) {
             createdTherapy.plans.forEach(item =>
               therapyPlanService.update(item._id, { therapy: createdTherapy._id })
             );
-            res.json({ therapy: createdTherapy, message: 'Therapy successfully created.' });
+
+            const newTherapy = {
+              ...createdTherapy,
+              plans: plans.map(item => item._id),
+              plansDocs: plans,
+            };
+            console.log('newTherapy', newTherapy);
+
+            res.json({
+              therapy: newTherapy,
+              message: 'Therapy successfully created.',
+            });
           });
         });
       }
@@ -99,15 +111,19 @@ function get(req, res, next) {
                   until: plan.endTime ? plan.endTime : new Date(req.query.to),
                 }).between(new Date(req.query.from), new Date(req.query.to));
                 if (sessions.length) return { ...plan, sessions };
-                return plan;
+                return null;
               })
               .filter(
                 item =>
-                  item !== undefined && item.hasOwnProperty('sessions') && item.sessions.length
+                  item !== undefined &&
+                  item != null &&
+                  item.hasOwnProperty('sessions') &&
+                  item.sessions.length > 0
               );
             if (newPlansDocs.length) return { ...therapy, plansDocs: newPlansDocs };
+            return null;
           })
-          .filter(item => item);
+          .filter(item => item !== null && item !== undefined);
         return res.json({ therapies: newTherapies });
       }
       res.json({ therapies });
@@ -139,39 +155,68 @@ function getById(req, res, next) {
 
 function update(req, res, next) {
   const currentUser = req.user;
-  const therapy = req.body;
+  const { startTime, interval, ...therapy } = req.body;
 
   // allow only therapist to create therapy
   if (therapy.therapist.toString() !== currentUser.sub) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
 
-  therapyService
-    .update(req.params.id, therapy)
-    .then(updatedTherapy => {
-      if (therapy.isInProgress === false) {
-        let updatedPlans = updatedTherapy.plans.map(item =>
-          therapyPlanService
-            .update(updatedTherapy.therapy, { endTime: Date.now })
-            .then(therapyPlan => therapyPlan._id)
-        );
-        Promise.all(updatedPlans).then(plans =>
-          res.json({ therapy: updatedTherapy, message: 'Therapy successfully ended!' })
-        );
-      }
+  if (interval.type === 'days') {
+    therapyPlanService
+      .update(therapy.plans[0], { startTime, interval: interval.value })
+      .then(async therapyPlan => {
+        const updatedTherapy = await therapyService.update(req.params.id, {
+          ...therapy,
+          startTime,
+          plans: [therapyPlan._id],
+        });
+        console.log({ ...updatedTherapy, plansDocs: [therapyPlan] });
+        res.json({
+          therapy: { ...updatedTherapy, plansDocs: [therapyPlan] },
+          message: 'Therapy successfully updated',
+        });
+      })
+      .catch(err => next(err));
+  } else {
+    let createdPlans = interval.value.map(item => {
+      const newPlan = {
+        startTime: getClosestDayOfWeek(item.id, new Date(startTime)),
+        interval: 7,
+      };
+      if (!therapy.isInProgress) newPlan.endTime = Date.now;
+      return therapyPlanService.create(newPlan).then(therapyPlan => {
+        return therapyPlan._id;
+      });
+    });
 
-      res.json({ therapy: updatedTherapy, message: 'Therapy successfully updated' });
-    })
-    .catch(err => next(err));
+    let deletedPlans = therapy.plans.map(item => therapyPlanService.delete(item));
+
+    Promise.all(createdPlans.concat(deletedPlans))
+      .then(plans =>
+        therapyService
+          .update(req.params.id, { ...therapy, plans: plans.filter(item => !!item) })
+          .then(updatedTherapy => {
+            res.json({
+              therapy: { ...updatedTherapy, startTime, plans, plansDocs: updatedTherapy.plans },
+              message: 'Therapy successfully updated!',
+            });
+          })
+      )
+      .catch(err => next(err));
+  }
 }
 
 function getClosestDayOfWeek(dayOfWeek, fromDate = new Date()) {
   const startDateDayOfWeek = dateFns.getISODay(fromDate);
 
-  if (dateFns.format(fromDate, 'dd/MM/yyyy') === dateFns.format(new Date(), 'dd/MM/yyyy'))
+  if (
+    dateFns.format(fromDate, 'dd/MM/yyyy') === dateFns.format(new Date(), 'dd/MM/yyyy') &&
+    startDateDayOfWeek === dayOfWeek
+  )
     return fromDate;
 
-  const offsetDays = 7 + (dayOfWeek + startDateDayOfWeek);
+  const offsetDays = (7 + dayOfWeek - startDateDayOfWeek) % 7;
 
   return dateFns.addDays(fromDate, offsetDays);
 }

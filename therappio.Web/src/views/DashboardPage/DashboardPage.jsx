@@ -56,6 +56,7 @@ const DashboardPage = ({ therapist }) => {
             )
             .then(response => {
                 let events = [];
+                console.log('fetch therapies resolved', response);
 
                 response.therapies.forEach(therapy => {
                     therapy.plansDocs.forEach(plan => {
@@ -83,10 +84,14 @@ const DashboardPage = ({ therapist }) => {
 
     useEffect(() => {
         if (therapist && therapist._id && !isFetching) {
-            const today = startOfDay(new Date());
-            fetchTherapies(addHours(today, 8), addHours(today, 22));
+            console.log('fetch therapies in use effect');
+            fetchTherapies(startOfDay(new Date()), endOfDay(new Date()));
         }
     }, [therapist]);
+
+    useEffect(() => {
+        console.log('data changed', data);
+    }, [data]);
 
     return (
         <Spin spinning={isFetching}>

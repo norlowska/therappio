@@ -6,6 +6,7 @@ const TherapyPlan = db.TherapyPlan;
 module.exports = {
   create,
   update,
+  delete: _delete,
 };
 
 async function getById(id) {
@@ -27,4 +28,8 @@ async function update(id, therapyPlanParam) {
   await therapyPlan.save();
 
   return getById(therapyPlan._id);
+}
+
+async function _delete(id) {
+  await TherapyPlan.findByIdAndRemove(id);
 }

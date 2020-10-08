@@ -20,7 +20,8 @@ async function getById(id) {
     .select('-__v')
     .populate('patient', '_id firstName lastName phoneNumber email diagnosis')
     .populate('therapist', '_id firstName lastName phoneNumber email')
-    .populate('plans', '_id startTime interval endTime');
+    .populate('plans', '_id startTime interval endTime')
+    .lean();
 }
 
 async function getPatientsTherapy(id) {
@@ -45,7 +46,6 @@ async function create(therapyParam) {
 
 async function update(id, therapyParam) {
   const therapy = await Therapy.findById(id);
-
   // validate
   if (!therapy) throw 'Therapy not found';
 

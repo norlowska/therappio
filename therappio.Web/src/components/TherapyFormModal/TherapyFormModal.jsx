@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { format, addSeconds, set } from 'date-fns';
+import { format, addSeconds, set, getISODay } from 'date-fns';
 import { Modal, Button, Radio, Tooltip } from 'antd';
 import ReactTags from 'react-tag-autocomplete';
 import { therapyActions } from '../../_actions';
@@ -28,20 +28,31 @@ const TherapyFormModal = ({
     useEffect(() => {
         if (therapy) {
             if (therapy.plans && therapy.plans.length) {
-                setStartTime(
-                    format(
-                        new Date(therapy.plansDocs[0].startTime),
-                        "yyyy-MM-dd'T'HH:mm"
-                    )
-                );
                 if (therapy.plans.length === 1) {
+                    setStartTime(
+                        format(
+                            new Date(therapy.plansDocs[0].startTime),
+                            "yyyy-MM-dd'T'HH:mm"
+                        )
+                    );
                     setIntervalType('days');
                 } else {
+                    setStartTime(
+                        format(
+                            new Date(therapy.startTime),
+                            "yyyy-MM-dd'T'HH:mm"
+                        )
+                    );
                     setIntervalType('weekdays');
+                    const weekdaysValue = therapy.plansDocs.map(item => ({
+                        id: getISODay(new Date(item.startTime)),
+                        name:
+                            weekdays[getISODay(new Date(item.startTime)) - 1]
+                                .name,
+                    }));
+                    setWeekDaysIntervalValue(weekdaysValue);
                 }
-                setDaysIntervalValue(
-                    addSeconds(new Date(0), therapy.plansDocs[0].interval)
-                );
+                setDaysIntervalValue(therapy.plansDocs[0].interval);
             }
             setIsInProgress(therapy.isInProgress);
         }
