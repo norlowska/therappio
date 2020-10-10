@@ -11,13 +11,11 @@ export const moodRecordActions = {
 };
 
 function fetchMoodRecords() {
-  console.log('fetch mood records action');
   return dispatch => {
     dispatch(request());
     moodRecordService
       .getAll()
       .then(moodRecords => {
-        console.log('fetch mood records success');
         dispatch(success(moodRecords));
       })
       .catch(error => {
@@ -45,7 +43,6 @@ function fetchMoodRecords() {
 }
 
 function createMoodRecord(moodRecord) {
-  console.log('create mood record');
   return dispatch => {
     dispatch(request(moodRecord));
     moodRecordService
@@ -119,7 +116,6 @@ function updateMoodRecord(moodRecord, patientId) {
 }
 
 function deleteMoodRecord(id) {
-  console.log('delete mood record action', id);
   return dispatch => {
     dispatch(request(id));
     moodRecordService

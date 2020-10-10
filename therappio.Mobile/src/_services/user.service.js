@@ -31,11 +31,9 @@ async function login(email, password) {
   const options = {
     headers: { 'Content-Type': 'application/json' },
   };
-  console.log('login service');
   return axios
     .post(`${config.apiUrl}/users/login`, { email, password }, options)
     .then(async res => {
-      console.log('login resolved');
       await saveAuthToken('token', res.data.token);
       return res.data.user;
     });

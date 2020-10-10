@@ -59,7 +59,6 @@ export function journalRecords(state = initialState, action) {
         isFetching: true,
       };
     case journalRecordConstants.UPDATE_JOURNAL_RECORD_SUCCESS: {
-      console.log('success update journal record reducer', action);
       const { journalRecord } = action.payload;
       return {
         ...state,
@@ -83,9 +82,7 @@ export function journalRecords(state = initialState, action) {
         isFetching: true,
       };
     case journalRecordConstants.DELETE_JOURNAL_RECORD_SUCCESS:
-      console.log('delete success', action);
       const { [action.id]: omit, ...rest } = state.byId;
-      console.log(rest);
       return {
         ...state,
         isFetching: false,

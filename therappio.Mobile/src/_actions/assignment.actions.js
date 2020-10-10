@@ -38,13 +38,11 @@ function fetchAssignments() {
 }
 
 function updateAssignment(assignment) {
-  console.log('update assignment action');
   return dispatch => {
     dispatch(request(assignment));
     return assignmentService
       .update(assignment)
       .then(res => {
-        console.log('update assignment action success');
         dispatch(success(assignment, res.message));
         dispatch(modalActions.hideModal());
         ToastAndroid.show('Assignment successfully submitted', ToastAndroid.SHORT);

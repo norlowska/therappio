@@ -82,13 +82,11 @@ function createJournalRecord(journalRecord) {
 }
 
 function updateJournalRecord(journalRecord) {
-  console.log('update journal record action', journalRecord);
   return dispatch => {
     dispatch(request(journalRecord));
     journalRecordService
       .update(journalRecord)
       .then(res => {
-        console.log('update journal record action success');
         ToastAndroid.show('Journal record updated successfully', ToastAndroid.SHORT);
         dispatch(success(res.data, res.message));
         dispatch(modalActions.hideModal());
@@ -121,7 +119,6 @@ function updateJournalRecord(journalRecord) {
 }
 
 function deleteJournalRecord(id) {
-  console.log('delete journal record action', id);
   return dispatch => {
     dispatch(request(id));
     journalRecordService

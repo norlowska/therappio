@@ -59,7 +59,6 @@ const AssignmentModal = ({ assignment, updateAssignment, isFetching }) => {
   };
 
   const handleInputChange = (value, id) => {
-    console.log('handle input change', id, formData[id], value);
     const _formData = { ...formData };
     if (!_formData[id] || _formData[id].answer === 0) _formData[id].answer = [];
     _formData[id].answer[0] = value;
@@ -70,7 +69,7 @@ const AssignmentModal = ({ assignment, updateAssignment, isFetching }) => {
     const newAssignment = {
       ...assignment,
       fields: Object.keys(formData).map(key => formData[key]),
-      state: isBefore(new Date(), new Date(assignment.dueDate)) ? 'On time' : 'Late',
+      status: isBefore(new Date(), new Date(assignment.dueDate)) ? 'On time' : 'Late',
     };
     updateAssignment(newAssignment);
   };

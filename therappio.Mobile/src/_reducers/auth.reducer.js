@@ -99,7 +99,6 @@ export function auth(state = initialState, action) {
         errorMessage: '',
       };
     case userConstants.UPDATE_DETAILS_SUCCESS:
-      console.log('update details success', action.user);
       return {
         ...state,
         isFetching: false,

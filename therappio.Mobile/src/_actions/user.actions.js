@@ -16,7 +16,6 @@ export const userActions = {
 
 function login(email, password) {
   return dispatch => {
-    console.log('dispatch login');
     dispatch(request({ email }));
     userService
       .login(email, password)
@@ -74,7 +73,6 @@ function logout() {
 }
 
 function getDetails() {
-  console.log('get details action');
   return dispatch => {
     dispatch(request());
 
@@ -106,11 +104,9 @@ function getDetails() {
 function getAuthToken() {
   return dispatch => {
     dispatch(request());
-    console.log('dispatch get auth token');
     userService
       .getAuthToken()
       .then(token => {
-        console.log('get auth token resolved ', token);
         if (token) {
           dispatch(success(token));
           dispatch(moodRecordActions.fetchMoodRecords());
@@ -143,7 +139,6 @@ function getAuthToken() {
 function updateDetails(user) {
   return dispatch => {
     dispatch(request());
-    console.log('dispatch update user request');
     userService
       .updateDetails(user)
       .then(res => {
@@ -152,7 +147,7 @@ function updateDetails(user) {
         dispatch(modalActions.hideModal());
       })
       .catch(error => {
-        console.log();
+        console.log(error.toString());
         let errorMsg = error.message;
         if (error.response && error.response.data) errorMsg = error.response.data;
         ToastAndroid.show(errorMsg, ToastAndroid.SHORT);
