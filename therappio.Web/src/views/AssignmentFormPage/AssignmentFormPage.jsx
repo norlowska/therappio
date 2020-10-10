@@ -10,6 +10,7 @@ import { selectAssignment } from '../../_selectors';
 import AnswerFields from './AnswerFields/AnswerFields';
 import { FormInput } from '../../components';
 import style from './AssignmentFormPage.module.scss';
+import { zonedTimeToUtc } from 'date-fns-tz';
 
 const AssignmentFormPage = ({
     assignment,
@@ -60,7 +61,7 @@ const AssignmentFormPage = ({
         const newAssignment = {
             title,
             fields,
-            dueDate,
+            dueDate: zonedTimeToUtc(dueDate, 'Europe/Warsaw'),
         };
         if (editMode) {
             updateAssignment(

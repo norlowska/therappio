@@ -22,6 +22,8 @@ function login(email, password) {
       .login(email, password)
       .then(user => {
         dispatch(success(user));
+        dispatch(moodRecordActions.fetchMoodRecords());
+        dispatch(journalRecordActions.fetchJournalRecords());
         navigationService.navigate('Main');
       })
       .catch(error => {

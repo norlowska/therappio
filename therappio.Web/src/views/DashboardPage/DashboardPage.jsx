@@ -17,7 +17,7 @@ import {
 import { therapyService } from '../../_services';
 
 const locales = {
-    'en-US': require('date-fns/locale/en-US'),
+    pl: require('date-fns/locale/pl'),
 };
 const localizer = dateFnsLocalizer({
     format,
@@ -56,8 +56,6 @@ const DashboardPage = ({ therapist }) => {
             )
             .then(response => {
                 let events = [];
-                console.log('fetch therapies resolved', response);
-
                 response.therapies.forEach(therapy => {
                     therapy.plansDocs.forEach(plan => {
                         plan.sessions.forEach((session, idx) => {
@@ -84,14 +82,9 @@ const DashboardPage = ({ therapist }) => {
 
     useEffect(() => {
         if (therapist && therapist._id && !isFetching) {
-            console.log('fetch therapies in use effect');
             fetchTherapies(startOfDay(new Date()), endOfDay(new Date()));
         }
     }, [therapist]);
-
-    useEffect(() => {
-        console.log('data changed', data);
-    }, [data]);
 
     return (
         <Spin spinning={isFetching}>

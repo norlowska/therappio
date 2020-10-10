@@ -19,7 +19,7 @@ app.use(apiLimiter);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({ limit: '10kb' }));
 // Enable CORS
-app.use(cors({ origin: 'http://localhost:8080' }));
+app.use(cors());
 
 // api routes
 // app.use("/auth", require("auth/auth.controller"));

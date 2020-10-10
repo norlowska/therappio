@@ -7,6 +7,7 @@ import { therapyActions } from '../../_actions';
 import { weekdays } from '../../_constants';
 import { FormInput } from '../index';
 import style from './TherapyFormModal.module.scss';
+import { zonedTimeToUtc } from 'date-fns-tz';
 
 const TherapyFormModal = ({
     setVisible,
@@ -65,7 +66,7 @@ const TherapyFormModal = ({
                 {
                     ...therapy,
                     patient: patientId,
-                    startTime,
+                    startTime: zonedTimeToUtc(startTime, 'Europe/Warsaw'),
                     interval: {
                         type: intervalType,
                         value:
@@ -80,7 +81,7 @@ const TherapyFormModal = ({
         } else {
             create({
                 patient: patientId,
-                startTime,
+                startTime: zonedTimeToUtc(startTime, 'Europe/Warsaw'),
                 interval: {
                     type: intervalType,
                     value:

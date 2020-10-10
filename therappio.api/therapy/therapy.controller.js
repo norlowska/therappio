@@ -158,7 +158,10 @@ function update(req, res, next) {
   const { startTime, interval, ...therapy } = req.body;
 
   // allow only therapist to create therapy
-  if (therapy.therapist.toString() !== currentUser.sub) {
+  if (
+    therapy.therapist.toString() !== currentUser.sub &&
+    therapy.therapist._id !== currentUser.sub
+  ) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
 
@@ -171,7 +174,7 @@ function update(req, res, next) {
           startTime,
           plans: [therapyPlan._id],
         });
-        console.log({ ...updatedTherapy, plansDocs: [therapyPlan] });
+
         res.json({
           therapy: { ...updatedTherapy, plansDocs: [therapyPlan] },
           message: 'Therapy successfully updated',

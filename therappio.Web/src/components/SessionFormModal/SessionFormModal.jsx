@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { format } from 'date-fns';
+import { zonedTimeToUtc } from 'date-fns-tz';
 import { Modal, Button, Form } from 'antd';
 import ReactTags from 'react-tag-autocomplete';
 import { therapySessionActions } from '../../_actions';
@@ -24,12 +25,25 @@ const SessionFormModal = ({
             "yyyy-MM-dd'T'HH:mm"
         )
     );
+
     const [notes, setNotes] = useState(
         session && session.notes ? session.notes : ''
     );
-    const [tags, setTags] = useState(
-        session && session.tags ? session.tags : []
-    );
+    const [tags, setTags] = useState([]);
+
+    useEffect(() => {
+        if (
+            session &&
+            session.hasOwnProperty('tags') &&
+            session.tags.length > 0
+        ) {
+            const reactTags = session.tags.map(item => ({
+                id: item,
+                name: item,
+            }));
+            setTags(reactTags);
+        }
+    }, [session]);
 
     const reactTags = React.useRef();
 
@@ -40,7 +54,7 @@ const SessionFormModal = ({
                 {
                     ...session,
                     session_no: sessionNo,
-                    date,
+                    date: zonedTimeToUtc(date),
                     notes,
                     tags: tags.map(item => item.name),
                 },
@@ -49,7 +63,7 @@ const SessionFormModal = ({
         } else {
             create({
                 session_no: sessionNo,
-                date,
+                date: zonedTimeToUtc(date),
                 notes,
                 tags: tags.map(item => item.name),
                 patient: patient,

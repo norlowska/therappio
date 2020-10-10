@@ -37,7 +37,7 @@ async function login(email, password) {
     .then(async res => {
       console.log('login resolved');
       await saveAuthToken('token', res.data.token);
-      return res.data.token;
+      return res.data.user;
     });
 }
 

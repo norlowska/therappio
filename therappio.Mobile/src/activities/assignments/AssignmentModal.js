@@ -72,7 +72,6 @@ const AssignmentModal = ({ assignment, updateAssignment, isFetching }) => {
       fields: Object.keys(formData).map(key => formData[key]),
       state: isBefore(new Date(), new Date(assignment.dueDate)) ? 'On time' : 'Late',
     };
-    console.log('new assignment', newAssignment);
     updateAssignment(newAssignment);
   };
 

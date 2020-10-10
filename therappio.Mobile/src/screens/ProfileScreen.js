@@ -27,7 +27,6 @@ import MoodChart from '../components/MoodChart';
 function ProfileScreen({
   isFetching,
   getUserDetails,
-  fetchAssignments,
   user,
   journalRecords,
   deleteJournalRecord,
@@ -161,7 +160,7 @@ function ProfileScreen({
                   marginBottom: 5,
                 }}
               >
-                {user ? `Hello, ${user.fullName}` : 'Hello!'}
+                {user ? `Hello, ${user.firstName} ${user.lastName}` : 'Hello!'}
               </Text>
               <Text style={{ color: '#fff' }}>{user && user.email}</Text>
               <Button

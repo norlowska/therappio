@@ -73,7 +73,7 @@ function createTherapy(therapy) {
 
 function updateTherapy(therapy, therapyId) {
     return dispatch => {
-        dispatch(request(therapyId, therapy));
+        dispatch(request(therapy, therapyId));
         therapyService
             .update(therapy)
             .then(res => {

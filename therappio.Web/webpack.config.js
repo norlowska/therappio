@@ -1,6 +1,7 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
     mode: 'development',
@@ -70,14 +71,14 @@ module.exports = {
             filename: '[name].css', // Production '[name].[hash].css',
             chunkFilename: '[id].css', // Production : '[id].[hash].css'
         }),
+        new webpack.DefinePlugin({
+            'process.env.API_URL': JSON.stringify(
+                'http://165.227.160.211:4000'
+                // 'http://localhost:4000'
+            ),
+        }),
     ],
     resolve: {
         extensions: ['.js', '.jsx', '.css', '.scss', '.sass'],
-    },
-    externals: {
-        // global app config object
-        config: JSON.stringify({
-            apiUrl: 'http://localhost:4000',
-        }),
     },
 };

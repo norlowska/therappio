@@ -14,7 +14,7 @@ import { moodchartKeys } from '../_constants';
 import { moodRecordActions } from '../_actions';
 
 const MoodChart = ({ moodRecords, lastWeekRecords, lastMonthRecords, deleteMood }) => {
-  const [currentView, setCurrentView] = useState('7 days');
+  const [currentView, setCurrentView] = useState('Month View');
   const [lastWeekMoodChartData, setLastWeekMoodChartData] = useState([]);
   const [lastMonthMoodChartData, setLastMonthMoodChartData] = useState([]);
 
@@ -25,7 +25,10 @@ const MoodChart = ({ moodRecords, lastWeekRecords, lastMonthRecords, deleteMood 
           name: item.quadrant,
           value: lastWeekRecords.filter(
             record =>
-              record && record.mood & record.mood.quadrant && record.mood.quadrant === item.quadrant
+              record &&
+              record.mood &&
+              record.mood.quadrant &&
+              record.mood.quadrant === item.quadrant
           ).length,
           color: item.color,
           legendFontColor: '#222',
@@ -34,6 +37,9 @@ const MoodChart = ({ moodRecords, lastWeekRecords, lastMonthRecords, deleteMood 
         .filter(item => item.value !== 0);
       setLastWeekMoodChartData(newLastWeekData);
     }
+  }, [lastWeekRecords]);
+
+  useEffect(() => {
     if (lastMonthRecords && lastMonthRecords.length) {
       const newLastMonthData = moodchartKeys
         .map(item => ({
@@ -52,7 +58,7 @@ const MoodChart = ({ moodRecords, lastWeekRecords, lastMonthRecords, deleteMood 
         .filter(item => item.value !== 0);
       setLastMonthMoodChartData(newLastMonthData);
     }
-  }, [lastWeekRecords, lastMonthRecords]);
+  }, [lastMonthRecords]);
 
   const renderContent = content => {
     return content.content.map(item => {
@@ -120,8 +126,8 @@ const MoodChart = ({ moodRecords, lastWeekRecords, lastMonthRecords, deleteMood 
             onChange={view => setCurrentView(view)}
           ></Options>
         </View>
-        {(currentView === 'WeekView' && lastWeekRecords.length > 0) ||
-        (currentView === 'Month View' && lastMonthRecords.length > 0) ? (
+        {(currentView === 'Week View' && lastWeekMoodChartData.length > 0) ||
+        (currentView === 'Month View' && lastMonthMoodChartData.length > 0) ? (
           <View style={{ flexDirection: 'row' }}>
             <PieChart
               data={currentView === 'Week View' ? lastWeekMoodChartData : lastMonthMoodChartData}

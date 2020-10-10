@@ -123,7 +123,6 @@ const MoodMeterModal = ({ createMoodRecord, isFetching }) => {
   }, [quadrant]);
 
   const saveMood = (moodName, comment) => {
-    console.log(moodName, quadrant, comment);
     const newMoodRecord = {
       createdAt: Date.now(),
       mood: {

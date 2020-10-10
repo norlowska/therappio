@@ -8,7 +8,6 @@ export const patientService = {
 };
 
 function getAll() {
-    console.log(config, process.env);
     return axios.get(`${config.apiUrl}/patients`).then(res => res.data);
 }
 
